@@ -14,7 +14,7 @@ public abstract  class BaseElements
     protected Sprite spriteElement { get; set; }
     protected Vector2f Position { get; set; }
     
-    protected Text textElement  { get; set; }
+    protected Texts TextsElement  { get; set; }
    
     
     
