@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.Window;
 using SFML.System;
 
 namespace CTT
@@ -30,6 +31,7 @@ namespace CTT
         {
             _window.Draw(textElement);
         }
+        
 
         public FloatRect GetGlobalBounds()
         {
@@ -46,5 +48,20 @@ namespace CTT
             textElement.DisplayedString = newText;
         }
         
+        public void SetColor(Color newColor)
+        {
+            textElement.FillColor = newColor;
+        }
+        public void HideText(string newText)
+        {
+            string hiddenText = new string('*', newText.Length);
+            SetText(hiddenText); 
+        }
+        public void SetPosition(int x, int y)
+        {
+            textElement.Position = new Vector2f(x, y); 
+        }
+
+       
     }
 }

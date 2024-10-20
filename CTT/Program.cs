@@ -4,8 +4,7 @@ using SFML.System;
 using System.Runtime.InteropServices;
 
 public class MainForm
-{
-    
+{ 
     
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
@@ -45,6 +44,7 @@ public class MainForm
         float clickDelay = 2.0f;
         Clock clock = new Clock();
        frame1.Run1(_window);
+       
        
      //Frame4 frame4 = new Frame4();
     // frame4.Run4(_window, canClick, clock, clickDelay);

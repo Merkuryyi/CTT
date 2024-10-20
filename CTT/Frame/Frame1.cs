@@ -44,7 +44,7 @@ using CTT;
         {
             _window.DispatchEvents();
             _window.Closed += (sender, e) => _window.Close();
-            _window.KeyPressed += OnKeyPressedName;
+         
         }
         public void Display1(RenderWindow _window)
         {

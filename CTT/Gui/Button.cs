@@ -22,8 +22,6 @@ public class Button : BaseElements
     {
         _window.Draw(spriteElement);
  
-        
-        
     }
     public FloatRect GetGlobalBounds()
     {
@@ -34,6 +32,13 @@ public class Button : BaseElements
     public bool IsPressed(Vector2i mousePosition)
     {
         return spriteElement.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y);
+    }
+    
+    
+    public void SetTexture(Texture newTextureElement)
+    {
+        TextureElement = newTextureElement; 
+        spriteElement.Texture = newTextureElement;
     }
    
     
