@@ -988,3 +988,4 @@ A:\CTT\CTT\obj\Debug\net8.0\refint\CTT.dll
 A:\CTT\CTT\obj\Debug\net8.0\CTT.pdb
 A:\CTT\CTT\obj\Debug\net8.0\CTT.genruntimeconfig.cache
 A:\CTT\CTT\obj\Debug\net8.0\ref\CTT.dll
+A:\RiderProjects\CTT\CTT\obj\Debug\net8.0\CTT.sourcelink.json
