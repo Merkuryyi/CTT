@@ -12,6 +12,7 @@ namespace CTT
         private static bool flag = true;
         private static bool isVisible = false;
         public static string displayedText;
+        private static float offset;
            
         public void parametr()
         {
@@ -62,7 +63,7 @@ namespace CTT
             text = Frame2.nameMiniText;
             flag = Frame2.flagName;
             isVisible = Frame2.isVisiblePassword;
-
+            float textWidth = text.GetGlobalBounds().Width;
             parametr();
             float buttonWidth = button.GetGlobalBounds().Width;
 
@@ -71,24 +72,26 @@ namespace CTT
                 HandleNavigationKeys(e);
                 
                 if ((line == Frame2.nameMiniTextFrame2
-                     || line == Frame2.lMiniTextFrame2 ) &&
-                text.GetGlobalBounds().Width < buttonWidth - 90 && line.Length < 9)
+                     || line == Frame2.lMiniTextFrame2 ))
                 {
                     HandleCharacterInput(e);
                 }
 
                else  if ((line == Frame2.passwordMiniTextFrame2 
-                     || line == Frame2.repeatPasswordMiniTextFrame2 || line == Frame2.emailMiniTextFrame2) && 
-                    text.GetGlobalBounds().Width < buttonWidth - 90 && line.Length < 9)
+                     || line == Frame2.repeatPasswordMiniTextFrame2 || line == Frame2.emailMiniTextFrame2))
                 {
                     HandleNumberInput(e);
                     HandleCharacterInput(e);
                 }
-                else if (( line == Frame2.numberPhoneMiniTextFrame2) && 
-                     text.GetGlobalBounds().Width < buttonWidth - 90 && line.Length < 13)
+                else if (( line == Frame2.numberPhoneMiniTextFrame2))
                 {
                     HandleNumbersInput(e);
                 }
+                
+               
+                
+
+                
             }
         }
 
@@ -129,15 +132,27 @@ namespace CTT
 
         private void HandleCharacterInput(KeyEventArgs e)
         {
+            float buttonWidth = button.GetGlobalBounds().Width;
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
                 string charToAdd = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
                                    Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? 
                                    e.Code.ToString().ToUpper() : 
                                    e.Code.ToString().ToLower();
-
+                
+                //((int)buttonWidth - (int)textWidth)
+                
+                float textWidth = text.GetGlobalBounds().Width;
                 line = line.Insert(cursor, charToAdd);
                 cursor++;
+                if (text.GetGlobalBounds().Width > buttonWidth - 90)
+                {
+                    text.SetPosition(171 - cursor, 350);
+                   
+                }
+                
+                
+                
             }
         }
 
@@ -198,7 +213,7 @@ namespace CTT
 
             if (!string.IsNullOrEmpty(symbol))
             {
-                line += symbol;
+                line = line.Insert(cursor, symbol);
                 cursor++;
             }
         }
@@ -247,7 +262,7 @@ namespace CTT
 
             if (!string.IsNullOrEmpty(symbol))
             {
-                line += symbol;
+                line = line.Insert(cursor, symbol);
                 cursor++;
             }
         }
@@ -318,6 +333,7 @@ namespace CTT
                 displayedText = flag ? line.Insert(cursor, "|") : line;
                 
                 text.SetText(displayedText);
+             
             }
 
             text.Draw(_window);
@@ -328,18 +344,15 @@ namespace CTT
         public bool ContainsSpecialCharsOrDigits()
         {
             string lineBox = Frame2.passwordMiniTextFrame2;
-            if (string.IsNullOrEmpty(lineBox))
-            {
-                return false; 
-            }
-
+            
             foreach (char c in lineBox)
             {
-                if (char.IsDigit(c) && (!char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c)))
+                if (char.IsDigit(c) || !char.IsLetterOrDigit(c)) 
                 {
-                    return true; 
+                    return true;
                 }
             }
+            
 
             return false; 
         }

@@ -40,18 +40,17 @@ public class MainForm
     public static void Main(string[] args)
     {
       RenderWindow  _window = Form();
-        Frame1 frame1 = new Frame1();
-        float clickDelay = 2.0f;
-        Clock clock = new Clock();
-       frame1.Run1(_window);
+       // Frame1 frame1 = new Frame1();
+       
+      // frame1.Run1(_window);
        
        
      //Frame4 frame4 = new Frame4();
-    // frame4.Run4(_window, canClick, clock, clickDelay);
-      // Frame3 frame3 = new Frame3();
-       //frame3.Run3(_window, canClick, clock, clickDelay);
-       //Frame2 frame2 = new Frame2();
-       //frame2.Run2(_window, canClick, clock, clickDelay);
+    //frame4.Run4(_window);
+     //Frame3 frame3 = new Frame3();
+     // frame3.Run3(_window);
+      Frame2 frame2 = new Frame2();
+     frame2.Run2(_window);
     }
     static void SetWindowToTopLeft(RenderWindow window)
     {

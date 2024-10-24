@@ -37,17 +37,20 @@ public class Frame3
     
 
     private static Texts titleText;
-       public void Run3(RenderWindow _window)
-       {
-           
+    private static Texture requestСodeOffTexture;
+    private static Texture requestСodeTexture;
+    private static Texture buttonTextureOff;
+    public void Structure()
+    {
+        
             Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
             
             Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
             Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
-            Texture requestСodeTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
+           requestСodeTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
             Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
-            Texture buttonTextureOff =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
-            Texture requestСodeOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
+            buttonTextureOff =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
+           requestСodeOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
             
             
             
@@ -107,13 +110,48 @@ public class Frame3
             
             messageText2 = new Texts(151, 710 , font, 24, nullColorText, boxText2 );
             messageText3 = new Texts(151, 745 , font, 24, nullColorText, boxText3 );
+    }
+
+    public void Display3(RenderWindow _window)
+    {
+         
+                
+        backgroundFrame.Draw(_window);
+        buttonEmptyEmailSprite.Draw(_window);
+        buttonEmptyNumberPfoneSprite.Draw(_window);
+        buttonRegistrationSprite.Draw(_window);
+        buttonRequestСodeNumberPhoneSprite.Draw(_window);
+        buttonRequestСodeEmailSprite.Draw(_window);
+        buttonEmptyEmailSprite.Draw(_window);   
+        buttonEmptyEmailSprite.Draw(_window);
+                
+        titleText.Draw(_window); 
+                
+        titleRequestСodeNumberPhoneTextMini.Draw(_window); 
+        requestСodeNumberPhoneText.Draw(_window); 
+                
+        titleRequestСodeEmailTextMini.Draw(_window); 
+                
+        requestСodeEmailText.Draw(_window); 
+        RegistrationText.Draw(_window); 
+                
+        warningNumberPhoneText.Draw(_window);
+        warningEmailText.Draw(_window); 
+        messageText.Draw(_window); 
+        messageText2.Draw(_window); 
+        messageText3.Draw(_window); 
+    }
+
+    public void Run3(RenderWindow _window)
+       {
+           
             
             
             bool canClick = false;
             Clock clock = new Clock();
             float clickDelay = 1.0f;
             
-            
+            Structure();
             
             
             while (_window.IsOpen)
@@ -123,32 +161,7 @@ public class Frame3
                 _window.Closed += (sender, e) => _window.Close();
                 _window.Clear(new Color(233, 233, 233)); 
                 
-                
-                
-                backgroundFrame.Draw(_window);
-                buttonEmptyEmailSprite.Draw(_window);
-                buttonEmptyNumberPfoneSprite.Draw(_window);
-                buttonRegistrationSprite.Draw(_window);
-                buttonRequestСodeNumberPhoneSprite.Draw(_window);
-                buttonRequestСodeEmailSprite.Draw(_window);
-                buttonEmptyEmailSprite.Draw(_window);   
-                buttonEmptyEmailSprite.Draw(_window);
-                
-                titleText.Draw(_window); 
-                
-                titleRequestСodeNumberPhoneTextMini.Draw(_window); 
-                requestСodeNumberPhoneText.Draw(_window); 
-                
-                titleRequestСodeEmailTextMini.Draw(_window); 
-                
-                requestСodeEmailText.Draw(_window); 
-                RegistrationText.Draw(_window); 
-                
-                warningNumberPhoneText.Draw(_window);
-                warningEmailText.Draw(_window); 
-                messageText.Draw(_window); 
-                messageText2.Draw(_window); 
-                messageText3.Draw(_window); 
+               Display3(_window);
               
                 
                        

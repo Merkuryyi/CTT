@@ -13,11 +13,17 @@ public class Frame2
     public static int cursorEmailPosition;
     
     public static bool flagName;
+    public static bool warningFlagName  = false;
     public static bool flagLName;
+    public static bool  warningFlagLName  = false;
     public static bool flagPassword;
+    public static bool warningFlagPassword = false;
     public static bool flagRepeatPassword;
+    public static bool warningFlagRepeatPassword  = false;
     public static bool flagNumberPhone;
+    public static bool warningFlagNumberPhone  = false;
     public static bool flagEmail;
+    public static bool warningFlagEmail  = false;
     public static bool isVisiblePassword = false;
     public static bool isVisibleRepeatPassword = false;
     private static bool canClick = false;
@@ -556,16 +562,7 @@ public class Frame2
             }
             
           Warning(_window);
-
-             
-                
-                
-
-
-            
-           
-            
-            
+         
     }
 
     public void Warning(RenderWindow _window)
@@ -581,63 +578,85 @@ public class Frame2
             {
                 warningNameText.SetText(warningTextFrame2);
                 warningNameText.SetColor(warningTextColor);
+                warningFlagName = true;
             }
             else if (nameMiniTextFrame2.Length < 2)
             {
                 warningNameText.SetText(warningLenghNameTextFrame2);
                 warningNameText.SetColor(warningTextColor);
+                warningFlagName = true;
             }
             else
-            { warningNameText.SetColor(nullColorText); }
+            {
+                warningNameText.SetColor(nullColorText); 
+                warningFlagName = false;
+            }
 
             if (lMiniTextFrame2 == "")
             {
                 warningLNameText.SetText(warningTextFrame2);
                 warningLNameText.SetColor(warningTextColor);
+                warningFlagLName = true;
             }
             else if (lMiniTextFrame2.Length < 3)
             {
                 warningLNameText.SetText(warningLenghLNameTextFrame2);
                 warningLNameText.SetColor(warningTextColor);
+                warningFlagLName = true;
             }
             else
-            { warningLNameText.SetColor(nullColorText); }
+            {
+                warningLNameText.SetColor(nullColorText); 
+                warningFlagLName = false;
+            }
 
             if (numberPhoneMiniTextFrame2 == "")
             {
                 warningNumberPfoneText.SetText(warningTextFrame2);
                 warningNumberPfoneText.SetColor(warningTextColor);
+                warningFlagNumberPhone = true;
             }
             else if (!format)
             {
                 warningNumberPfoneText.SetText(warningFormat);
                 warningNumberPfoneText.SetColor(warningTextColor);
+                warningFlagNumberPhone = true;
             }
             else
-            { warningNumberPfoneText.SetColor(nullColorText); }
+            {
+                warningNumberPfoneText.SetColor(nullColorText); 
+                warningFlagNumberPhone = false;
+            }
 
             if (passwordMiniTextFrame2 == "")
             {
                 warningPasswordText.SetText(warningTextFrame2);
                 warningPasswordText.SetColor(warningTextColor);
+                warningFlagPassword = true;
             }
             else if (passwordMiniTextFrame2.Length < 6)
             {
                 warningPasswordText.SetText(warningLenghPasswordTextFrame2);
                 warningPasswordText.SetColor(warningTextColor);
+                warningFlagPassword = true;
             }
             else if (!line.ContainsSpecialCharsOrDigits())
             {
                 warningPasswordText.SetText(warningPasswordTextFrame2);
                 warningPasswordText.SetColor(warningTextColor);
+                warningFlagPassword = true;
             }
             else
-            { warningPasswordText.SetColor(nullColorText); }
+            {
+                warningPasswordText.SetColor(nullColorText);
+                warningFlagPassword = false;
+            }
 
             if (repeatPasswordMiniTextFrame2 == "")
             {
                 warningRepeatPasswordText.SetText(warningTextFrame2);
                 warningRepeatPasswordText.SetColor(warningTextColor);
+                warningFlagRepeatPassword = true;
             }
             else if (passwordMiniTextFrame2 != repeatPasswordMiniTextFrame2)
             {
@@ -645,23 +664,32 @@ public class Frame2
                 warningRepeatPasswordText.SetColor(warningTextColor);
                 warningPasswordText.SetText(warningRepeatPasswordTextFrame2);
                 warningPasswordText.SetColor(warningTextColor);
+                warningFlagRepeatPassword = true;
             }
 
             else
-            { warningRepeatPasswordText.SetColor(nullColorText); }
+            {
+                warningRepeatPasswordText.SetColor(nullColorText);
+                warningFlagRepeatPassword = false;
+            }
             if (emailMiniTextFrame2 == "")
             {
                 warningEmailText.SetText(warningTextFrame2);
                 warningEmailText.SetColor(warningTextColor);
+                warningFlagEmail = true;
             }
            else if (!formaEmail)
             {
                 warningEmailText.SetText(warningFormat);
                 warningEmailText.SetColor(warningTextColor);
+                warningFlagEmail = true;
                 
            }
-            else
-            { warningEmailText.SetColor(nullColorText); }
+           else
+           {
+               warningEmailText.SetColor(nullColorText); 
+               warningFlagEmail = false;
+           }
         }
     }
   
@@ -683,17 +711,23 @@ public class Frame2
             ButtonInteraction(_window);
 
 
-         /*  if (Mouse.IsButtonPressed(Mouse.Button.Left))
+        if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                Vector2i mousePosition = Mouse.GetPosition(_window);
-                if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                mousePosition = Mouse.GetPosition(_window);
+                if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
+                    !warningFlagName && 
+                    !warningFlagLName && 
+                    !warningFlagEmail && 
+                    !warningFlagNumberPhone &&
+                    !warningFlagPassword &&
+                    !warningFlagRepeatPassword)
                 {
                     _window.Clear(Color.White);
                     Frame3 frame3 = new Frame3();
                     frame3.Run3(_window);
                     
                 }
-       } */
+       } 
             
             
 
