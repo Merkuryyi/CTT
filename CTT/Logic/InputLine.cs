@@ -12,8 +12,8 @@ namespace CTT
         private static bool flag = true;
         private static bool isVisible = false;
         public static string displayedText;
-        private static float offset;
-           
+        private static bool flagP = false;
+        private static int x;
         public void parametr()
         {
             if (Frame2.flagLName)
@@ -74,7 +74,34 @@ namespace CTT
                 if ((line == Frame2.nameMiniTextFrame2
                      || line == Frame2.lMiniTextFrame2 ))
                 {
+                   
+                    
+                    x = 389;
                     HandleCharacterInput(e);
+                    if (textWidth > buttonWidth - 90)
+                    {
+                        flagP = true;
+                    }
+                    else
+                    {
+                        flagP = false;
+                    }
+
+                    if (flagP)
+                    {
+                        Color baseColorText = new Color(68, 68, 69);
+                   
+                        Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
+                   
+                        Texts currentText = new Texts(x,  350, 
+                            font, 32, baseColorText, line);
+                        text.SetPosition(x - (int)currentText.GetGlobalBounds().Width, 350);
+                        x -= (int)currentText.GetGlobalBounds().Width;
+                    }
+                    else
+                    {
+                       // x = 389;
+                    }
                 }
 
                else  if ((line == Frame2.passwordMiniTextFrame2 
@@ -96,42 +123,98 @@ namespace CTT
         }
 
         private void HandleNavigationKeys(KeyEventArgs e)
-        {
-            switch (e.Code)
+        { 
+            if (flagP)
             {
-                case Keyboard.Key.BackSpace:
-                    if (cursor > 0)
-                    {
-                        line = line.Remove(cursor - 1, 1);
-                        cursor--;
-                    }
-                    break;
+                
+                Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
 
-                case Keyboard.Key.Delete:
-                    if (cursor < line.Length)
-                    {
-                        line = line.Remove(cursor, 1);
-                    }
-                    break;
+              // Символ, ширину которого нужно узнать
+             
+                char characterToRemove = line[cursor - 1]; // Или другой индекс в зависимости от ситуации
 
-                case Keyboard.Key.Left:
-                    if (cursor > 0)
-                    {
-                        cursor--;
-                    }
-                    break;
+              // Создание текстового объекта для вычисления ширины
+                
 
-                case Keyboard.Key.Right:
-                    if (cursor < line.Length)
-                    {
-                        cursor++;
-                    }
-                    break;
+                // Получение ширины символа
+                
+                switch (e.Code)
+                {
+                    case Keyboard.Key.BackSpace:
+                        if (cursor > 0)
+                        {
+                            Text tempText = new Text(characterToRemove.ToString(), font, 32);
+                           
+                            line = line.Remove(cursor - 1, 1);
+                            cursor--;
+                            text.SetPosition(x + (int)tempText.GetGlobalBounds().Width, 350);
+                            x -= (int)tempText.GetGlobalBounds().Width;
+                        }
+                        break;
+
+                    case Keyboard.Key.Delete:
+                        if (cursor < line.Length)
+                        {
+                            line = line.Remove(cursor, 1);
+                        }
+                        break;
+
+                    case Keyboard.Key.Left:
+                        if (cursor > 0)
+                        {
+                            cursor--;
+                        }
+                        break;
+
+                    case Keyboard.Key.Right:
+                        if (cursor < line.Length)
+                        {
+                            cursor++;
+                        }
+                        break;
+                }
             }
+            else
+            {
+               switch (e.Code)
+                {
+                    case Keyboard.Key.BackSpace:
+                        if (cursor > 0)
+                        {
+                            line = line.Remove(cursor - 1, 1);
+                            cursor--;
+                        }
+                        break;
+
+                    case Keyboard.Key.Delete:
+                        if (cursor < line.Length)
+                        {
+                            line = line.Remove(cursor, 1);
+                        }
+                        break;
+
+                    case Keyboard.Key.Left:
+                        if (cursor > 0)
+                        {
+                            cursor--;
+                        }
+                        break;
+
+                    case Keyboard.Key.Right:
+                        if (cursor < line.Length)
+                        {
+                            cursor++;
+                        }
+                        break;
+                }
+            }
+           
         }
 
         private void HandleCharacterInput(KeyEventArgs e)
         {
+          
+            
             float buttonWidth = button.GetGlobalBounds().Width;
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
@@ -140,16 +223,10 @@ namespace CTT
                                    e.Code.ToString().ToUpper() : 
                                    e.Code.ToString().ToLower();
                 
-                //((int)buttonWidth - (int)textWidth)
+               
+                    line = line.Insert(cursor, charToAdd);
+                    cursor++;
                 
-                float textWidth = text.GetGlobalBounds().Width;
-                line = line.Insert(cursor, charToAdd);
-                cursor++;
-                if (text.GetGlobalBounds().Width > buttonWidth - 90)
-                {
-                    text.SetPosition(171 - cursor, 350);
-                   
-                }
                 
                 
                 

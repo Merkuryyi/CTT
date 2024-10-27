@@ -61,6 +61,8 @@ namespace CTT
         {
             textElement.Position = new Vector2f(x, y); 
         }
+        
+        
 
        
     }
