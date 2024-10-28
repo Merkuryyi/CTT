@@ -12,6 +12,7 @@ public abstract  class BaseElements
     
     protected Texture TextureElement { get; set; }
     protected Sprite spriteElement { get; set; }
+    
     public Vector2f Position { get; set; }
     
     protected Texts TextsElement  { get; set; }

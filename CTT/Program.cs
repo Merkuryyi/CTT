@@ -47,10 +47,10 @@ public class MainForm
        
      //Frame4 frame4 = new Frame4();
     //frame4.Run4(_window);
-     //Frame3 frame3 = new Frame3();
-     // frame3.Run3(_window);
-      Frame2 frame2 = new Frame2();
-     frame2.Run2(_window);
+    // Frame3 frame3 = new Frame3();
+   //   frame3.Run3(_window);
+     Frame2 frame2 = new Frame2();
+    frame2.Run2(_window);
     }
     static void SetWindowToTopLeft(RenderWindow window)
     {

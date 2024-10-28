@@ -1,81 +1,107 @@
-﻿using SFML.Graphics;
+﻿using CTT;
+using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 
 public class Frame4
 {
+    private static Button backgroundFrame;
+    private static Button buttonSprite;
 
-    private static RenderWindow _window;
-    public void Run4(RenderWindow _window)
+    private static Button buttonEmptyNumberPhoneSprite;
+    private static Button    buttonEmptyEmailSprite;
+
+    private static Button buttonEmptyPasswordSprite;
+
+    private static Texts titleText;
+
+    private static Texts numberPhoneText;
+    private static Texts emailText;
+    private static Texts passwordText;
+    private static Texts warningFalseText;
+    private static Texts warningFalseText2;
+    private static Texts loginText;
+    private static Color baseColorText;
+    private static Color warningTextColor;
+    private static Texture buttonTextureOff;
+    public void Display3(RenderWindow _window)
     {
-        Texture fon = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrame4.png"));
+        
+            
+        backgroundFrame.Draw(_window);
+           
+        buttonEmptyNumberPhoneSprite.Draw(_window);
+        buttonSprite.Draw(_window);
+        buttonEmptyEmailSprite.Draw(_window);
+        buttonEmptyPasswordSprite.Draw(_window);
+        
+        
+        titleText.Draw(_window);
+            loginText.Draw(_window);
+       numberPhoneText.Draw(_window);
+        emailText.Draw(_window);
+        passwordText.Draw(_window);
+        warningFalseText.Draw(_window);
+       warningFalseText2.Draw(_window);
+    }
+
+    public void Structure()
+    {
+         Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrame4.png"));
         Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
         Texture buttonTextureOff = new Texture( Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
         
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
-
-        Sprite fonFrame4 = new Sprite(fon);
-        fonFrame4.Position = new Vector2f(53, 53);
         
-    
-        
-        
-        
-        
-        Sprite buttonSprite = new Sprite(buttonTexture);
-        buttonSprite.Position = new Vector2f(151, 861);
-
-        Sprite buttonEmptyNumberPhoneSprite = new Sprite(emptyButtonTexture);
-        buttonEmptyNumberPhoneSprite.Position = new Vector2f(151, 334);
-
-        Sprite buttonEmptyEmailSprite = new Sprite(emptyButtonTexture);
-        buttonEmptyEmailSprite.Position = new Vector2f(151, 500);
-
-        Sprite buttonEmptyPasswordSprite = new Sprite(emptyButtonTexture);
-        buttonEmptyPasswordSprite.Position = new Vector2f(151, 666);
-
-        Text titleText = new Text("Вход", font);
-        titleText.CharacterSize = 48;
-        titleText.FillColor = new Color(68, 68, 69);
-        titleText.Position = new Vector2f(138, 125);
-
-        Text numberPhoneText = new Text("Номер телефона", font);
-        numberPhoneText.CharacterSize = 32;
-        numberPhoneText.FillColor = new Color(68, 68, 69);
-        numberPhoneText.Position = new Vector2f(151, 275);
-
-        Text emailText = new Text("Почта", font);
-        emailText.CharacterSize = 32;
-        emailText.FillColor = new Color(68, 68, 69);
-        emailText.Position = new Vector2f(151, 443);
-
-        Text passwordText = new Text("Пароль", font);
-        passwordText.CharacterSize = 32;
-        passwordText.FillColor = new Color(68, 68, 69);
-        passwordText.Position = new Vector2f(151, 609);
-
-        Text warningFalseText = new Text("Не верная почта, номер ", font);
-        warningFalseText.CharacterSize = 20;
-        warningFalseText.FillColor = new Color(202, 128, 128);
-        warningFalseText.Position = new Vector2f(151, 748);
+        backgroundFrame = new Button(53, 53, background);
+        buttonSprite = new Button(151, 861, buttonTexture);
+        buttonEmptyNumberPhoneSprite = new Button(151, 334, emptyButtonTexture);
+        buttonEmptyEmailSprite = new Button(151, 500, emptyButtonTexture);
+        buttonEmptyPasswordSprite = new Button(151, 666, emptyButtonTexture);
 
 
-        Text warningFalseText2 = new Text("телефона или пароль", font);
-        warningFalseText2.CharacterSize = 20;
-        warningFalseText2.FillColor = new Color(202, 128, 128);
-        warningFalseText2.Position = new Vector2f(151, 776);
-
-
-        Text loginText = new Text("Вход", font);
-        loginText.CharacterSize = 36;
-        loginText.FillColor = new Color(68, 68, 69);
-        loginText.Position = new Vector2f(262, 870);
-
+        string title = "Вход";
+        string numberPhone = "Номер телефона";
+        string email = "Почта";
+        string password = "Пароль";
+        string warningFalse = "Не верная почта, номер";
+        string warningFalse2 = "телефона или пароль";
+        string login = "Войти";
        
-      
+    //    titleText = new Texts(xPositionTitleText,yPositionTitleText , font, sizeTextTitleFrame, baseColorText, titleTextFrame2 );
+    baseColorText = new Color(68, 68, 69);
+    warningTextColor = new Color(202, 128, 128);
+    
+        titleText = new Texts(138 ,125, font, 48, baseColorText, title );
+        numberPhoneText   = new Texts(151, 275 , font, 32, baseColorText, numberPhone );
+        emailText = new Texts(151, 443 , font, 32, baseColorText, email );
+        passwordText = new Texts(151, 609 , font, 32, baseColorText, password );
+         warningFalseText = new Texts(151, 748 , font, 20, warningTextColor, warningFalse );
+        warningFalseText2 = new Texts(151, 776 , font,20, warningTextColor, warningFalse2 );
+        loginText = new Texts(262, 870 , font,36, baseColorText, login );
         
-        
+    }
+
+    public static void ButtonInteraction(RenderWindow _window)
+    {
+        Vector2i mousePos = Mouse.GetPosition(_window);
+        if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
+        {
+           if (buttonSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
+            {
+                buttonSprite.SetTexture(buttonTextureOff);
+                restoreAccess(_window);
+                    
+
+
+            }
+        }
+    }
+
+    public void Run4(RenderWindow _window)
+    {
+        Structure();
         
         while (_window.IsOpen)
         {
@@ -85,34 +111,9 @@ public class Frame4
             
             
             _window.DispatchEvents();
-         
-            
-            _window.Draw(fonFrame4);
-           
-            _window.Draw(buttonEmptyNumberPhoneSprite);
-            _window.Draw(buttonSprite);
-            _window.Draw(buttonEmptyEmailSprite);
-            _window.Draw(buttonEmptyPasswordSprite);
-            _window.Draw(titleText);
-            _window.Draw(loginText);
-            _window.Draw(numberPhoneText);
-            _window.Draw(emailText);
-            _window.Draw(passwordText);
-            _window.Draw(warningFalseText);
-            _window.Draw(warningFalseText2);
+            ButtonInteraction(_window);
             _window.Display();
-            if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
-                Vector2i mousePos = Mouse.GetPosition(_window);
-                if (buttonSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
-                {
-                    buttonSprite.Texture = buttonTextureOff;
-                    restoreAccess(_window);
-                    
-
-
-                }
-            }
+            
             
            
 
@@ -125,20 +126,20 @@ public class Frame4
    
 
 
-        public void restoreAccess (RenderWindow _window)
+        public static void restoreAccess (RenderWindow _window)
         {
             
             Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
             
           
-            Texture fonFrameRestoreAccess= new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
+            Texture backgroundFrameRestoreAccess= new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
             Texture emptyButtonTexture41 = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
             Texture requestСodeTexture41 = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
             Texture buttonTexture41 = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
             Texture buttonTextureOff41 =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
             Texture requestСodeOffTexture41 = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
             
-            Sprite fonFrame41 = new Sprite(fonFrameRestoreAccess);
+            Sprite fonFrame41 = new Sprite(backgroundFrameRestoreAccess);
             fonFrame41.Position = new Vector2f(604, 53);
             
             Sprite buttonEmptyNumberPfoneSprite41 = new Sprite(emptyButtonTexture41);
