@@ -99,14 +99,14 @@ namespace CTT
                     HandleCharacterInput(e);
                 }
 
-                else  if ((Lines == Frame2.passwordMiniTextFrame2 
+                if ((Lines == Frame2.passwordMiniTextFrame2 
                            || Lines == Frame2.repeatPasswordMiniTextFrame2
                            || Lines == Frame2.emailMiniTextFrame2))
                 {
                     HandleNumberInput(e);
                     HandleCharacterInput(e);
                 }
-                else if ( Lines == Frame2.numberPhoneMiniTextFrame2 )
+               if ( Lines == Frame2.numberPhoneMiniTextFrame2 )
                           //|| Lines == Frame3.numberPhoneMiniTextFrame2 
                          // || Lines == Frame3.emailMiniTextFrame2 )
                 {
@@ -309,32 +309,27 @@ namespace CTT
         
 
         public void Update(RenderWindow _window)
-        {
-            /*
-            TextBox = Frame2.nameMiniText;
-            displayedText = "";
-            
+        { 
             
             if ((Lines == Frame2.passwordMiniTextFrame2 
                         || Lines == Frame2.repeatPasswordMiniTextFrame2) && IsVisible)
             {
                 displayedText = Flag && IsVisible ? Lines.Insert(Cursors, "|") : Lines;
-                TextBox.SetText(displayedText);
+              
             }
             else if (Lines == Frame2.nameMiniTextFrame2 
                      || Lines == Frame2.lMiniTextFrame2 
                      || Lines == Frame2.numberPhoneMiniTextFrame2 
-                     || Lines == Frame2.emailMiniTextFrame2
-                     ||Lines == Frame3.numberPhoneMiniTextFrame2 
-                     || Lines == Frame3.emailMiniTextFrame2)
+                     || Lines == Frame2.emailMiniTextFrame2)
+                   //  ||Lines == Frame3.numberPhoneMiniTextFrame2 
+                    // || Lines == Frame3.emailMiniTextFrame2)
             {
                 displayedText = Flag ? Lines.Insert(Cursors, "|") : Lines;
                 
-                TextBox.SetText(displayedText);
+            
              
             }
 
-            TextBox.Draw(_window);*/
         }
       
 

@@ -7,158 +7,146 @@ namespace CTT
     {
         private static Button button;
         private static Texts text;
-        private static int cursor;
-        public static string line = "";
+        private static int cursor = 0;
+        public static string line;
         private static bool flag = true;
         private static bool isVisible = false;
         public static string displayedText;
-        private static bool flagP = false;
-        
-       
+        private static float offset;
+           
         public void parametr()
         {
-           if (Frame3.flagNumberPhone)
+            if (Frame2.flagLName)
+            {
+                button = Frame2.buttonLNameSprite;
+                text = Frame2.lNameMiniText;
+                flag = Frame2.flagLName;
+            }
+            else if (Frame2.flagName)
+            {
+                button = Frame2.buttonNameSprite;
+                text = Frame2.nameMiniText;
+                flag = Frame2.flagName;
+            }
+            else if (Frame2.flagPassword)
+            {
+                button = Frame2.buttonPasswordSprite;
+                text = Frame2.passwordMiniText;
+                flag = Frame2.flagPassword;
+                isVisible = Frame2.isVisiblePassword;
+            }
+            else if (Frame2.flagRepeatPassword)
+            {
+                button = Frame2.buttonRepeatPasswordSprite;
+                text = Frame2.repeatPasswordMiniText;
+                flag = Frame2.flagRepeatPassword;
+                isVisible = Frame2.isVisibleRepeatPassword;
+            }
+            else if (Frame2.flagNumberPhone)
+            {
+                button = Frame2.buttonNumberPhoneSprite;
+                text = Frame2.numberPhoneMiniText;
+                flag = Frame2.flagNumberPhone;
+                
+            }
+            else if (Frame2.flagEmail)
+            {
+                button = Frame2.buttonEmailSprite;
+                text = Frame2.emailMiniText;
+                flag = Frame2.flagEmail;
+                
+            }
+            else if (Frame3.flagNumberPhone)
             {
                 button = Frame3.buttonEmptyNumberPfoneSprite;
                 text = Frame3.numberPhoneMiniText;
                 flag = Frame3.flagNumberPhone;
+                
             }
             else if (Frame3.flagEmail)
             {
                 button = Frame3.buttonEmptyEmailSprite;
                 text = Frame3.emailMiniText;
                 flag = Frame3.flagEmail;
+                
             }
-        }
-        
-        
-        public void ClearLine()
-        {
-            if (Frame2.flagName)
-            {
-                line = Frame2.nameMiniTextFrame2;
-                cursor = Frame2.cursorNamePosition;
-            }
-            else if (Frame2.flagLName)
-            {
-                line = Frame2.lMiniTextFrame2;
-                cursor = Frame2.cursorLnamePosition;
-            }
-            else if (Frame2.flagPassword)
-            {
-                line = Frame2.passwordMiniTextFrame2;
-                cursor = Frame2.cursorPasswordPosition;
-            }
-            else if (Frame2.flagRepeatPassword)
-            {
-                line = Frame2.repeatPasswordMiniTextFrame2;
-                cursor = Frame2.cursorRepeatPasswordPosition;
-            }
-            else if (Frame2.flagNumberPhone)
-            {
-                line = Frame2.numberPhoneMiniTextFrame2;
-                cursor = Frame2.cursorNumberPhonePosition;
-            }
-            else if (Frame2.flagEmail)
-            {
-                line = Frame2.emailMiniTextFrame2;
-                cursor = Frame2.cursorEmailPosition;
-            }
-            else if (Frame3.flagEmail)
-            {
-                line = Frame3.emailMiniTextFrame2;
-                cursor = Frame3.cursorEmailPosition;
-            }
-            else if (Frame3.flagNumberPhone)
-            {
-                line = Frame3.numberPhoneMiniTextFrame2;
-                cursor = Frame3.cursorNumberPhonePosition;
-            }
-
         }
         public void OnKeyPressedName(object sender, KeyEventArgs e)
         {
             button = Frame2.buttonNameSprite;
-            //text = Frame2.nameMiniText;
+            text = Frame2.nameMiniText;
             flag = Frame2.flagName;
             isVisible = Frame2.isVisiblePassword;
-            float textWidth = text.GetGlobalBounds().Width;
+        
             parametr();
-            float buttonWidth = button.GetGlobalBounds().Width;
 
             if (flag)
             {
                 HandleNavigationKeys(e);
-                
-                if ((line == Frame2.nameMiniTextFrame2
+                if ( line == Frame2.numberPhoneMiniTextFrame2 
+                    || line == Frame3.numberPhoneMiniTextFrame3
+                    ||line == Frame3.emailMiniTextFrame3)
+                {
+                    HandleNumbersInput(e);
+                }
+                 if ((line == Frame2.nameMiniTextFrame2
                      || line == Frame2.lMiniTextFrame2 ))
                 {
                     HandleCharacterInput(e);
                 }
-
-               else  if ((line == Frame2.passwordMiniTextFrame2 
-                     || line == Frame2.repeatPasswordMiniTextFrame2
-                     || line == Frame2.emailMiniTextFrame2))
+                
+               if ((line == Frame2.passwordMiniTextFrame2 
+                     || line == Frame2.repeatPasswordMiniTextFrame2 ))
                 {
                     HandleNumberInput(e);
                     HandleCharacterInput(e);
                 }
-                else if ( line == Frame2.numberPhoneMiniTextFrame2 
-                          || line == Frame3.numberPhoneMiniTextFrame2 
-                          || line == Frame3.emailMiniTextFrame2 )
+                if ( line == Frame2.emailMiniTextFrame2)
                 {
-                    HandleNumbersInput(e);
+                    
+                    HandleCharacterInputEmail(e);
                 }
-                
-               
-                
-
                 
             }
         }
 
         private void HandleNavigationKeys(KeyEventArgs e)
-        { 
-          
-               switch (e.Code)
-                {
-                    case Keyboard.Key.BackSpace:
-                        if (cursor > 0)
-                        {
-                            line = line.Remove(cursor - 1, 1);
-                            cursor--;
-                        }
-                        break;
+        {
+            switch (e.Code)
+            {
+                case Keyboard.Key.BackSpace:
+                    if (cursor > 0)
+                    {
+                        line = line.Remove(cursor - 1, 1);
+                        cursor--;
+                    }
+                    break;
 
-                    case Keyboard.Key.Delete:
-                        if (cursor < line.Length)
-                        {
-                            line = line.Remove(cursor, 1);
-                        }
-                        break;
+                case Keyboard.Key.Delete:
+                    if (cursor < line.Length)
+                    {
+                        line = line.Remove(cursor, 1);
+                    }
+                    break;
 
-                    case Keyboard.Key.Left:
-                        if (cursor > 0)
-                        {
-                            cursor--;
-                        }
-                        break;
+                case Keyboard.Key.Left:
+                    if (cursor > 0)
+                    {
+                        cursor--;
+                    }
+                    break;
 
-                    case Keyboard.Key.Right:
-                        if (cursor < line.Length)
-                        {
-                            cursor++;
-                        }
-                        break;
-                }
-       
-           
+                case Keyboard.Key.Right:
+                    if (cursor < line.Length)
+                    {
+                        cursor++;
+                    }
+                    break;
+            }
         }
 
         private void HandleCharacterInput(KeyEventArgs e)
         {
-          
-            
             float buttonWidth = button.GetGlobalBounds().Width;
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
@@ -167,13 +155,47 @@ namespace CTT
                                    e.Code.ToString().ToUpper() : 
                                    e.Code.ToString().ToLower();
                 
+                line = line.Insert(cursor, charToAdd);
+                cursor++;
                
-                    line = line.Insert(cursor, charToAdd);
-                    cursor++;
                 
                 
                 
+            }
+        }
+        private void HandleCharacterInputEmail(KeyEventArgs e)
+        {
+            float buttonWidth = button.GetGlobalBounds().Width;
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
+            {
+                string charToAdd = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
+                                   Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? 
+                    e.Code.ToString().ToUpper() : 
+                    e.Code.ToString().ToLower();
                 
+                line = line.Insert(cursor, charToAdd);
+                cursor++;
+                
+               
+
+               
+
+
+            }
+            string symbol = string.Empty;
+            switch (e.Code)
+            {
+                case Keyboard.Key.Period:
+                    symbol = ".";
+                    break;
+                case Keyboard.Key.Num2:
+                    symbol = "@";
+                    break;
+            }
+            if (!string.IsNullOrEmpty(symbol))
+            {
+                line = line.Insert(cursor, symbol);
+                cursor++;
             }
         }
 
@@ -227,9 +249,7 @@ namespace CTT
                     symbol = Keyboard.IsKeyPressed(Keyboard.Key.LShift)|| 
                              Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? "+" : "=";
                     break;
-                case Keyboard.Key.Period:
-                    symbol =  "." ;
-                    break;
+                
             }
 
             if (!string.IsNullOrEmpty(symbol))
@@ -279,6 +299,7 @@ namespace CTT
                              Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? "+" : "";
                     break;
                
+               
             }
 
             if (!string.IsNullOrEmpty(symbol))
@@ -298,28 +319,71 @@ namespace CTT
             return cursor;
         }
 
-        
+        public void ClearLine()
+        {
+            if (Frame2.flagName)
+            {
+                line = Frame2.nameMiniTextFrame2;
+                cursor = Frame2.cursorNamePosition;
+            }
+            else if (Frame2.flagLName)
+            {
+                line = Frame2.lMiniTextFrame2;
+                cursor = Frame2.cursorLnamePosition;
+            }
+            else if (Frame2.flagPassword)
+            {
+                line = Frame2.passwordMiniTextFrame2;
+                cursor = Frame2.cursorPasswordPosition;
+            }
+            else if (Frame2.flagRepeatPassword)
+            {
+                line = Frame2.repeatPasswordMiniTextFrame2;
+                cursor = Frame2.cursorRepeatPasswordPosition;
+            }
+            else if (Frame2.flagNumberPhone)
+            {
+                line = Frame2.numberPhoneMiniTextFrame2;
+                cursor = Frame2.cursorNumberPhonePosition;
+            }
+            else if (Frame2.flagEmail)
+            {
+                line = Frame2.emailMiniTextFrame2;
+                cursor = Frame2.cursorEmailPosition;
+            }
+            
+            else if (Frame3.flagNumberPhone)
+            {
+                line = Frame3.numberPhoneMiniTextFrame3;
+                cursor = Frame3.cursorNumberPhonePosition;
+            }
+            else if (Frame3.flagEmail)
+            {
+                line = Frame3.emailMiniTextFrame3;
+                cursor = Frame3.cursorEmailPosition;
+            }
+
+        }
 
         public void Update(RenderWindow _window)
         {
-           // text = Frame2.nameMiniText;
+            text = Frame2.nameMiniText;
             
             parametr();
-            ClearLine();
             if ((line == Frame2.passwordMiniTextFrame2 
                         || line == Frame2.repeatPasswordMiniTextFrame2) && isVisible)
             {
                 displayedText = flag && isVisible ? line.Insert(cursor, "|") : line;
-   
-                parametr();
+                
                 text.SetText(displayedText);
             }
-            else if (line == Frame2.nameMiniTextFrame2 
-                     || line == Frame2.lMiniTextFrame2 
-                     || line == Frame2.numberPhoneMiniTextFrame2 
-                     || line == Frame2.emailMiniTextFrame2
-                     ||line == Frame3.numberPhoneMiniTextFrame2 
-                     || line == Frame3.emailMiniTextFrame2)
+            else  if (line == Frame2.nameMiniTextFrame2 
+                    || line == Frame2.lMiniTextFrame2 
+                    || line == Frame2.numberPhoneMiniTextFrame2 
+                    || line == Frame2.emailMiniTextFrame2
+                    || line == Frame2.numberPhoneMiniTextFrame2 
+                    || line == Frame3.numberPhoneMiniTextFrame3)
+            
             {
                 displayedText = flag ? line.Insert(cursor, "|") : line;
                 
