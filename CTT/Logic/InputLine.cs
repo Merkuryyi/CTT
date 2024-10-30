@@ -70,6 +70,12 @@ namespace CTT
                 flag = Frame3.flagEmail;
                 
             }
+            else if(Frame4.flagNumberPhone)
+            {
+                button = Frame4.buttonEmptyNumberPhoneSprite;
+                text = Frame4.numberPhoneMiniText;
+                flag = Frame4.flagNumberPhone;
+            }
         }
         public void OnKeyPressedName(object sender, KeyEventArgs e)
         {
@@ -85,7 +91,8 @@ namespace CTT
                 HandleNavigationKeys(e);
                 if ( line == Frame2.numberPhoneMiniTextFrame2 
                     || line == Frame3.numberPhoneMiniTextFrame3
-                    ||line == Frame3.emailMiniTextFrame3)
+                    ||line == Frame3.emailMiniTextFrame3
+                    || line == Frame4.numberPhoneMiniTextFrame)
                 {
                     HandleNumbersInput(e);
                 }
@@ -362,6 +369,13 @@ namespace CTT
                 line = Frame3.emailMiniTextFrame3;
                 cursor = Frame3.cursorEmailPosition;
             }
+            else if(Frame4.flagNumberPhone)
+            {
+                line = Frame4.numberPhoneMiniTextFrame;
+                cursor = Frame4.cursorNumberPhonePosition;
+                // line = Frame4.emailMiniTextFrame;
+                //  line = Frame4.passwordMiniTextFrame;
+            }
 
         }
 
@@ -381,8 +395,8 @@ namespace CTT
                     || line == Frame2.lMiniTextFrame2 
                     || line == Frame2.numberPhoneMiniTextFrame2 
                     || line == Frame2.emailMiniTextFrame2
-                    || line == Frame2.numberPhoneMiniTextFrame2 
-                    || line == Frame3.numberPhoneMiniTextFrame3)
+                    || line == Frame3.numberPhoneMiniTextFrame3
+                    || line == Frame4.numberPhoneMiniTextFrame)
             
             {
                 displayedText = flag ? line.Insert(cursor, "|") : line;

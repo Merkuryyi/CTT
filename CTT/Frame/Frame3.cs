@@ -18,7 +18,7 @@ public class Frame3
     private static Button buttonRequestСodeNumberPhoneSprite;
     private static Button buttonRequestСodeEmailSprite;
     private static Button buttonRegistrationSprite;
-    private static Button buttonRegistrationOffSprite;
+
     
     private static Texts titleRequestСodeNumberPhoneTextMini;
     private static Texts requestСodeNumberPhoneText;
@@ -97,7 +97,7 @@ public class Frame3
             buttonRequestСodeNumberPhoneSprite = new Button(xRightBorderFrame, yUpperBorderFrame, requestСodeTexture);
             buttonRequestСodeEmailSprite = new Button(xRightBorderFrame, yLowerBorderFrame, requestСodeTexture);
             buttonRegistrationSprite = new Button(xLeftBorderFrame, yAvaregeBorderFrame, buttonTexture);
-            buttonRegistrationOffSprite = new Button(xLeftBorderFrame, yAvaregeBorderFrame, buttonTextureOff);
+        
 
        
             
