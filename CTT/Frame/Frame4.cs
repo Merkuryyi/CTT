@@ -6,12 +6,13 @@ using SFML.System;
 
 public class Frame4
 {
+    public static Texts numberPhoneMiniTextsFrame4;
     private static Texture buttonRestoreAccessTexture;
     private static Texture buttonRestoreAccessTextureOff;
     private static Texture buttonTexture;
     public static int cursorEmailPositionRestoreAccess;
     public static int cursorNumberPhonePositionRestoreAccess;
-    public static int cursorNumberPhonePosition;
+    public static int cursorNumberPhonePosition = 0;
     private static Button buttonPasswordHideSpriteRestoreAcess;
     private static Texts numberPhoneMiniTextFrameRestoreAccess;
     private static Texts emailMiniTextFrameRestoreAccess;
@@ -70,7 +71,7 @@ public class Frame4
     
     public static Texts passwordMiniText;
     public static Texts emailMiniText;
-    public static Texts numberPhoneMiniText;
+   
 
 
     private static string warningText;
@@ -80,9 +81,10 @@ public class Frame4
     private static string emailMiniTextFrame3RestoreAccess;
     private static string numberPhoneMiniTextFrame3RestoreAccess;
     
-    public static string numberPhoneMiniTextFrame;
-    private static string emailMiniTextFrame;
-    private static string passwordMiniTextFrame;
+    public static string numberPhoneMiniTextFrame4;
+    public static string emailMiniTextFrame;
+    public static string passwordMiniTextFrame;
+    
     private static string warningTextFrame;
     private static string  numberPhoneMiniTextCodeFrame;
     private static string emailMiniTextCodeFrame;
@@ -128,9 +130,6 @@ public class Frame4
         buttonEmptyEmailSprite.Draw(_window);
         buttonEmptyPasswordSprite.Draw(_window);
        
-          
-
-        titleText.Draw(_window);
         loginText.Draw(_window);
         numberPhoneText.Draw(_window);
         emailText.Draw(_window);
@@ -139,12 +138,19 @@ public class Frame4
         warningFalseText2.Draw(_window);
         warningEmailText.Draw(_window);
         warningNumberPhoneText.Draw(_window);
+
+        titleText.Draw(_window);
+      
        
-        passwordMiniText.Draw(_window);
-        emailMiniText.Draw(_window);
-        numberPhoneMiniText.Draw(_window);
+      
+        
+        
         buttonPasswordHideSprite.Draw(_window);
         
+        
+        numberPhoneMiniTextsFrame4.Draw(_window);
+        emailMiniText.Draw(_window);
+        passwordMiniText.Draw(_window);
         
     }
 
@@ -188,24 +194,26 @@ public class Frame4
         warningFormat = "*Не тот формат";
         
         
-        numberPhoneMiniTextFrame = "";
-        emailMiniTextFrame = "";
-        passwordMiniTextFrame = "";
+        numberPhoneMiniTextFrame4 = "";
+        emailMiniTextFrame = "3";
+        passwordMiniTextFrame = "3";
         
         
        
         
-        
-        numberPhoneMiniText = new Texts(171, 352, font, 32, baseColorText, numberPhoneMiniTextFrame);
-        emailMiniText = new Texts(171, 518, font, 32, baseColorText,  emailMiniTextFrame);
-        passwordMiniText = new Texts(171, 684, font,32, baseColorText, passwordMiniTextFrame );
+     
         
         baseColorText = new Color(68, 68, 69);
         warningTextColor = new Color(202, 128, 128);
         nullColorText = new Color(255, 255, 255);
         
         titleText = new Texts(138, 125, font, 48, baseColorText, title);
+        numberPhoneMiniTextsFrame4 = new Texts(171, 352, font, 32, baseColorText, numberPhoneMiniTextFrame4);
         
+           
+       
+        emailMiniText = new Texts(171, 518, font, 32, baseColorText,  emailMiniTextFrame);
+        passwordMiniText = new Texts(171, 684, font,32, baseColorText, passwordMiniTextFrame );
         numberPhoneText = new Texts(151, 277, font, 32, baseColorText, numberPhone);
         emailText = new Texts(151, 445, font, 32, baseColorText, email);
         passwordText = new Texts(151, 611, font, 32, baseColorText, password);
@@ -291,6 +299,10 @@ public class Frame4
       
         Vector2i mousePosition = Mouse.GetPosition(_window);
        
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        {
+            canClick = true;
+        }
 
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
         {
@@ -328,16 +340,17 @@ public class Frame4
                
                 
         }
-        /*
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
-            canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+
+        if (Mouse.IsButtonPressed(Mouse.Button.Left) )
         {
 
             if (buttonEmptyNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flagNumberPhone = true;
+  
                 flagEmail = false;
                 flagPassword = false;
+                line.ClearLine();
 
             }
         }
@@ -345,35 +358,68 @@ public class Frame4
         if (flagNumberPhone)
         {
                 
-            numberPhoneMiniTextFrame = line.GetLine();
-            numberPhoneMiniText.SetText(numberPhoneMiniTextFrame);
+            numberPhoneMiniTextFrame4 = line.GetLine();
+          
             cursorNumberPhonePosition = line.GetCursor();
-            line.Update(_window);   
+            numberPhoneMiniTextsFrame4.SetText(numberPhoneMiniTextFrame4);
+            line.Update(_window);  
+  
+                
+        }
+        //Lj,fdm d inputine paramets
+     /*   if (Mouse.IsButtonPressed(Mouse.Button.Left) )
+        {
+
+            if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                flagEmail = true;
+  
+                flagNumberPhone = false;
+                flagPassword = false;
+                line.ClearLine();
+
+            }
+        }
+        
+        if (flagEmail)
+        {
+                
+            emailMiniTextFrame = line.GetLine();
+          
+            cursorEmailPositionRestoreAccess = line.GetCursor();
+            emailMiniText.SetText(emailMiniTextFrame);
+        
+            line.Update(_window);  
   
                 
         }*/
 
 
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-          {
-              canClick = true;
-          }
           Warning(_window);
 
     }
-
+    public void Ivents(RenderWindow _window)
+    {
+        
+        _window.DispatchEvents();
+        _window.Closed += (sender, e) => _window.Close();
+        
+    }
     public void Run4(RenderWindow _window)
     {
         Structure();
         restoreAccessSructure(_window);
+        InputLine line = new InputLine();
+        _window.KeyPressed += line.OnKeyPressedName;
         while (_window.IsOpen)
         {
             _window.Clear(new Color(233, 233, 233));
 
-
-            _window.DispatchEvents();
+            Ivents(_window);
+          
             Display4(_window);
             ButtonInteraction(_window);
+            
             if (flagRestoreAcess)
             {
                 restoreAccessDisplay(_window);
@@ -461,7 +507,7 @@ public class Frame4
                 canClick = false;
                 clock.Restart();
             }
-            if (flagNumberPhone)
+          /*  if (flagNumberPhone)
             {
                 
                 emailMiniTextFrame3RestoreAccess = line.GetLine();
@@ -481,8 +527,8 @@ public class Frame4
                 line.Update(_window); 
  
                 
-            }
-
+            }*/
+          warningRestoreAccess();
         }
     }
     public static void restoreAccessDisplay(RenderWindow _window)

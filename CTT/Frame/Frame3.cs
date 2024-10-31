@@ -62,87 +62,87 @@ public class Frame3
     public static string codeFalse;
     public void Structure()
     {
-       clock = new Clock();
-       clickDelay = 0.5f;
-            Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
-            
-            Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
-            Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
-           requestСodeTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
-            Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
-            buttonTextureOff =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
-            requestСodeOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
-            
-            
-            
-            baseColorText = new Color(68, 68, 69);
-            nullColorText = new Color(255,255, 255);
-            Color colorText = new Color(0, 0, 0);
-            warningTextColor = new Color(202, 128, 128);
-            trueWarningTextColor = new Color(128,202,  128);
-            colorMessage = new Color(136, 136, 136);
-        
-      
-            
-            int xyPositionBackground = 53;
-            int xLeftBorderFrame = 151;
-            int xRightBorderFrame = 473;
-            int yUpperBorderFrame = 334;
-            int yLowerBorderFrame =  533;
-            int yAvaregeBorderFrame = 838;
-            
-            backgroundFrame = new Button(xyPositionBackground, xyPositionBackground, background);
-            buttonEmptyNumberPfoneSprite = new Button(xLeftBorderFrame, yUpperBorderFrame, emptyButtonTexture);
-            buttonEmptyEmailSprite = new Button(xLeftBorderFrame, yLowerBorderFrame, emptyButtonTexture);
-            buttonRequestСodeNumberPhoneSprite = new Button(xRightBorderFrame, yUpperBorderFrame, requestСodeTexture);
-            buttonRequestСodeEmailSprite = new Button(xRightBorderFrame, yLowerBorderFrame, requestСodeTexture);
-            buttonRegistrationSprite = new Button(xLeftBorderFrame, yAvaregeBorderFrame, buttonTexture);
-        
+        clock = new Clock();
+        clickDelay = 0.5f;
+        Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
 
-       
-            
-            string registrationText = "Регистрация";
-            string requestNumberPhoneText = "Запросить код на номер телефона";
-            string requestText =  "Запросить код";
-            string requestEmailText =  "Запросить код на почту";
-            string registrationTitleText = "Зарегистрироваться";
-            codeTrue = "*Код верный";
-            codeFalse = "*Код неверный";
+        Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
+        Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
+        requestСodeTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
+        Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
+        buttonTextureOff =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
+        requestСodeOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
 
-            string boxText1 = "Проверьте sms-сообщения и почту. Если код не";
-            string boxText2 = "пришел, проверьте спам или запросите код еще";
-            string boxText3 = "раз.";    
-            string backText = "<назад"; 
-            warningTextFrame3 = "*обязательно";
-            numberPhoneMiniTextFrame3 = "";
-            emailMiniTextFrame3 = "";
-            
-            uint sizeTextMax = 64;
-            uint sizeTextTitleFrame = 48;
-            uint sizeTextMiniTitle = 36;
-            uint sizeTextInput = 32;
-            uint sizeWarningText = 20;
-            
-            titleText = new Texts(138, 125 , font, sizeTextTitleFrame, baseColorText, registrationText );
-            titleRequestСodeNumberPhoneTextMini = new Texts(151, 277 , font, 32, baseColorText, requestNumberPhoneText );
-            requestСodeNumberPhoneText = new Texts(517, 354 , font, 20, colorText, requestText );
-            titleRequestСodeEmailTextMini = new Texts(151, 476 , font, 32, baseColorText, requestEmailText );
-            requestСodeEmailText = new Texts(517, 553 , font, 20, colorText, requestText );
-            RegistrationText = new Texts(293, 847 , font, 32, colorText, registrationTitleText );
-            
-            numberPhoneMiniText = new Texts(171, 350, 
-                font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame3);
-            emailMiniText = new Texts(171, 549, 
-                font, sizeTextInput, baseColorText,  emailMiniTextFrame3);
-           
-            
-            warningNumberPhoneText = new Texts(171, 414 , font, 20, nullColorText, codeFalse );
-            warningEmailText = new Texts(171, 613 , font, 20, nullColorText, codeFalse );
-            
-            messageText = new Texts(151, 675 , font, 24, nullColorText, boxText1 );
-            messageText2 = new Texts(151, 710 , font, 24, nullColorText, boxText2 );
-            messageText3 = new Texts(151, 745 , font, 24, nullColorText, boxText3 );
-            backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
+
+
+        baseColorText = new Color(68, 68, 69);
+        nullColorText = new Color(255,255, 255);
+        Color colorText = new Color(0, 0, 0);
+        warningTextColor = new Color(202, 128, 128);
+        trueWarningTextColor = new Color(128,202,  128);
+        colorMessage = new Color(136, 136, 136);
+
+
+
+        int xyPositionBackground = 53;
+        int xLeftBorderFrame = 151;
+        int xRightBorderFrame = 473;
+        int yUpperBorderFrame = 334;
+        int yLowerBorderFrame =  533;
+        int yAvaregeBorderFrame = 838;
+
+        backgroundFrame = new Button(xyPositionBackground, xyPositionBackground, background);
+        buttonEmptyNumberPfoneSprite = new Button(xLeftBorderFrame, yUpperBorderFrame, emptyButtonTexture);
+        buttonEmptyEmailSprite = new Button(xLeftBorderFrame, yLowerBorderFrame, emptyButtonTexture);
+        buttonRequestСodeNumberPhoneSprite = new Button(xRightBorderFrame, yUpperBorderFrame, requestСodeTexture);
+        buttonRequestСodeEmailSprite = new Button(xRightBorderFrame, yLowerBorderFrame, requestСodeTexture);
+        buttonRegistrationSprite = new Button(xLeftBorderFrame, yAvaregeBorderFrame, buttonTexture);
+
+
+
+
+        string registrationText = "Регистрация";
+        string requestNumberPhoneText = "Запросить код на номер телефона";
+        string requestText =  "Запросить код";
+        string requestEmailText =  "Запросить код на почту";
+        string registrationTitleText = "Зарегистрироваться";
+        codeTrue = "*Код верный";
+        codeFalse = "*Код неверный";
+
+        string boxText1 = "Проверьте sms-сообщения и почту. Если код не";
+        string boxText2 = "пришел, проверьте спам или запросите код еще";
+        string boxText3 = "раз.";    
+        string backText = "<назад"; 
+        warningTextFrame3 = "*обязательно";
+        numberPhoneMiniTextFrame3 = "";
+        emailMiniTextFrame3 = "";
+
+        uint sizeTextMax = 64;
+        uint sizeTextTitleFrame = 48;
+        uint sizeTextMiniTitle = 36;
+        uint sizeTextInput = 32;
+        uint sizeWarningText = 20;
+
+        titleText = new Texts(138, 125 , font, sizeTextTitleFrame, baseColorText, registrationText );
+        titleRequestСodeNumberPhoneTextMini = new Texts(151, 277 , font, 32, baseColorText, requestNumberPhoneText );
+        requestСodeNumberPhoneText = new Texts(517, 354 , font, 20, colorText, requestText );
+        titleRequestСodeEmailTextMini = new Texts(151, 476 , font, 32, baseColorText, requestEmailText );
+        requestСodeEmailText = new Texts(517, 553 , font, 20, colorText, requestText );
+        RegistrationText = new Texts(293, 847 , font, 32, colorText, registrationTitleText );
+
+        numberPhoneMiniText = new Texts(171, 350, 
+            font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame3);
+        emailMiniText = new Texts(171, 549, 
+            font, sizeTextInput, baseColorText,  emailMiniTextFrame3);
+
+
+        warningNumberPhoneText = new Texts(171, 414 , font, 20, nullColorText, codeFalse );
+        warningEmailText = new Texts(171, 613 , font, 20, nullColorText, codeFalse );
+
+        messageText = new Texts(151, 675 , font, 24, nullColorText, boxText1 );
+        messageText2 = new Texts(151, 710 , font, 24, nullColorText, boxText2 );
+        messageText3 = new Texts(151, 745 , font, 24, nullColorText, boxText3 );
+        backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
     }
 
     public void Warning(RenderWindow _window)
@@ -296,6 +296,7 @@ public class Frame3
             numberPhoneMiniTextFrame3 = line.GetLine();
             numberPhoneMiniText.SetText(numberPhoneMiniTextFrame3);
             cursorNumberPhonePosition = line.GetCursor();
+            
             line.Update(_window);   
   
                 
