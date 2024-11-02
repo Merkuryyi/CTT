@@ -5,6 +5,8 @@ using CTT;
 
 public class Frame2
 {
+    private static Texts backFrameText;
+    private static Color colorMessage;
     public static int cursorLnamePosition;
     public static int cursorNamePosition;
     public static int cursorPasswordPosition;
@@ -167,7 +169,8 @@ public class Frame2
       //  colorText = new Color(0, 0, 0);
       //  baseColorTextOff = new Color(130,130,130);
         warningTextColor = new Color(202, 128, 128);
-
+        colorMessage = new Color(136, 136, 136);
+        
         string titleTextFrame2 = "Регистрация";
         string nameTextFrame2 = "Имя";
         string numberPhoneTextFrame2 = "Номер телефона";
@@ -190,6 +193,7 @@ public class Frame2
         numberPhoneMiniTextFrame2 = "";
         emailMiniTextFrame2 = "";
         warningFormat = "*Не тот формат";
+        string backText = "<назад"; 
         
         titleText = new Texts(xPositionTitleText,yPositionTitleText , 
             font, sizeTextTitleFrame, baseColorText, titleTextFrame2 );
@@ -234,6 +238,8 @@ public class Frame2
             font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame2);
         emailMiniText = new Texts(xWarningRightBorderFrame, yAvaregeMiniText, 
             font, sizeTextInput, baseColorText,  emailMiniTextFrame2);
+        
+        backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
         
 
     }
@@ -281,6 +287,7 @@ public class Frame2
         warningRepeatPasswordText.Draw(_window);
         warningNumberPfoneText.Draw(_window);
         warningEmailText.Draw(_window);
+        backFrameText.Draw(_window);
     }
 
     public void ButtonInteraction(RenderWindow _window)
@@ -300,7 +307,7 @@ public class Frame2
                     buttonPasswordHideSprite.SetTexture(hideOffTexture);
                     clock.Restart();
                     canClick = false;
-                    line.ClearLine();
+                    line.LineParametr();
 
                 }
                 else if (buttonPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -310,7 +317,7 @@ public class Frame2
                     buttonPasswordHideSprite.SetTexture(hideOnTexture);
                     clock.Restart();
                     canClick = false;
-                    line.ClearLine();
+                    line.LineParametr();
                 }
                
                 
@@ -326,7 +333,7 @@ public class Frame2
                     buttonRepeatPasswordHideSprite.SetTexture(hideOffTexture);
                     clock.Restart();
                     canClick = false;
-                    line.ClearLine();
+                    line.LineParametr();
 
                 }
                 else if (buttonRepeatPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -336,8 +343,21 @@ public class Frame2
                     buttonRepeatPasswordHideSprite.SetTexture(hideOnTexture);
                     clock.Restart();
                     canClick = false;
-                    line.ClearLine();
+                    line.LineParametr();
                 }
+               
+                
+            }
+            if (Mouse.IsButtonPressed(Mouse.Button.Left)
+                && !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+            {
+               
+                if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                {
+                    Frame1 frame1 = new Frame1();
+                    frame1.Run1(_window);
+                }
+                
                
                 
             }
@@ -356,7 +376,7 @@ public class Frame2
                     flagRepeatPassword = false;
                     flagNumberPhone = false;
                     flagEmail = false;
-                    line.ClearLine();
+                    line.LineParametr();
                     
                 }
                 else
@@ -375,7 +395,7 @@ public class Frame2
                     flagRepeatPassword = false;
                     flagNumberPhone = false;
                     flagEmail = false;
-                    line.ClearLine();
+                    line.LineParametr();
                 }
                 else
                 { flagLName = false; }
@@ -391,7 +411,7 @@ public class Frame2
                     flagRepeatPassword = false;
                     flagNumberPhone = false;
                     flagEmail = false;
-                    line.ClearLine();
+                    line.LineParametr();
                 }
                 else
                 { flagPassword = false; }
@@ -409,7 +429,7 @@ public class Frame2
                     flagPassword = false;
                     flagNumberPhone = false;
                     flagEmail = false;
-                    line.ClearLine();
+                    line.LineParametr();
                     
                     
                 }
@@ -429,7 +449,7 @@ public class Frame2
                     flagPassword = false;
                     flagRepeatPassword = false;
                     flagEmail = false;
-                    line.ClearLine();
+                    line.LineParametr();
                     
 
                 }
@@ -452,7 +472,7 @@ public class Frame2
                     flagNumberPhone = false;
                     clock.Restart();
                     canClick = false;
-                    line.ClearLine();
+                    line.LineParametr();
                     
 
                 }

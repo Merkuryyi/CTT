@@ -66,7 +66,7 @@ public class Frame3
         clickDelay = 0.5f;
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
 
-        Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fonFrames.png"));
+        Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgoundFrames.png"));
         Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
         requestСodeTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
@@ -263,7 +263,7 @@ public class Frame3
             {
                 flagEmail = false;
                 flagNumberPhone = true;
-                line.ClearLine();
+                line.LineParametr();
 
             }
             else
@@ -274,7 +274,7 @@ public class Frame3
             {
                 flagEmail = true;
                 flagNumberPhone = false;
-                line.ClearLine();
+                line.LineParametr();
             }
             else
             {

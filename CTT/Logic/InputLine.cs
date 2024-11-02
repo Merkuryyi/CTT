@@ -78,6 +78,18 @@ namespace CTT
                
               
             }
+            else if(Frame4.flagEmail)
+            {
+                button = Frame4.buttonEmptyEmailSprite;
+                text = Frame4.emailMiniText;
+                flag = Frame4.flagEmail;
+            }
+            else if(Frame4.flagPassword)
+            {
+                button = Frame4.buttonEmptyPasswordSprite;
+                text = Frame4.passwordMiniText;
+                flag = Frame4.flagPassword;
+            }
         }
         public void OnKeyPressedName(object sender, KeyEventArgs e)
         {
@@ -95,7 +107,8 @@ namespace CTT
                 if ( line == Frame2.numberPhoneMiniTextFrame2 
                     || line == Frame3.numberPhoneMiniTextFrame3
                     || line == Frame3.emailMiniTextFrame3
-                    || line == Frame4.numberPhoneMiniTextFrame4)
+                    || line == Frame4.numberPhoneMiniTextFrame4
+                    || line == Frame4.emailMiniTextFrame)
                 {
                    
                     HandleNumbersInput(e);
@@ -106,13 +119,15 @@ namespace CTT
                     HandleCharacterInput(e);
                 }
                 
-               if ((line == Frame2.passwordMiniTextFrame2 
-                     || line == Frame2.repeatPasswordMiniTextFrame2 ))
+               if (line == Frame2.passwordMiniTextFrame2 
+                     || line == Frame2.repeatPasswordMiniTextFrame2 
+                     || line == Frame4.passwordMiniTextFrame)
                 {
                     HandleNumberInput(e);
                     HandleCharacterInput(e);
                 }
-                if ( line == Frame2.emailMiniTextFrame2)
+                if ( line == Frame2.emailMiniTextFrame2
+                    ||  line == Frame4.emailMiniTextFrame)
                 {
                     
                     HandleCharacterInputEmail(e);
@@ -330,7 +345,7 @@ namespace CTT
             return cursor;
         }
 
-        public void ClearLine()
+        public void LineParametr()
         {
             if (Frame2.flagName)
             {
@@ -377,9 +392,18 @@ namespace CTT
             {
                 line = Frame4.numberPhoneMiniTextFrame4;
                 cursor = Frame4.cursorNumberPhonePosition;
-                // line = Frame4.emailMiniTextFrame;
-                //  line = Frame4.passwordMiniTextFrame;
             }
+            else if (Frame4.flagEmail)
+            {
+                line = Frame4.emailMiniTextFrame;
+                cursor = Frame4.cursorEmailPosition;
+            }
+            else if (Frame4.flagPassword)
+            {
+                line = Frame4.passwordMiniTextFrame;
+                cursor = Frame4.cursorPasswordPosition;
+            }
+           
 
         }
 
@@ -389,7 +413,8 @@ namespace CTT
             
             parametr();
             if ((line == Frame2.passwordMiniTextFrame2 
-                        || line == Frame2.repeatPasswordMiniTextFrame2) && isVisible)
+                 || line == Frame2.repeatPasswordMiniTextFrame2
+                 || line == Frame4.passwordMiniTextFrame ) && isVisible)
             {
                 displayedText = flag && isVisible ? line.Insert(cursor, "|") : line;
                 
@@ -417,6 +442,10 @@ namespace CTT
         public bool ContainsSpecialCharsOrDigits()
         {
             string lineBox = Frame2.passwordMiniTextFrame2;
+            if (Frame4.passwordMiniTextFrame != "")
+            {
+                lineBox = Frame4.passwordMiniTextFrame;
+            }
             
             foreach (char c in lineBox)
             {
