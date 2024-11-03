@@ -7,7 +7,7 @@ namespace CTT
     {
         private static Button button;
         private static Texts text;
-        private static int cursor = 0;
+        private static int cursor;
         public static string line;
         private static bool flag = true;
         private static bool isVisible = false;
@@ -22,63 +22,64 @@ namespace CTT
                 text = Frame2.lNameMiniText;
                 flag = Frame2.flagLName;
             }
-            else if (Frame2.flagName)
+            if (Frame2.flagName)
             {
                 button = Frame2.buttonNameSprite;
                 text = Frame2.nameMiniText;
                 flag = Frame2.flagName;
             }
-            else if (Frame2.flagPassword)
+            if (Frame2.flagPassword)
             {
                 button = Frame2.buttonPasswordSprite;
                 text = Frame2.passwordMiniText;
                 flag = Frame2.flagPassword;
                 isVisible = Frame2.isVisiblePassword;
             }
-            else if (Frame2.flagRepeatPassword)
+            if (Frame2.flagRepeatPassword)
             {
                 button = Frame2.buttonRepeatPasswordSprite;
                 text = Frame2.repeatPasswordMiniText;
                 flag = Frame2.flagRepeatPassword;
                 isVisible = Frame2.isVisibleRepeatPassword;
             }
-            else if (Frame2.flagNumberPhone)
+            if (Frame2.flagNumberPhone)
             {
                 button = Frame2.buttonNumberPhoneSprite;
                 text = Frame2.numberPhoneMiniText;
                 flag = Frame2.flagNumberPhone;
                 
             }
-            else if (Frame2.flagEmail)
+             if (Frame2.flagEmail)
             {
                 button = Frame2.buttonEmailSprite;
                 text = Frame2.emailMiniText;
                 flag = Frame2.flagEmail;
                 
             }
-            else if (Frame3.flagNumberPhone)
+             if (Frame3.flagNumberPhone)
             {
                 button = Frame3.buttonEmptyNumberPfoneSprite;
                 text = Frame3.numberPhoneMiniText;
                 flag = Frame3.flagNumberPhone;
                 
             }
-            else if (Frame3.flagEmail)
+            if (Frame3.flagEmail)
             {
                 button = Frame3.buttonEmptyEmailSprite;
                 text = Frame3.emailMiniText;
                 flag = Frame3.flagEmail;
                 
             }
-            else if(Frame4.flagNumberPhone)
+            if(Frame4.flagNumberPhone)
             {
                 button = Frame4.buttonEmptyNumberPhoneSprite;
                 text = Frame4.numberPhoneMiniTextsFrame4;
                 flag = Frame4.flagNumberPhone;
                
+               
               
             }
-            else if(Frame4.flagEmail)
+            if(Frame4.flagEmail)
             {
                 button = Frame4.buttonEmptyEmailSprite;
                 text = Frame4.emailMiniText;
@@ -89,6 +90,37 @@ namespace CTT
                 button = Frame4.buttonEmptyPasswordSprite;
                 text = Frame4.passwordMiniText;
                 flag = Frame4.flagPassword;
+                isVisible = Frame4.isVisiblePassword;
+                
+            }
+            else if(Frame4.flagNumberPhoneRestoreAccess)
+            {
+                button = Frame4.buttonEmptyNumberPhoneSprite;
+                text = Frame4.numberPhoneMiniTextRestoreAccess;
+                flag = Frame4.flagNumberPhoneRestoreAccess;
+            
+            }
+            else if(Frame4.flagEmailRestoreAccess)
+            {
+                button = Frame4.buttonEmptyEmailSprite;
+                text = Frame4.emailMiniTextRestoreAccess;
+                flag = Frame4.flagEmailRestoreAccess;
+            
+            }
+            else if(Frame4.flagPasswordRestoreAccess)
+            {
+                button = Frame4.buttonEmptyPasswordSprite;
+                text = Frame4.passwordMiniTextRestoreAccess;
+                flag = Frame4.flagPasswordRestoreAccess;
+                isVisible = Frame4.isVisiblePasswordRetoreAcess;
+            
+            }
+            else if(Frame4.flagRepeatPasswordRestoreAccess)
+            {
+                button = Frame4.buttonEmptyRepeatPasswordSpriteRestoreAccess;
+                text = Frame4.repeatPasswordMiniTextRestoreAccess;
+                flag = Frame4.flagRepeatPasswordRestoreAccess;
+                isVisible = Frame4.isVisibleRepeatPasswordRetoreAcess;
             }
         }
         public void OnKeyPressedName(object sender, KeyEventArgs e)
@@ -108,25 +140,31 @@ namespace CTT
                     || line == Frame3.numberPhoneMiniTextFrame3
                     || line == Frame3.emailMiniTextFrame3
                     || line == Frame4.numberPhoneMiniTextFrame4
-                    || line == Frame4.emailMiniTextFrame)
+                    || line == Frame4.emailMiniTextFrame
+                    ||  line == Frame4.numberPhoneMiniTextCodeFrame
+                    ||  line == Frame4.emailMiniTextCodeFrame
+               
+                   )
                 {
-                   
+                 
                     HandleNumbersInput(e);
                 }
-                 if ((line == Frame2.nameMiniTextFrame2
-                     || line == Frame2.lMiniTextFrame2 ))
+                if (line == Frame2.nameMiniTextFrame2
+                     || line == Frame2.lMiniTextFrame2)
                 {
                     HandleCharacterInput(e);
                 }
                 
-               if (line == Frame2.passwordMiniTextFrame2 
+             if (line == Frame2.passwordMiniTextFrame2 
                      || line == Frame2.repeatPasswordMiniTextFrame2 
-                     || line == Frame4.passwordMiniTextFrame)
+                     || line == Frame4.passwordMiniTextFrame
+                     || line == Frame4.passwordTextMiniTextResoreAcessFrame
+                     || line == Frame4.repeatPasswordTextMiniTextResoreAcessFrame)
                 {
                     HandleNumberInput(e);
                     HandleCharacterInput(e);
                 }
-                if ( line == Frame2.emailMiniTextFrame2
+             if ( line == Frame2.emailMiniTextFrame2
                     ||  line == Frame4.emailMiniTextFrame)
                 {
                     
@@ -191,6 +229,7 @@ namespace CTT
         }
         private void HandleCharacterInputEmail(KeyEventArgs e)
         {
+            string symbol = string.Empty;
             float buttonWidth = button.GetGlobalBounds().Width;
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
@@ -199,6 +238,21 @@ namespace CTT
                     e.Code.ToString().ToUpper() : 
                     e.Code.ToString().ToLower();
                 
+                
+             switch (e.Code)
+                {
+                    case Keyboard.Key.Period:
+                        symbol = ".";
+                        break;
+                    case Keyboard.Key.Num2:
+                        symbol = "@";
+                        break;
+                }
+                if (!string.IsNullOrEmpty(symbol))
+                {
+                    line = line.Insert(cursor, symbol);
+                    cursor++;
+                }
                 line = line.Insert(cursor, charToAdd);
                 cursor++;
                 
@@ -208,21 +262,8 @@ namespace CTT
 
 
             }
-            string symbol = string.Empty;
-            switch (e.Code)
-            {
-                case Keyboard.Key.Period:
-                    symbol = ".";
-                    break;
-                case Keyboard.Key.Num2:
-                    symbol = "@";
-                    break;
-            }
-            if (!string.IsNullOrEmpty(symbol))
-            {
-                line = line.Insert(cursor, symbol);
-                cursor++;
-            }
+           
+          
         }
 
         private void HandleNumberInput(KeyEventArgs e)
@@ -403,6 +444,30 @@ namespace CTT
                 line = Frame4.passwordMiniTextFrame;
                 cursor = Frame4.cursorPasswordPosition;
             }
+            else if (Frame4.flagNumberPhoneRestoreAccess)
+            {
+                line = Frame4.numberPhoneMiniTextCodeFrame;
+                cursor = Frame4.cursorNumberPhonePositionRestoreAccess;
+              
+            }
+            else if (Frame4.flagEmailRestoreAccess)
+            {
+                line = Frame4.emailMiniTextCodeFrame;
+                cursor = Frame4.cursorEmailPositionRestoreAccess;
+              
+            }
+            else if(Frame4.flagPasswordRestoreAccess)
+            {
+                line = Frame4.passwordTextMiniTextResoreAcessFrame;
+                cursor = Frame4.cursorPasswordPositionRestoreAccess;
+            
+            }
+            else if(Frame4.flagRepeatPasswordRestoreAccess)
+            {
+               
+                line = Frame4.repeatPasswordTextMiniTextResoreAcessFrame;
+                cursor = Frame4.cursorRepeatPasswordPositionRestoreAccess;
+            }
            
 
         }
@@ -414,7 +479,9 @@ namespace CTT
             parametr();
             if ((line == Frame2.passwordMiniTextFrame2 
                  || line == Frame2.repeatPasswordMiniTextFrame2
-                 || line == Frame4.passwordMiniTextFrame ) && isVisible)
+                 || line == Frame4.passwordMiniTextFrame
+                 || line == Frame4.passwordTextMiniTextResoreAcessFrame
+                 || line == Frame4.repeatPasswordTextMiniTextResoreAcessFrame) && isVisible)
             {
                 displayedText = flag && isVisible ? line.Insert(cursor, "|") : line;
                 
@@ -425,7 +492,9 @@ namespace CTT
                     || line == Frame2.numberPhoneMiniTextFrame2 
                     || line == Frame2.emailMiniTextFrame2
                     || line == Frame3.numberPhoneMiniTextFrame3
-                    || line == Frame4.numberPhoneMiniTextFrame4)
+                    || line == Frame4.numberPhoneMiniTextFrame4
+                    ||  line == Frame4.numberPhoneMiniTextCodeFrame
+                    ||  line == Frame4.emailMiniTextCodeFrame)
             
             {
                 displayedText = flag ? line.Insert(cursor, "|") : line;

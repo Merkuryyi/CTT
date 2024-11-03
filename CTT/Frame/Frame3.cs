@@ -210,17 +210,12 @@ public class Frame3
     public void ButtonInteraction(RenderWindow _window)
     {
         RandomClass random = new RandomClass();
-        
+        Flags flags = new Flags();
         
         Vector2i mousePos = Mouse.GetPosition(_window);
 
-        Frame2.flagName = false;
-        Frame2.flagLName = false;
-        Frame2.flagNumberPhone = false;
-         Frame2.flagEmail  = false;
-         Frame2.flagPassword = false;
-           Frame2.flagRepeatPassword = false;
            InputLine line = new InputLine();
+         
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
         {
             delayPassed = canClick && clock.ElapsedTime.AsSeconds() >= clickDelay;
@@ -261,8 +256,9 @@ public class Frame3
             
             if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y) && delayPassed)
             {
-                flagEmail = false;
+                flags.changeFlag();
                 flagNumberPhone = true;
+            
                 line.LineParametr();
 
             }
@@ -272,8 +268,10 @@ public class Frame3
             }
             if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y) && delayPassed)
             {
+                flags.changeFlag();
                 flagEmail = true;
-                flagNumberPhone = false;
+             
+          
                 line.LineParametr();
             }
             else
@@ -312,7 +310,7 @@ public class Frame3
  
                 
         }
-
+        Warning(_window);
     }
 
     public void Display3(RenderWindow _window)

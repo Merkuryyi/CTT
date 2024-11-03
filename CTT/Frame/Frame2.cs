@@ -7,12 +7,12 @@ public class Frame2
 {
     private static Texts backFrameText;
     private static Color colorMessage;
-    public static int cursorLnamePosition;
-    public static int cursorNamePosition;
-    public static int cursorPasswordPosition;
-    public static int cursorRepeatPasswordPosition;
-    public static int cursorNumberPhonePosition;
-    public static int cursorEmailPosition;
+    public static int cursorLnamePosition = 0;
+    public static int cursorNamePosition = 0;
+    public static int cursorPasswordPosition = 0;
+    public static int cursorRepeatPasswordPosition = 0;
+    public static int cursorNumberPhonePosition = 0;
+    public static int cursorEmailPosition = 0;
     
     public static bool flagName;
     public static bool warningFlagName  = false;
@@ -240,7 +240,7 @@ public class Frame2
             font, sizeTextInput, baseColorText,  emailMiniTextFrame2);
         
         backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
-        
+        line = new InputLine();
 
     }
 
@@ -293,8 +293,9 @@ public class Frame2
     public void ButtonInteraction(RenderWindow _window)
     {
         Vector2i mousePosition = Mouse.GetPosition(_window);
-       
             InputLine line = new InputLine();
+            Flags flags = new Flags();
+         
        
            if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
                !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
@@ -307,7 +308,7 @@ public class Frame2
                     buttonPasswordHideSprite.SetTexture(hideOffTexture);
                     clock.Restart();
                     canClick = false;
-                    line.LineParametr();
+         
 
                 }
                 else if (buttonPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -317,15 +318,8 @@ public class Frame2
                     buttonPasswordHideSprite.SetTexture(hideOnTexture);
                     clock.Restart();
                     canClick = false;
-                    line.LineParametr();
+                   
                 }
-               
-                
-            }
-            if (Mouse.IsButtonPressed(Mouse.Button.Left)
-                && !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-            {
-               
                 if (buttonRepeatPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
                     && !isVisibleRepeatPassword )
                 {
@@ -333,7 +327,7 @@ public class Frame2
                     buttonRepeatPasswordHideSprite.SetTexture(hideOffTexture);
                     clock.Restart();
                     canClick = false;
-                    line.LineParametr();
+
 
                 }
                 else if (buttonRepeatPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -343,93 +337,49 @@ public class Frame2
                     buttonRepeatPasswordHideSprite.SetTexture(hideOnTexture);
                     clock.Restart();
                     canClick = false;
-                    line.LineParametr();
+       
                 }
-               
-                
-            }
-            if (Mouse.IsButtonPressed(Mouse.Button.Left)
-                && !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-            {
-               
                 if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
                     Frame1 frame1 = new Frame1();
                     frame1.Run1(_window);
                 }
-                
-               
-                
-            }
-           
-           
-           
-         
-            
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
                 if (buttonNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
+                    flags.changeFlag();
                     flagName = true;
-                    flagLName = false;
-                    flagPassword = false;
-                    flagRepeatPassword = false;
-                    flagNumberPhone = false;
-                    flagEmail = false;
-                    line.LineParametr();
+                  
                     
                 }
                 else
                 {
                     flagName = false;
                 }
-            }
-          
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
+                
                 if (buttonLNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
+                    flags.changeFlag();
                     flagLName = true;
-                    flagName = false;
-                    flagPassword = false;
-                    flagRepeatPassword = false;
-                    flagNumberPhone = false;
-                    flagEmail = false;
-                    line.LineParametr();
+                 
+
+          
                 }
                 else
                 { flagLName = false; }
-            }
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
-               
                 if (buttonPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
+                    flags.changeFlag();
                     flagPassword = true;
-                    flagName = false;
-                    flagLName = false;
-                    flagRepeatPassword = false;
-                    flagNumberPhone = false;
-                    flagEmail = false;
-                    line.LineParametr();
+                 
+     
                 }
                 else
                 { flagPassword = false; }
-            }
-        
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
-               
                 if (buttonRepeatPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
+                    flags.changeFlag();
                     flagRepeatPassword = true;
-                 
-                    flagName = false;
-                    flagLName = false;
-                    flagPassword = false;
-                    flagNumberPhone = false;
-                    flagEmail = false;
-                    line.LineParametr();
+               
                     
                     
                 }
@@ -437,20 +387,11 @@ public class Frame2
                 {
                     flagRepeatPassword = false;
                 }
-            }
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
-               
                 if (buttonNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
+                    flags.changeFlag();
                     flagNumberPhone = true;
-                    flagName = false;
-                    flagLName = false;
-                    flagPassword = false;
-                    flagRepeatPassword = false;
-                    flagEmail = false;
-                    line.LineParametr();
-                    
+                   
 
                 }
                 else
@@ -458,28 +399,24 @@ public class Frame2
                     flagNumberPhone = false;
                     
                 }
-            }
-            if (Mouse.IsButtonPressed(Mouse.Button.Left))
-            {
-               
-                if (buttonEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && !canClick)
+                if (buttonEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) )
                 {
+                    flags.changeFlag();
                     flagEmail = true;
-                    flagName = false;
-                    flagLName = false;
-                    flagPassword = false;
-                    flagRepeatPassword = false;
-                    flagNumberPhone = false;
-                    clock.Restart();
-                    canClick = false;
-                    line.LineParametr();
-                    
+                 
+
 
                 }
                 else
-                { flagEmail = false;
+                {
+                    flagEmail = false;
                 }
+                
+                
             }
+       
+           
+        
            
             if (flagName)
             {
