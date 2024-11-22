@@ -103,7 +103,7 @@ public class Frame2
         
         clock = new Clock();
         clickDelay = 0.3f;
-        
+        line = new InputLine();
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundRegistration.png"));
         Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
@@ -166,8 +166,6 @@ public class Frame2
 
         baseColorText = new Color(68, 68, 69);
         nullColorText = new Color(255,255, 255);
-      //  colorText = new Color(0, 0, 0);
-      //  baseColorTextOff = new Color(130,130,130);
         warningTextColor = new Color(202, 128, 128);
         colorMessage = new Color(136, 136, 136);
         
@@ -240,7 +238,8 @@ public class Frame2
             font, sizeTextInput, baseColorText,  emailMiniTextFrame2);
         
         backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
-        line = new InputLine();
+      
+       
 
     }
 
@@ -248,6 +247,8 @@ public class Frame2
     {
         _window.DispatchEvents();
         _window.Closed += (sender, e) => _window.Close();
+        _window.KeyPressed += line.OnKeyPressedName;
+        
     }
     public void Display2(RenderWindow _window)
     {
@@ -296,7 +297,10 @@ public class Frame2
         InputLine line = new InputLine();
         Flags flags = new Flags();
      
-   
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        {
+            canClick = true;
+        }
        if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
            !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
         {
@@ -348,8 +352,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagName = true;
-              
-                
+                line.LineParametr();
             }
             else
             {
@@ -360,7 +363,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagLName = true;
-             
+                line.LineParametr();
 
       
             }
@@ -370,7 +373,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagPassword = true;
-             
+                line.LineParametr();
  
             }
             else
@@ -379,7 +382,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagRepeatPassword = true;
-           
+                line.LineParametr();
                 
                 
             }
@@ -391,7 +394,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagNumberPhone = true;
-               
+                line.LineParametr();
 
             }
             else
@@ -403,7 +406,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagEmail = true;
-             
+                line.LineParametr();
 
 
             }
@@ -509,7 +512,11 @@ public class Frame2
         mousePosition = Mouse.GetPosition(_window);
         line = new InputLine();
         bool format = line.NumberPhoneFormat();
-        bool formaEmail = line.EmailFormat();
+        bool formatEmail = line.EmailFormat();
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        {
+            canClick = true;
+        }
         if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
             buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
         {
@@ -617,7 +624,7 @@ public class Frame2
                 warningEmailText.SetColor(warningTextColor);
                 warningFlagEmail = true;
             }
-           else if (!formaEmail)
+           else if (!formatEmail)
             {
                 warningEmailText.SetText(warningFormat);
                 warningEmailText.SetColor(warningTextColor);
@@ -635,13 +642,8 @@ public class Frame2
 
     public void Run2(RenderWindow _window)
     {
-        InputLine line = new InputLine();
-        
-        _window.KeyPressed += line.OnKeyPressedName;
-        
-
         Structure();
-        
+       
         
         while (_window.IsOpen)
         {
@@ -650,7 +652,7 @@ public class Frame2
             ButtonInteraction(_window);
 
 
-        if (Mouse.IsButtonPressed(Mouse.Button.Left))
+            if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
                 mousePosition = Mouse.GetPosition(_window);
                 if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
@@ -664,12 +666,10 @@ public class Frame2
                     _window.Clear(Color.White);
                     Frame3 frame3 = new Frame3();
                     frame3.Run3(_window);
-                    
+                    line.clearLine();
+
                 }
             } 
-            
-            
-
             
            
             _window.Display();

@@ -7,8 +7,8 @@ namespace CTT
     {
         private static Button button;
         private static Texts text;
-        private static int cursor;
-        public static string line;
+        private static int cursor = 0;
+        public static string line = "";
         private static bool flag = true;
         private static bool isVisible = false;
         public static string displayedText;
@@ -93,21 +93,21 @@ namespace CTT
                 isVisible = Frame4.isVisiblePassword;
                 
             }
-            else if(Frame4.flagNumberPhoneRestoreAccess)
+            if(Frame4.flagNumberPhoneRestoreAccess)
             {
                 button = Frame4.buttonEmptyNumberPhoneSprite;
                 text = Frame4.numberPhoneMiniTextRestoreAccess;
                 flag = Frame4.flagNumberPhoneRestoreAccess;
             
             }
-            else if(Frame4.flagEmailRestoreAccess)
+            if(Frame4.flagEmailRestoreAccess)
             {
                 button = Frame4.buttonEmptyEmailSprite;
                 text = Frame4.emailMiniTextRestoreAccess;
                 flag = Frame4.flagEmailRestoreAccess;
             
             }
-            else if(Frame4.flagPasswordRestoreAccess)
+            if(Frame4.flagPasswordRestoreAccess)
             {
                 button = Frame4.buttonEmptyPasswordSprite;
                 text = Frame4.passwordMiniTextRestoreAccess;
@@ -115,7 +115,7 @@ namespace CTT
                 isVisible = Frame4.isVisiblePasswordRetoreAcess;
             
             }
-            else if(Frame4.flagRepeatPasswordRestoreAccess)
+            if(Frame4.flagRepeatPasswordRestoreAccess)
             {
                 button = Frame4.buttonEmptyRepeatPasswordSpriteRestoreAccess;
                 text = Frame4.repeatPasswordMiniTextRestoreAccess;
@@ -140,7 +140,6 @@ namespace CTT
                     || line == Frame3.numberPhoneMiniTextFrame3
                     || line == Frame3.emailMiniTextFrame3
                     || line == Frame4.numberPhoneMiniTextFrame4
-                    || line == Frame4.emailMiniTextFrame
                     ||  line == Frame4.numberPhoneMiniTextCodeFrame
                     ||  line == Frame4.emailMiniTextCodeFrame
                
@@ -148,6 +147,7 @@ namespace CTT
                 {
                  
                     HandleNumbersInput(e);
+                    
                 }
                 if (line == Frame2.nameMiniTextFrame2
                      || line == Frame2.lMiniTextFrame2)
@@ -169,6 +169,7 @@ namespace CTT
                 {
                     
                     HandleCharacterInputEmail(e);
+                    
                 }
                 
             }
@@ -230,41 +231,34 @@ namespace CTT
         private void HandleCharacterInputEmail(KeyEventArgs e)
         {
             string symbol = string.Empty;
-            float buttonWidth = button.GetGlobalBounds().Width;
+            string charToAdd = string.Empty;
+            
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
-                string charToAdd = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
-                                   Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? 
+
+                charToAdd = (Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
+                             Keyboard.IsKeyPressed(Keyboard.Key.RShift)) ? 
                     e.Code.ToString().ToUpper() : 
                     e.Code.ToString().ToLower();
-                
-                
-             switch (e.Code)
-                {
-                    case Keyboard.Key.Period:
-                        symbol = ".";
-                        break;
-                    case Keyboard.Key.Num2:
-                        symbol = "@";
-                        break;
-                }
-                if (!string.IsNullOrEmpty(symbol))
-                {
-                    line = line.Insert(cursor, symbol);
-                    cursor++;
-                }
-                line = line.Insert(cursor, charToAdd);
-                cursor++;
-                
-               
-
-               
-
-
             }
-           
-          
+  
+            else if (e.Code == Keyboard.Key.Period)
+            {
+                charToAdd = ".";
+            }
+            else if ((Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
+                      Keyboard.IsKeyPressed(Keyboard.Key.RShift)) && e.Code == Keyboard.Key.Num2)
+            {
+                charToAdd = "@";
+            }
+            
+            if (!string.IsNullOrEmpty(charToAdd))
+            {
+                line = line.Insert(cursor, charToAdd);
+                cursor++;  
+            }
         }
+
 
         private void HandleNumberInput(KeyEventArgs e)
         {
@@ -365,6 +359,7 @@ namespace CTT
                     symbol = Keyboard.IsKeyPressed(Keyboard.Key.LShift)|| 
                              Keyboard.IsKeyPressed(Keyboard.Key.RShift) ? "+" : "";
                     break;
+                
                
                
             }
@@ -393,76 +388,76 @@ namespace CTT
                 line = Frame2.nameMiniTextFrame2;
                 cursor = Frame2.cursorNamePosition;
             }
-            else if (Frame2.flagLName)
+            if (Frame2.flagLName)
             {
                 line = Frame2.lMiniTextFrame2;
                 cursor = Frame2.cursorLnamePosition;
             }
-            else if (Frame2.flagPassword)
+            if (Frame2.flagPassword)
             {
                 line = Frame2.passwordMiniTextFrame2;
                 cursor = Frame2.cursorPasswordPosition;
             }
-            else if (Frame2.flagRepeatPassword)
+            if (Frame2.flagRepeatPassword)
             {
                 line = Frame2.repeatPasswordMiniTextFrame2;
                 cursor = Frame2.cursorRepeatPasswordPosition;
             }
-            else if (Frame2.flagNumberPhone)
+            if (Frame2.flagNumberPhone)
             {
                 line = Frame2.numberPhoneMiniTextFrame2;
                 cursor = Frame2.cursorNumberPhonePosition;
             }
-            else if (Frame2.flagEmail)
+            if (Frame2.flagEmail)
             {
                 line = Frame2.emailMiniTextFrame2;
                 cursor = Frame2.cursorEmailPosition;
             }
             
-            else if (Frame3.flagNumberPhone)
+            if (Frame3.flagNumberPhone)
             {
                 line = Frame3.numberPhoneMiniTextFrame3;
                 cursor = Frame3.cursorNumberPhonePosition;
             }
-            else if (Frame3.flagEmail)
+            if (Frame3.flagEmail)
             {
                 line = Frame3.emailMiniTextFrame3;
                 cursor = Frame3.cursorEmailPosition;
             }
-            else if(Frame4.flagNumberPhone)
+            if(Frame4.flagNumberPhone)
             {
                 line = Frame4.numberPhoneMiniTextFrame4;
                 cursor = Frame4.cursorNumberPhonePosition;
             }
-            else if (Frame4.flagEmail)
+            if (Frame4.flagEmail)
             {
                 line = Frame4.emailMiniTextFrame;
                 cursor = Frame4.cursorEmailPosition;
             }
-            else if (Frame4.flagPassword)
+            if (Frame4.flagPassword)
             {
                 line = Frame4.passwordMiniTextFrame;
                 cursor = Frame4.cursorPasswordPosition;
             }
-            else if (Frame4.flagNumberPhoneRestoreAccess)
+            if (Frame4.flagNumberPhoneRestoreAccess)
             {
                 line = Frame4.numberPhoneMiniTextCodeFrame;
                 cursor = Frame4.cursorNumberPhonePositionRestoreAccess;
               
             }
-            else if (Frame4.flagEmailRestoreAccess)
+            if (Frame4.flagEmailRestoreAccess)
             {
                 line = Frame4.emailMiniTextCodeFrame;
                 cursor = Frame4.cursorEmailPositionRestoreAccess;
               
             }
-            else if(Frame4.flagPasswordRestoreAccess)
+            if(Frame4.flagPasswordRestoreAccess)
             {
                 line = Frame4.passwordTextMiniTextResoreAcessFrame;
                 cursor = Frame4.cursorPasswordPositionRestoreAccess;
             
             }
-            else if(Frame4.flagRepeatPasswordRestoreAccess)
+            if(Frame4.flagRepeatPasswordRestoreAccess)
             {
                
                 line = Frame4.repeatPasswordTextMiniTextResoreAcessFrame;
@@ -470,6 +465,12 @@ namespace CTT
             }
            
 
+        }
+
+        public void clearLine()
+        {
+            line = "";
+            cursor = 0;
         }
 
         public void Update(RenderWindow _window)
@@ -510,6 +511,7 @@ namespace CTT
 
         public bool ContainsSpecialCharsOrDigits()
         {
+            
             string lineBox = Frame2.passwordMiniTextFrame2;
             if (Frame4.passwordMiniTextFrame != "")
             {
@@ -532,7 +534,10 @@ namespace CTT
         public bool NumberPhoneFormat()
         {
             string lineBox = Frame2.numberPhoneMiniTextFrame2;
-    
+            if (Frame4.numberPhoneMiniTextFrame4 != "")
+            {
+                lineBox = Frame4.numberPhoneMiniTextFrame4;
+            }
             if (string.IsNullOrEmpty(lineBox))
             {
                 return false;
@@ -544,7 +549,10 @@ namespace CTT
         public bool EmailFormat()
         {
             string lineBox = Frame2.emailMiniTextFrame2;
-    
+            if (Frame4.emailMiniTextFrame != "")
+            {
+                lineBox = Frame4.emailMiniTextFrame;
+            }
             if (string.IsNullOrEmpty(lineBox))
             {
                 return false;
