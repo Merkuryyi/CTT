@@ -301,8 +301,7 @@ public class Frame2
         {
             canClick = true;
         }
-       if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
-           !canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+       if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
            
             if (buttonPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -310,8 +309,7 @@ public class Frame2
             {
                 isVisiblePassword = true;
                 buttonPasswordHideSprite.SetTexture(hideOffTexture);
-                clock.Restart();
-                canClick = false;
+               
      
 
             }
@@ -320,8 +318,7 @@ public class Frame2
             {
                 isVisiblePassword = false;
                 buttonPasswordHideSprite.SetTexture(hideOnTexture);
-                clock.Restart();
-                canClick = false;
+              
                
             }
             if (buttonRepeatPasswordHideSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
@@ -329,8 +326,7 @@ public class Frame2
             {
                 isVisibleRepeatPassword = true;
                 buttonRepeatPasswordHideSprite.SetTexture(hideOffTexture);
-                clock.Restart();
-                canClick = false;
+               
 
 
             }
@@ -339,14 +335,14 @@ public class Frame2
             {
                 isVisibleRepeatPassword = false;
                 buttonRepeatPasswordHideSprite.SetTexture(hideOnTexture);
-                clock.Restart();
-                canClick = false;
+              
+                
    
             }
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 Frame1 frame1 = new Frame1();
-                frame1.Run1(_window);
+                frame1.workProgram(_window);
             }
             if (buttonNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -414,6 +410,8 @@ public class Frame2
             {
                 flagEmail = false;
             }
+            canClick = false;
+            clock.Restart(); 
             
             
         }
@@ -423,10 +421,10 @@ public class Frame2
            
             if (flagName)
             {
-                   nameMiniTextFrame2 = line.GetLine();
-                   nameMiniText.SetText(nameMiniTextFrame2);
-                   cursorNamePosition = line.GetCursor();
-                   line.Update(_window);  
+               nameMiniTextFrame2 = line.GetLine();
+               nameMiniText.SetText(nameMiniTextFrame2);
+               cursorNamePosition = line.GetCursor();
+               line.Update(_window);  
             }
             
           
@@ -436,8 +434,6 @@ public class Frame2
                 cursorLnamePosition = line.GetCursor();
                 lNameMiniText.SetText(lMiniTextFrame2);
                 line.Update(_window);
-                    
-                
             }
             
             if (flagPassword)
@@ -447,7 +443,6 @@ public class Frame2
                 
                 if (!isVisiblePassword)
                 {
-                   
                    passwordMiniText.HideText(passwordMiniTextFrame2); 
                    passwordMiniText.SetPosition(xWarningLeftBorderFrame, yHideText);
                 }
@@ -491,7 +486,6 @@ public class Frame2
                 numberPhoneMiniText.SetText(numberPhoneMiniTextFrame2);
                 cursorNumberPhonePosition = line.GetCursor();
                 line.Update(_window);   
-                
             }
             if (flagEmail)
             {
@@ -503,7 +497,7 @@ public class Frame2
                 
             }
             
-          Warning(_window);
+            Warning(_window);
          
     }
 
@@ -640,11 +634,9 @@ public class Frame2
     }
   
 
-    public void Run2(RenderWindow _window)
+    public void workProgram(RenderWindow _window)
     {
-        Structure();
        
-        
         while (_window.IsOpen)
         {
             IventsWindow2(_window);

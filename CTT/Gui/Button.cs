@@ -27,13 +27,12 @@ public class Button : BaseElements
     {
         return spriteElement.GetGlobalBounds();
     }
-
-
-    public bool IsPressed(Vector2i mousePosition)
-    {
-        return spriteElement.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y);
-    }
     
+    
+    public bool IfTexture(Texture checkTexture)
+    {
+        return TextureElement == checkTexture;
+    }
     
     public void SetTexture(Texture newTextureElement)
     {

@@ -244,6 +244,8 @@ public class Frame3
                 string password = Frame2.passwordMiniTextFrame2;
                 database.registrationUser(name, lname, numberPhone , email ,password);
             }
+            canClick = false;
+            clock.Restart(); 
         }
     }
 
@@ -286,7 +288,7 @@ public class Frame3
             if (backFrameText.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
             {
                 Frame2 frame2 = new Frame2();
-                frame2.Run2(_window);
+                frame2.workProgram(_window);
             }
             
             
@@ -309,6 +311,8 @@ public class Frame3
             else
             { flagEmail = false; }
             Warning(_window);
+            canClick = false;
+            clock.Restart(); 
             
         }
         
@@ -384,10 +388,6 @@ public class Frame3
 
     public void Run3(RenderWindow _window)
     {
-        Structure();
- 
-        
-        
         while (_window.IsOpen)
         {
           

@@ -53,12 +53,13 @@ using CTT;
             buttonLogin.Draw(_window); 
             titleText.Draw(_window); 
             buttonText.Draw(_window); 
-            _window.Display();
+            
         }
 
-        public void Run1(RenderWindow _window)
+        public void workProgram(RenderWindow _window)
         {
-             Sructure1();
+             
+             InputLine line = new InputLine();
              while (_window.IsOpen)
             {
                 IventsWindow1(_window);
@@ -66,25 +67,26 @@ using CTT;
                 
                 if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
                 {
-                    Vector2i mousePos = Mouse.GetPosition(_window);
-                    if (titleText.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
+                    Vector2i mousePosition = Mouse.GetPosition(_window);
+                    if (titleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                     {
                         _window.Clear(Color.White);
                         Frame2 frame2 = new Frame2();
-                        frame2.Run2(_window);
+                        frame2.workProgram(_window);
+                        line.clearLine();
+                        
+                        
                     }
-                }
-                
-                if (Mouse.IsButtonPressed(Mouse.Button.Left) )
-                {
-                    Vector2i mousePosition = Mouse.GetPosition(_window);
                     if (buttonLogin.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                     {
-                        _window.Clear(Color.White);
+                       _window.Clear(Color.White);
                         Frame4 frame4 = new Frame4();
-                        frame4.Run4(_window);
+                        frame4.workProgram(_window);
+                        line.clearLine();
                     }
                 }
+                _window.Display();
+               
             }
         }
     }

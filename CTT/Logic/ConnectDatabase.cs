@@ -17,31 +17,30 @@ public class Database
         NpgsqlCommand command = new NpgsqlCommand(
             $"insert into users(FName, LName, NumberPfone, Email,  Password) values('{name}','{lname}', '{numberPhone}','{email}','{password}' )", conn);
         command.ExecuteNonQuery();
+        conn.Close();
     }
-    public bool loginUser( string numberPhone, string email, string password)
+    public bool loginUser(string numberPhone, string email, string password)
     {
         var conn = GetSqlConnection();
         bool  flag = true;
-        try
-        {
-            NpgsqlCommand command = new NpgsqlCommand(
-                $"select * from users where '{numberPhone}' and '{email}' and '{password}' ", conn);
-            command.ExecuteNonQuery();
-           
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Login failed"); 
-        }
 
-        return flag;
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"SELECT COUNT(*) FROM users WHERE NumberPfone = '{numberPhone}' and email = '{email}' and password = '{password}'", conn);
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        conn.Close();
+        if (count == 1)
+        {
+            return true;
+        }
+        return false;
     }
-    public  void updateUser(string numberPhone, string email, string password)
+    public void updateUser(string numberPhone, string email, string newPassword)
     {
         var conn = GetSqlConnection();
         NpgsqlCommand command = new NpgsqlCommand(
-            $"update users set password = '{password} 'where '{numberPhone}' and '{email}' ", conn);
+            $"update users set password = '{newPassword} 'where '{numberPhone}' and '{email}' ", conn);
         command.ExecuteNonQuery();
+        conn.Close();
     }
 
     

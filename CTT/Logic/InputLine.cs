@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using System.Diagnostics.CodeAnalysis;
+using SFML.Graphics;
 using SFML.Window;
 using System.Text.RegularExpressions;
 namespace CTT
@@ -12,7 +13,6 @@ namespace CTT
         private static bool flag = true;
         private static bool isVisible = false;
         public static string displayedText;
-        private static float offset;
            
         public void parametr()
         {
@@ -123,6 +123,7 @@ namespace CTT
                 isVisible = Frame4.isVisibleRepeatPasswordRetoreAcess;
             }
         }
+     
         public void OnKeyPressedName(object sender, KeyEventArgs e)
         {
             button = Frame2.buttonNameSprite;
@@ -131,7 +132,7 @@ namespace CTT
             isVisible = Frame2.isVisiblePassword;
         
             parametr();
-      
+            HandleNavigationKeys(e);
             if (flag)
             {
                
@@ -212,7 +213,7 @@ namespace CTT
 
         private void HandleCharacterInput(KeyEventArgs e)
         {
-            float buttonWidth = button.GetGlobalBounds().Width;
+            //float buttonWidth = button.GetGlobalBounds().Width;
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
             {
                 string charToAdd = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || 
@@ -230,7 +231,6 @@ namespace CTT
         }
         private void HandleCharacterInputEmail(KeyEventArgs e)
         {
-            string symbol = string.Empty;
             string charToAdd = string.Empty;
             
             if (System.Text.RegularExpressions.Regex.IsMatch(e.Code.ToString(), @"^[a-zA-Z]$"))
@@ -495,7 +495,8 @@ namespace CTT
                     || line == Frame3.numberPhoneMiniTextFrame3
                     || line == Frame4.numberPhoneMiniTextFrame4
                     ||  line == Frame4.numberPhoneMiniTextCodeFrame
-                    ||  line == Frame4.emailMiniTextCodeFrame)
+                    ||  line == Frame4.emailMiniTextCodeFrame
+                    || line == Frame4.emailMiniTextFrame)
             
             {
                 displayedText = flag ? line.Insert(cursor, "|") : line;
