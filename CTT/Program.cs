@@ -21,8 +21,8 @@ public class MainForm
         FloatRect visibleArea = new FloatRect(0, 0, e.Width, e.Height);
         window.SetView(new View(visibleArea));
     }
-
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.EventHandler`1[SFML.Window.KeyEventArgs]; size: 271MB")]
+ 
+    
     public static void Main(string[] args)
     {
         RenderWindow  _window = Form();
@@ -37,8 +37,12 @@ public class MainForm
         Frame4 frame4 = new Frame4();
         frame4.Structure();
         frame4.restoreAccessSructure();
+        Profile profile = new Profile();
+        profile.Structure();
+        profile.workProgram(_window);
+        
      //   frame4.workProgram(_window);
-         frame1.workProgram(_window);
+    //     frame1.workProgram(_window);
          
         // frame3.workProgram(_window);
       
