@@ -39,6 +39,10 @@ public class Button : BaseElements
         TextureElement = newTextureElement; 
         spriteElement.Texture = newTextureElement;
     }
+    public void SetPosition(int x, int y)
+    {
+        spriteElement.Position = new Vector2f(x, y); 
+    }
    
     
 }

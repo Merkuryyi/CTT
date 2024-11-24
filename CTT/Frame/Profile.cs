@@ -5,6 +5,17 @@ using SFML.System;
 
 public class Profile
 {
+    private static string security;
+    private static string notifications;
+    private static Texture circleOfNotifications;
+    private static Button elementNotifications;
+    private static Button switchNotificationsCircle;
+    private static Button switchNotifications;
+    private static Texts markNotificationsText;
+    private static Texts dateNotificationsText;
+    private static Texts informationNotificationsText;
+    private static string dateOfNotifications;
+    private static string informationNotifications;
     private static Texts warningLNameText;
     private static Texts warningNameText;
     private static Button emptyLNameButton;
@@ -45,7 +56,7 @@ public class Profile
     private static Texture switchPartOff;
     private static bool canClick = false;
     private static bool securityFlag = false;
-    private static bool notifiationsFlag = false;
+    private static bool notificationsFlag = false;
     private static bool mainProfileFlag = true;
     private static bool profileFlag = false;
     private static bool settingsFlag = true;
@@ -53,14 +64,16 @@ public class Profile
     public void Display(RenderWindow _window)
     {
         _window.Clear(new Color(233, 233, 233));
-        backgroundFrame.Draw(_window);
-        photoAreaButton.Draw(_window);
+     
+        
+       
         
         if (mainProfileFlag)
         {
            
-         
-            
+            backgroundFrame.Draw(_window);
+            notificationText.Draw(_window);
+            securityText.Draw(_window);
             fartherIconNotification.Draw(_window);
             fartherIconSecure.Draw(_window);
             
@@ -71,27 +84,47 @@ public class Profile
                 //Console.WriteLine(countNotifications);
             }
 
-            if (!settingsFlag)
-            {
-                checkMark.Draw(_window);
-                emptyNameButton.Draw(_window);
-                emptyLNameButton.Draw(_window);
-                warningNameText.Draw(_window);
-                warningLNameText.Draw(_window);
-            }
-            else
-            {
-                settings.Draw(_window);
-            }
+
         }
         
+        if (notificationsFlag)
+        {
+           
+            backgroundFrameMax.Draw(_window);
+            fartherIconNotification.Draw(_window);
+            notificationText.Draw(_window);
+            informationNotificationsText.Draw(_window);
+            dateNotificationsText.Draw(_window);
+            markNotificationsText.Draw(_window);
+            switchNotifications.Draw(_window);
+            switchNotificationsCircle.Draw(_window);
+            elementNotifications.Draw(_window);
+        }
+
+        if (securityFlag)
+        {
+            backgroundFrameMax.Draw(_window);  
+            fartherIconNotification.Draw(_window);
+            notificationText.Draw(_window);
+        }
+        if (!settingsFlag)
+        {
+            checkMark.Draw(_window);
+            emptyNameButton.Draw(_window);
+            emptyLNameButton.Draw(_window);
+            warningNameText.Draw(_window);
+            warningLNameText.Draw(_window);
+        }
+        else
+        {
+            settings.Draw(_window);
+        }
         
+        photoAreaButton.Draw(_window);
         lastName.Draw(_window);
         firstName.Draw(_window);
         
-        
-        notificationText.Draw(_window);
-        securityText.Draw(_window);
+      
         
       //  backgroundFrameMax.Draw(_window);
 
@@ -119,10 +152,16 @@ public class Profile
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
         miniCircle =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "partCircleOfSwitch.png"));
-        elementOfNotifications =
+        circleOfNotifications =  
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "circleNotifications.png"));
+        elementOfNotificationsOff = 
+            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "elementsNotificationsOff.png"));
+        elementOfNotifications =
+            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "elementsNotifications.png"));
+        
        switchPart =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "partOfSwitch.png"));
+       
         switchPartOff =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "partOfSwitchOff.png"));
         Texture profileInformation =
@@ -133,7 +172,7 @@ public class Profile
         photoAreaButton = new Button(78, 220, photoArea);
         settings = new Button(590, 220, settingsIcon);
         checkMark = new Button(595, 230, checkMarkIcon);
-        circleNotifications = new Button(383, 400, elementOfNotifications);
+        circleNotifications = new Button(383, 400, circleOfNotifications);
         
         fartherIconNotification = new Button(600, 400, fartherIcon);
         fartherIconSecure = new Button(600, 498, fartherIcon);
@@ -143,11 +182,17 @@ public class Profile
         warningTextColor = new Color(202, 128, 128);
         nullColorText = new Color(255,255, 255);
         
+        switchNotifications = new Button(388, 403, switchPart);
+        switchNotificationsCircle = new Button(433, 410, miniCircle);
+        elementNotifications = new Button(95, 483, elementOfNotifications);
+        
+        
+        
         fname = "Имя";
         lname = "Фамилия";
         string warnings = "*";
-        string notifications = "Уведомления";
-        string security = "Безопасность";
+        notifications = "Уведомления";
+        security = "Безопасность";
         countNotifications = "0";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
@@ -157,6 +202,16 @@ public class Profile
         securityText = new Texts(95, 486, font, 40, baseColorText, security);
         warningNameText = new Texts(563, 244, font, 20, warningTextColor, warnings);
         warningLNameText = new Texts(563, 325, font, 20, warningTextColor, warnings);
+
+
+        informationNotifications = "Поступление:";
+        dateOfNotifications = "01.01.2024";
+        string markNotifications = "Отметить как прочитанное";
+        informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
+        dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, dateOfNotifications);
+        markNotificationsText = new Texts(227, 600, font, 24, baseColorText, markNotifications);
+        
+        
     }
 
     private static string CountNotifications(string countNotifications)
@@ -192,10 +247,65 @@ public class Profile
             }
             else
             {
-                settingsFlag = false;
+                settingsFlag = true;
+            }
+
+            if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
+                fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) && mainProfileFlag)
+            {
+                notificationsFlag = true;
+                mainProfileFlag = false;
+                securityFlag = false;
+                
+            }
+            else if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
+                 fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) && !mainProfileFlag)
+            {
+                notificationsFlag = false;
+                mainProfileFlag = true;
+                securityFlag = false;
             }
             
-            canClick = false;
+           else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+           {
+               notificationsFlag =  false;
+               mainProfileFlag = false;
+               securityFlag = true;
+               notificationText.SetText(security);
+           }
+           else if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
+                      fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) && !mainProfileFlag)
+            {
+                notificationsFlag = false;
+                mainProfileFlag = true;
+                securityFlag = false;
+                notificationText.SetText(notifications);
+            }
+           
+            if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                elementNotifications.SetTexture(elementOfNotificationsOff);
+            }
+            if (switchNotifications.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                if (switchNotifications.IfTexture(switchPartOff))
+                {
+                    switchNotifications.SetTexture(switchPart);
+                    switchNotificationsCircle.SetPosition(433, 410);
+                }
+                else
+                {
+                    switchNotifications.SetTexture(switchPartOff);
+                    switchNotificationsCircle.SetPosition(395, 410);
+                }
+                
+            }
+         
+          
+          
+
+
+          canClick = false;
             clock.Restart();
         }
 
