@@ -300,6 +300,6 @@ public class Flags
         
         
         }*/
-        line.LineParametr();
+      //  line.LineParametr();
     }
 }

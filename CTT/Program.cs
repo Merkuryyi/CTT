@@ -39,10 +39,10 @@ public class MainForm
         frame4.restoreAccessSructure();
         Profile profile = new Profile();
         profile.Structure();
-        profile.workProgram(_window);
+      //  profile.workProgram(_window);
         
-     //   frame4.workProgram(_window);
-    //     frame1.workProgram(_window);
+  frame4.workProgram(_window);
+   //frame1.workProgram(_window);
          
         // frame3.workProgram(_window);
       

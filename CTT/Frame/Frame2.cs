@@ -247,7 +247,7 @@ public class Frame2
     {
         _window.DispatchEvents();
         _window.Closed += (sender, e) => _window.Close();
-        _window.KeyPressed += line.OnKeyPressedName;
+        
         
     }
     public void Display2(RenderWindow _window)
@@ -348,7 +348,8 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagName = true;
-                line.LineParametr();
+                line.parametres(nameMiniText, flagName);
+                line.LineParametr(nameMiniTextFrame2, cursorNamePosition);
             }
             else
             {
@@ -359,7 +360,8 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagLName = true;
-                line.LineParametr();
+                line.parametres(lNameMiniText, flagLName);
+                line.LineParametr(lMiniTextFrame2 ,cursorLnamePosition);
 
       
             }
@@ -369,7 +371,8 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagPassword = true;
-                line.LineParametr();
+                line.parametres(passwordMiniText, flagPassword);
+                line.LineParametr(passwordMiniTextFrame2 ,cursorPasswordPosition);
  
             }
             else
@@ -377,8 +380,10 @@ public class Frame2
             if (buttonRepeatPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
+                line.parametres(repeatPasswordMiniText, flagRepeatPassword);
+                line.LineParametr(repeatPasswordMiniTextFrame2, cursorRepeatPasswordPosition);
                 flagRepeatPassword = true;
-                line.LineParametr();
+              
                 
                 
             }
@@ -390,7 +395,8 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagNumberPhone = true;
-                line.LineParametr();
+                line.parametres(numberPhoneMiniText, flagNumberPhone);
+                line.LineParametr(numberPhoneMiniTextFrame2 ,cursorNumberPhonePosition);
 
             }
             else
@@ -402,7 +408,8 @@ public class Frame2
             {
                 flags.changeFlag();
                 flagEmail = true;
-                line.LineParametr();
+                line.parametres(emailMiniText, flagEmail);
+                line.LineParametr(emailMiniTextFrame2 ,cursorEmailPosition);
 
 
             }
@@ -457,8 +464,7 @@ public class Frame2
             }
             if (flagRepeatPassword)
             {
-                repeatPasswordMiniTextFrame2 = line.GetLine();
-                cursorRepeatPasswordPosition = line.GetCursor();
+                
               
                 
                 if (!isVisibleRepeatPassword)
@@ -473,6 +479,8 @@ public class Frame2
                     repeatPasswordMiniText.SetPosition( xWarningRightBorderFrame, yLowerMiniText);
                     
                 }
+                repeatPasswordMiniTextFrame2 = line.GetLine();
+                cursorRepeatPasswordPosition = line.GetCursor();
 
                 line.Update(_window);
                 
@@ -636,13 +644,12 @@ public class Frame2
 
     public void workProgram(RenderWindow _window)
     {
-       
+        _window.KeyPressed += line.OnKeyPressedName;
         while (_window.IsOpen)
         {
             IventsWindow2(_window);
             Display2(_window);
             ButtonInteraction(_window);
-
 
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
@@ -662,7 +669,6 @@ public class Frame2
 
                 }
             } 
-            
            
             _window.Display();
             

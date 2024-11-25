@@ -5,6 +5,15 @@ using SFML.System;
 
 public class Profile
 {
+    private static Texts passwordInformationTitleText;
+    private static Texts emailInformationTitleText;
+    private static Texts numberPhoneInformationTitleText;
+    private static Texts passwordInformationText;
+    private static Texts emailInformationText;
+    private static Texts numberPhoneInformationText;
+    private static Button passwordInformation;
+    private static Button emailInformation;
+    private static Button numberPhoneInformation;
     private static string security;
     private static string notifications;
     private static Texture circleOfNotifications;
@@ -60,14 +69,12 @@ public class Profile
     private static bool mainProfileFlag = true;
     private static bool profileFlag = false;
     private static bool settingsFlag = true;
+    private static bool  notificationWork = true;
           //      private static 
     public void Display(RenderWindow _window)
     {
         _window.Clear(new Color(233, 233, 233));
      
-        
-       
-        
         if (mainProfileFlag)
         {
            
@@ -77,11 +84,10 @@ public class Profile
             fartherIconNotification.Draw(_window);
             fartherIconSecure.Draw(_window);
             
-            if (int.TryParse(countNotifications, out int count) && count > 0)
+            if (int.TryParse(countNotifications, out int count) && count > 0 && notificationWork)
             {
                 circleNotifications.Draw(_window);
                 countNotificationsText.Draw(_window);
-                //Console.WriteLine(countNotifications);
             }
 
 
@@ -106,6 +112,17 @@ public class Profile
             backgroundFrameMax.Draw(_window);  
             fartherIconNotification.Draw(_window);
             notificationText.Draw(_window);
+            numberPhoneInformation.Draw(_window);  
+            emailInformation.Draw(_window);  
+            passwordInformation.Draw(_window);  
+            numberPhoneInformationText.Draw(_window);  
+            emailInformationText.Draw(_window);  
+            passwordInformationText.Draw(_window);  
+        
+            numberPhoneInformationTitleText.Draw(_window);  
+            emailInformationTitleText.Draw(_window);  
+            passwordInformationTitleText.Draw(_window);  
+            
         }
         if (!settingsFlag)
         {
@@ -167,6 +184,7 @@ public class Profile
         Texture profileInformation =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "informationsProfile.png"));
         
+        
         backgroundFrame = new Button(53, 190, background);
         backgroundFrameMax = new Button(53, 190, backgroundMax);
         photoAreaButton = new Button(78, 220, photoArea);
@@ -186,14 +204,16 @@ public class Profile
         switchNotificationsCircle = new Button(433, 410, miniCircle);
         elementNotifications = new Button(95, 483, elementOfNotifications);
         
+        numberPhoneInformation = new Button(350, 471, profileInformation);
+        emailInformation = new Button(350, 536, profileInformation);
+        passwordInformation = new Button(350, 601, profileInformation);
         
-        
-        fname = "Имя";
-        lname = "Фамилия";
+        fname = SavingLogin.ReadNameFromFile();
+        lname = SavingLogin.ReadLNameFromFile();
         string warnings = "*";
         notifications = "Уведомления";
         security = "Безопасность";
-        countNotifications = "0";
+        countNotifications = "2";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
         firstName = new Texts(283, 227, font, 40, baseColorText, fname);
@@ -202,7 +222,7 @@ public class Profile
         securityText = new Texts(95, 486, font, 40, baseColorText, security);
         warningNameText = new Texts(563, 244, font, 20, warningTextColor, warnings);
         warningLNameText = new Texts(563, 325, font, 20, warningTextColor, warnings);
-
+        countNotificationsText = new Texts(397, 407, font, 20, baseColorText, countNotifications);
 
         informationNotifications = "Поступление:";
         dateOfNotifications = "01.01.2024";
@@ -210,8 +230,21 @@ public class Profile
         informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
         dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, dateOfNotifications);
         markNotificationsText = new Texts(227, 600, font, 24, baseColorText, markNotifications);
+        string password = "******";
+        string email = "nikk***@gmail.com";
+        string numberPhone = "+7********51";
         
+        numberPhoneInformationText = new Texts(359, 472, font, 24, baseColorText, numberPhone);
+        emailInformationText = new Texts(359, 536, font, 24, baseColorText, email);
+        passwordInformationText = new Texts(359, 603, font, 24, baseColorText, password);
         
+        string passwordText = "Пароль";
+        string emailText = "Почта";
+        string numberPhoneText = "Номер телефона";
+        
+        numberPhoneInformationTitleText = new Texts(95, 472, font, 24, baseColorText, numberPhoneText);
+        emailInformationTitleText = new Texts(95, 536, font, 24, baseColorText, emailText);
+        passwordInformationTitleText = new Texts(95, 603, font, 24, baseColorText, passwordText);
     }
 
     private static string CountNotifications(string countNotifications)
@@ -245,10 +278,7 @@ public class Profile
                     settingsFlag = false;
                 }
             }
-            else
-            {
-                settingsFlag = true;
-            }
+            
 
             if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
                 fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) && mainProfileFlag)
@@ -264,6 +294,7 @@ public class Profile
                 notificationsFlag = false;
                 mainProfileFlag = true;
                 securityFlag = false;
+                notificationText.SetText(notifications);
             }
             
            else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -273,14 +304,7 @@ public class Profile
                securityFlag = true;
                notificationText.SetText(security);
            }
-           else if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
-                      fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) && !mainProfileFlag)
-            {
-                notificationsFlag = false;
-                mainProfileFlag = true;
-                securityFlag = false;
-                notificationText.SetText(notifications);
-            }
+          
            
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -292,11 +316,13 @@ public class Profile
                 {
                     switchNotifications.SetTexture(switchPart);
                     switchNotificationsCircle.SetPosition(433, 410);
+                    notificationWork = true;
                 }
                 else
                 {
                     switchNotifications.SetTexture(switchPartOff);
                     switchNotificationsCircle.SetPosition(395, 410);
+                    notificationWork = false;
                 }
                 
             }

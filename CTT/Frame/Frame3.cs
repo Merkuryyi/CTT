@@ -62,12 +62,18 @@ public class Frame3
     public static string  warningTextFrame3;
     public static string codeTrue;
     public static string codeFalse;
-    private static InputLine line;
+
+    private static bool nextWindow = false;
+    
+    
+    private static RandomClass random = new RandomClass();
+    private static Flags flags = new Flags();
+    private static InputLine line = new InputLine();
     public void Structure()
     {
         clock = new Clock();
         clickDelay = 0.3f;    
-        line = new InputLine();
+        
         
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
 
@@ -86,8 +92,6 @@ public class Frame3
         warningTextColor = new Color(202, 128, 128);
         trueWarningTextColor = new Color(128,202,  128);
         colorMessage = new Color(136, 136, 136);
-
-
 
         int xyPositionBackground = 53;
         int xLeftBorderFrame = 151;
@@ -243,6 +247,10 @@ public class Frame3
                 string email = Frame2.emailMiniTextFrame2;
                 string password = Frame2.passwordMiniTextFrame2;
                 database.registrationUser(name, lname, numberPhone , email ,password);
+                nextWindow = true;
+                SavingLogin.SaveToJson(Frame2.nameMiniTextFrame2, Frame2.lMiniTextFrame2,
+                    Frame2.numberPhoneMiniTextFrame2,
+                    Frame2.emailMiniTextFrame2, Frame2.passwordMiniTextFrame2);
             }
             canClick = false;
             clock.Restart(); 
@@ -251,14 +259,12 @@ public class Frame3
 
     public void ButtonInteraction(RenderWindow _window)
     {
-        RandomClass random = new RandomClass();
-        Flags flags = new Flags();
-        Vector2i mousePos = Mouse.GetPosition(_window);
+         Vector2i mousePosition = Mouse.GetPosition(_window);
   
          
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
-            if (buttonRequestСodeNumberPhoneSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y)  && flagNumberPhoneRequest)
+            if (buttonRequestСodeNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)  && flagNumberPhoneRequest)
             {
                 buttonRequestСodeNumberPhoneSprite.SetTexture(requestСodeOffTexture);
                 messageText.SetColor(colorMessage);
@@ -271,7 +277,7 @@ public class Frame3
                 Console.WriteLine($"number phone {numberCodeNumberPhone}");
             }
 
-            if (buttonRequestСodeEmailSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y)  && flagEmailRequest)
+            if (buttonRequestСodeEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)  && flagEmailRequest)
             {
                 buttonRequestСodeEmailSprite.SetTexture(requestСodeOffTexture);
                 messageText.SetColor(colorMessage);
@@ -285,28 +291,29 @@ public class Frame3
                 canClick = false;
                 clock.Restart();
             }
-            if (backFrameText.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
+            if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 Frame2 frame2 = new Frame2();
                 frame2.workProgram(_window);
             }
             
             
-            if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y) )
+            if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) )
             {
                 flags.changeFlag();
                 flagNumberPhone = true;
-            
-                line.LineParametr();
+                line.parametres(numberPhoneMiniText, flagNumberPhone);
+                line.LineParametr(numberPhoneMiniTextFrame3 , cursorNumberPhonePosition);
 
             }
             else
             { flagNumberPhone = false; }
-            if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
+            if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
                 flagEmail = true;
-                line.LineParametr();
+                line.parametres(emailMiniText, flagEmail);
+                line.LineParametr(emailMiniTextFrame3, cursorEmailPosition);
             }
             else
             { flagEmail = false; }
@@ -379,7 +386,7 @@ public class Frame3
         
         _window.DispatchEvents();
         _window.Closed += (sender, e) => _window.Close();
-        _window.KeyPressed += line.OnKeyPressedName;
+        
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
         {
             canClick = true;
@@ -388,6 +395,7 @@ public class Frame3
 
     public void Run3(RenderWindow _window)
     {
+        _window.KeyPressed += line.OnKeyPressedName;
         while (_window.IsOpen)
         {
           
