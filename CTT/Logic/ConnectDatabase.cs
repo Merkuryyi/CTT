@@ -37,6 +37,21 @@ public class Database
         return false;
     }
 
+    public bool uniqueNumberPhone(string numberPhone)
+    {
+        var conn = GetSqlConnection();
+        bool flag = true;
+
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"SELECT COUNT(*) FROM users WHERE NumberPfone = '{numberPhone}'", conn);
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        conn.Close();
+        if (count == 1)
+        {
+            return true;
+        }
+        return false;
+    }
     public void updateUser(string numberPhone, string email, string newPassword)
     {
         var conn = GetSqlConnection();

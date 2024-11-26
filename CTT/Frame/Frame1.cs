@@ -10,9 +10,13 @@ using CTT;
         private static Button backgroundFrame;
         private static Texts titleText; 
         private static Texts buttonText;
-            
+        private static  bool canClick = false;
+        private static Clock clock;
+        private static float clickDelay;
         public void Sructure1()
         {
+            clock = new Clock();
+            clickDelay = 0.3f;  
             Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
             
             Texture backgroundTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundFrame1.png"));
@@ -40,13 +44,8 @@ using CTT;
             buttonText = new Texts(xPositionButtonText, yPositionButtonLogin, font, sizeTextMiniTitle, colorText, buttonMiniText );
         }
 
-        public void IventsWindow1(RenderWindow _window)
-        {
-            _window.DispatchEvents();
-            _window.Closed += (sender, e) => _window.Close();
-         
-        }
-        public void Display1(RenderWindow _window)
+     
+        public void Display(RenderWindow _window)
         {
             _window.Clear(new Color(230, 230, 230));
             backgroundFrame.Draw(_window); 
@@ -55,39 +54,49 @@ using CTT;
             buttonText.Draw(_window); 
             
         }
+        public void clic()
+        {
+            if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+            {
+                canClick = true;
+            }
+        }
+        public void ButtonInteraction(RenderWindow _window)
+        {
+            InputLine line = new InputLine();
+            FlagFrames flagFrames = new FlagFrames();
+            clic();
+            if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
+            {
+                Vector2i mousePosition = Mouse.GetPosition(_window);
+                if (titleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                {
+                    _window.Clear(Color.White);
+                
+                    line.clearLine();
+                    flagFrames.ChangeFlagsFrame();
+                    MainForm.frame2 = true;
+
+
+                }
+                if (buttonLogin.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                {
+                    _window.Clear(Color.White);
+             
+                    line.clearLine();
+                    MainForm.frame4 = true;
+                }
+            }
+        }
 
         public void workProgram(RenderWindow _window)
         {
              
-             InputLine line = new InputLine();
-             while (_window.IsOpen)
-            {
-                IventsWindow1(_window);
-                Display1(_window);
-                
-                if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left))
-                {
-                    Vector2i mousePosition = Mouse.GetPosition(_window);
-                    if (titleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-                    {
-                        _window.Clear(Color.White);
-                        Frame2 frame2 = new Frame2();
-                        frame2.workProgram(_window);
-                        line.clearLine();
-                        
-                        
-                    }
-                    if (buttonLogin.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-                    {
-                       _window.Clear(Color.White);
-                        Frame4 frame4 = new Frame4();
-                        frame4.workProgram(_window);
-                        line.clearLine();
-                    }
-                }
-                _window.Display();
+                Display(_window);
+                ButtonInteraction(_window);
+            
                
-            }
+            
         }
     }
 

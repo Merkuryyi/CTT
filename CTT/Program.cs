@@ -1,9 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using CTT;
 using SFML.Graphics;
 using SFML.Window;
 
 public class MainForm
 {
+    public static bool frame1 = false;
+    public static bool frame2 = false;
+    public static bool frame3 = false;
+    public static bool frame4 = true;
     public static RenderWindow Form()
     {
         VideoMode videoMode = VideoMode.DesktopMode;
@@ -22,31 +27,67 @@ public class MainForm
         window.SetView(new View(visibleArea));
     }
  
-    
+    public static void Ivents(RenderWindow _window)
+    {
+        
+        _window.DispatchEvents();
+        _window.Closed += (sender, e) => _window.Close();
+      
+    }
     public static void Main(string[] args)
     {
+        
         RenderWindow  _window = Form();
         
-        Frame1 frame1 = new Frame1();
-        frame1.Sructure1();
-        Frame2 frame2 = new Frame2();
-        frame2. Structure();
-        Frame3 frame3 = new Frame3();
-        frame3.Structure();
+        
+      
+        
+        InputLine inputLine = new InputLine();
+        _window.KeyPressed += inputLine.OnKeyPressedName;
+        Frame1 frames1 = new Frame1();
+        frames1.Sructure1();
+        
+        Frame2 frames2 = new Frame2();
+        frames2.Structure();
+        
+        Frame3 frames3 = new Frame3();
+        frames3.Structure();
+
        
-        Frame4 frame4 = new Frame4();
-        frame4.Structure();
-        frame4.restoreAccessSructure();
+        
+       
+        Frame4 frames4 = new Frame4();
+        frames4.Structure();
+        frames4.restoreAccessSructure();
         Profile profile = new Profile();
         profile.Structure();
-      //  profile.workProgram(_window);
-        
-  frame4.workProgram(_window);
-   //frame1.workProgram(_window);
-         
-        // frame3.workProgram(_window);
-      
-        // frame2.workProgram(_window);
+    
+      while (_window.IsOpen)
+      {  
+          Ivents(_window);
+          
+          if (frame1)
+          {
+              frames1.workProgram(_window);
+          }
+
+          if (frame2)
+          {
+              frames2.workProgram(_window);
+          }
+          if (frame3)
+          {
+              frames3.workProgram(_window);
+          }
+          if (frame4)
+          {
+              frames4.workProgram(_window);
+              
+          }
+          _window.Display();
+      }
+
+  
     }
 
 
