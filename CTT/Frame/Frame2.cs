@@ -7,31 +7,30 @@ public class Frame2
 {
     private static Texts backFrameText;
     private static Color colorMessage;
-    public static int cursorLnamePosition = 0;
-    public static int cursorNamePosition = 0;
-    public static int cursorPasswordPosition = 0;
-    public static int cursorRepeatPasswordPosition = 0;
-    public static int cursorNumberPhonePosition = 0;
-    public static int cursorEmailPosition = 0;
+    public static int cursorLnamePosition;
+    public static int cursorNamePosition;
+    public static int cursorPasswordPosition;
+    public static int cursorRepeatPasswordPosition ;
+    public static int cursorNumberPhonePosition;
+    public static int cursorEmailPosition;
     
     public static bool flagName;
-    public static bool warningFlagName  = false;
+    public static bool warningFlagName;
     public static bool flagLName;
-    public static bool  warningFlagLName  = false;
+    public static bool  warningFlagLName;
     public static bool flagPassword;
-    public static bool warningFlagPassword = false;
+    public static bool warningFlagPassword;
     public static bool flagRepeatPassword;
-    public static bool warningFlagRepeatPassword  = false;
+    public static bool warningFlagRepeatPassword ;
     public static bool flagNumberPhone;
-    public static bool warningFlagNumberPhone  = false;
+    public static bool warningFlagNumberPhone;
     public static bool flagEmail;
-    public static bool warningFlagEmail  = false;
-    public static bool isVisiblePassword = false;
-    public static bool isVisibleRepeatPassword = false;
-    private static bool canClick = false;
+    public static bool warningFlagEmail;
+    public static bool isVisiblePassword;
+    public static bool isVisibleRepeatPassword;
+    private static bool canClick;
     
-    private static Clock clock;
-    private static float clickDelay;
+  
     
     public static Button buttonNameSprite;
     public static Button buttonLNameSprite;
@@ -94,9 +93,6 @@ public class Frame2
 
     public void Structure()
     {
-        
-        clock = new Clock();
-        clickDelay = 0.3f;
         line = new InputLine();
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundRegistration.png"));
@@ -163,13 +159,13 @@ public class Frame2
         warningTextColor = new Color(202, 128, 128);
         colorMessage = new Color(136, 136, 136);
         
-        string titleTextFrame2 = "Регистрация";
-        string nameTextFrame2 = "Имя";
-        string numberPhoneTextFrame2 = "Номер телефона";
-        string passwordTextFrame2 = "Пароль";
-        string lnameTextFrame2 = "Фамилия";
-        string emailTextFrame2 = "Почта";
-        string repeatPasswordTextFrame2 = "Повторите пароль";
+        string titleTextFrame = "Регистрация";
+        string loginTextFrame = "Логин";
+        string numberPhoneTextFrame = "Номер телефона";
+        string passwordTextFrame = "Пароль";
+        string userNameTextFrame = "Имя пользователя";
+        string emailTextFrame = "Почта";
+        string repeatPasswordTextFrame = "Повторите пароль";
         
       
         
@@ -184,19 +180,19 @@ public class Frame2
         string backText = "<назад"; 
         
         titleText = new Texts(xPositionTitleText,yPositionTitleText , 
-            font, sizeTextTitleFrame, baseColorText, titleTextFrame2 );
+            font, sizeTextTitleFrame, baseColorText, titleTextFrame );
         nameText = new Texts(xLeftBorderFrame, yUpperText, 
-            font, sizeTextInput, baseColorText, nameTextFrame2 );
+            font, sizeTextInput, baseColorText, loginTextFrame );
         numberPhoneText = new Texts(xLeftBorderFrame, yAverageText, 
-            font, sizeTextMiniTitle, baseColorText, numberPhoneTextFrame2 );
+            font, sizeTextMiniTitle, baseColorText, numberPhoneTextFrame );
         passwordText  = new Texts(xLeftBorderFrame, yLowerText, 
-            font, sizeTextMiniTitle, baseColorText, passwordTextFrame2 );
+            font, sizeTextMiniTitle, baseColorText, passwordTextFrame );
         lNameText  = new Texts(xRightBorderFrame, yUpperText, 
-            font, sizeTextMiniTitle, baseColorText, lnameTextFrame2 );
+            font, sizeTextMiniTitle, baseColorText, userNameTextFrame );
         emailText  = new Texts(xRightBorderFrame, yAverageText, 
-            font, sizeTextMiniTitle, baseColorText, emailTextFrame2 );
+            font, sizeTextMiniTitle, baseColorText, emailTextFrame );
         repeatPasswordText  = new Texts(xRightBorderFrame, yLowerText, 
-            font, sizeTextMiniTitle, baseColorText, repeatPasswordTextFrame2 );
+            font, sizeTextMiniTitle, baseColorText, repeatPasswordTextFrame );
         
         
             
@@ -281,7 +277,7 @@ public class Frame2
         Vector2i mousePosition = Mouse.GetPosition(_window);
         InputLine line = new InputLine();
         Flags flags = new Flags();
-        clic();
+        canClick = DelayClic.clic(canClick);
        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
            
@@ -393,9 +389,7 @@ public class Frame2
 
             }
             else
-            {
-                flagEmail = false;
-            }
+            { flagEmail = false; }
             
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -403,7 +397,6 @@ public class Frame2
                 MainForm.frame1 = true;
             }
             canClick = false;
-            clock.Restart(); 
             
             
         }
@@ -489,12 +482,10 @@ public class Frame2
                 line.Update(_window);   
                 
             }
-            
+
             Warning(_window);
-           
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                mousePosition = Mouse.GetPosition(_window);
                 if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
                     !warningFlagName && 
                     !warningFlagLName && 
@@ -507,24 +498,19 @@ public class Frame2
                     _window.Clear(Color.White);
                     MainForm.frame3 = true;
                     line.clearLine();
+                    
 
                 }
             } 
          
     }
-    public void clic()
-    {
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
-    }
+   
     public void Warning(RenderWindow _window)
     {
         mousePosition = Mouse.GetPosition(_window);
         line = new InputLine();
         Warnings warnings = new Warnings();
-        clic();
+        canClick = DelayClic.clic(canClick);
         if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
             buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
         {
@@ -553,11 +539,10 @@ public class Frame2
 
     public void workProgram(RenderWindow _window)
     {
-       // _window.KeyPressed += line.OnKeyPressedName;
-       
       
-            Display2(_window);
-            ButtonInteraction(_window);
+  
+        Display2(_window);
+        ButtonInteraction(_window);
 
             
      

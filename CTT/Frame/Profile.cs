@@ -52,8 +52,7 @@ public class Profile
     private static Button backgroundFrameMax;
     private static Button backgroundFrame;
     private static InputLine line;
-    private static Clock clock;
-    private static float clickDelay;
+
     private static Texture background;
     private static Texture backgroundMax;
     private static Texture fartherIcon;
@@ -63,9 +62,9 @@ public class Profile
     private static Texture elementOfNotificationsOff;
     private static Texture switchPart;
     private static Texture switchPartOff;
-    private static bool canClick = false;
-    private static bool securityFlag = false;
-    private static bool notificationsFlag = false;
+    private static bool canClick ;
+    private static bool securityFlag;
+    private static bool notificationsFlag;
     private static bool mainProfileFlag = true;
     private static bool profileFlag = false;
     private static bool settingsFlag = true;
@@ -77,20 +76,16 @@ public class Profile
      
         if (mainProfileFlag)
         {
-           
             backgroundFrame.Draw(_window);
             notificationText.Draw(_window);
             securityText.Draw(_window);
             fartherIconNotification.Draw(_window);
             fartherIconSecure.Draw(_window);
-            
             if (int.TryParse(countNotifications, out int count) && count > 0 && notificationWork)
             {
                 circleNotifications.Draw(_window);
                 countNotificationsText.Draw(_window);
             }
-
-
         }
         
         if (notificationsFlag)
@@ -140,17 +135,12 @@ public class Profile
         photoAreaButton.Draw(_window);
         lastName.Draw(_window);
         firstName.Draw(_window);
-        
-      
-        
-      //  backgroundFrameMax.Draw(_window);
 
     }
 
     public void Structure()
     {
-        clock = new Clock();
-        clickDelay = 0.3f;
+      
         line = new InputLine();
         
         background =
@@ -175,7 +165,6 @@ public class Profile
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "elementsNotificationsOff.png"));
         elementOfNotifications =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "elementsNotifications.png"));
-        
        switchPart =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "partOfSwitch.png"));
        
@@ -260,10 +249,8 @@ public class Profile
     private static void ButtonInteraction(RenderWindow _window)
     {
         Vector2i mousePosition = Mouse.GetPosition(_window);
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        
+        canClick = DelayClic.clic(canClick);
 
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -327,39 +314,17 @@ public class Profile
                 
             }
          
-          
-          
-
-
-          canClick = false;
-            clock.Restart();
+            
         }
 
         Warning(_window);
     }
-    private void Ivents(RenderWindow _window)
-    {
-        
-        _window.DispatchEvents();
-        _window.Closed += (sender, e) => _window.Close();
-        _window.KeyPressed += line.OnKeyPressedName;
-        
-    }
+ 
     public void workProgram(RenderWindow _window)
     {
-        
-        
-        while (_window.IsOpen)
-        {
-            Ivents(_window);
             Display(_window);
             ButtonInteraction(_window);
-            
-            _window.Display();
-
-        }
-
-
+        
     }
     
 

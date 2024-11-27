@@ -1,14 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using CTT;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.Window;
+using SFML.System;
+using CTT;
 
 public class MainForm
 {
-    public static bool frame1 = false;
+    public static bool frame1 = true;
     public static bool frame2 = false;
     public static bool frame3 = false;
-    public static bool frame4 = true;
+    public static bool frame4 = false;
+    public static bool profile = false;
+    
+   
+
     public static RenderWindow Form()
     {
         VideoMode videoMode = VideoMode.DesktopMode;
@@ -31,7 +35,7 @@ public class MainForm
     {
         
         _window.DispatchEvents();
-        _window.Closed += (sender, e) => _window.Close();
+        _window.Closed += (sender, _) => _window.Close();
       
     }
     public static void Main(string[] args)
@@ -59,8 +63,8 @@ public class MainForm
         Frame4 frames4 = new Frame4();
         frames4.Structure();
         frames4.restoreAccessSructure();
-        Profile profile = new Profile();
-        profile.Structure();
+        Profile profiles = new Profile();
+        profiles.Structure();
     
       while (_window.IsOpen)
       {  
@@ -84,11 +88,17 @@ public class MainForm
               frames4.workProgram(_window);
               
           }
+          if (profile)
+          {
+              profiles.workProgram(_window);
+              
+          }
           _window.Display();
       }
 
   
     }
+
 
 
 

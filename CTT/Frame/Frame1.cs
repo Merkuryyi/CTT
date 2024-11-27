@@ -54,19 +54,11 @@ using CTT;
             buttonText.Draw(_window); 
             
         }
-        public void clic()
-        {
-            if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-            {
-                canClick = true;
-            }
-        }
         public void ButtonInteraction(RenderWindow _window)
         {
             InputLine line = new InputLine();
             FlagFrames flagFrames = new FlagFrames();
-            clic();
-            if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
+            if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && DelayClic.clic(canClick))
             {
                 Vector2i mousePosition = Mouse.GetPosition(_window);
                 if (titleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -86,6 +78,8 @@ using CTT;
                     line.clearLine();
                     MainForm.frame4 = true;
                 }
+
+                canClick = false;
             }
         }
 

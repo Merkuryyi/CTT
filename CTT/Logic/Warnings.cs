@@ -47,7 +47,7 @@ public class Warnings
         if (line == "")
         {
             flag = true;
-            warning = "Обязательно";
+            warning = "*обязательно";
         }
         else if (line.Length < 6)
         {
@@ -76,12 +76,34 @@ public class Warnings
         if (line == "")
         {
             flag = true;
-            warning = "Обязательно";
+            warning = "*обязательно";
         }
         else if (database.uniqueNumberPhone(line))
         {
             flag = true;
             warning = "*Не уникально";
+        }
+        else if (!format)
+        {
+            flag = true;
+            warning = "*Неверный формат";
+        }
+        
+        else
+        {
+            flag = false;
+        }
+        return warning;
+    }
+    public string WarningLineNumberPhoneLogin(string line)
+    {
+        InputLine lines = new InputLine();
+        string warning = "";
+        bool format = lines.NumberPhoneFormat();
+        if (line == "")
+        {
+            flag = true;
+            warning = "*обязательно";
         }
         else if (!format)
         {
@@ -104,7 +126,7 @@ public class Warnings
         if (line == "")
         {
             flag = true;
-            warning = "Обязательно";
+            warning = "*обязательно";
         }
         else if (!formatEmail)
         {
@@ -127,7 +149,7 @@ public class Warnings
         if (password == "")
         {
             flag = true;
-            warning = "Обязательно";
+            warning = "*обязательно";
         }
         else if (password.Length < 6)
         {

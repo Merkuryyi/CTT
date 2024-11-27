@@ -124,45 +124,39 @@ public class Frame4
     private static Texture hideOffTexture;
     private static Texture hideOnTexture;
     
-    private static Clock clock;
     
-    private static float clickDelay = 0.3f;
-    
-    public static bool flagNumberPhone = false;
-    public static bool flagEmail = false;
-    public static bool flagPassword = false;  
+    public static bool flagNumberPhone;
+    public static bool flagEmail;
+    public static bool flagPassword;  
     
 
-    private static bool canClick = false;
+    private static bool canClick ;
     private static bool flagNumberPhoneRequest = true;
     private static bool flagEmailRequest = true;
     
-    public static bool flagNumberPhoneRestoreAccess = false;
-    public static bool flagEmailRestoreAccess = false;
-    public static bool flagPasswordRestoreAccess = false;
-    public static bool flagRepeatPasswordRestoreAccess = false;
+    public static bool flagNumberPhoneRestoreAccess;
+    public static bool flagEmailRestoreAccess;
+    public static bool flagPasswordRestoreAccess;
+    public static bool flagRepeatPasswordRestoreAccess ;
     
-    public static bool flagRestoreAcess = false;
-    public static bool isVisiblePassword = false;
+    public static bool flagRestoreAcess;
+    public static bool isVisiblePassword;
     private static int numberCodeEmail;
     private static int numberCodeNumberPhone;
 
   
     
-    private static bool warningPasswordRestoreAcess = false;
+    private static bool warningPasswordRestoreAcess;
     
-    public static bool isVisiblePasswordRetoreAcess = false;
-    public static bool isVisibleRepeatPasswordRetoreAcess = false;
+    public static bool isVisiblePasswordRetoreAcess;
+    public static bool isVisibleRepeatPasswordRetoreAcess;
+    
     private static InputLine line;
-
     private static Clock clockRestoreAcess;
     private static float clickDelayRestoreAcess;
 
     public void Structure()
     {
-        clock = new Clock();
-        clickDelay = 0.3f;
-        
         line = new InputLine();
         Texture background =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgoundFrame4.png"));
@@ -225,10 +219,11 @@ public class Frame4
         emailText = new Texts(151, 445, font, 32, baseColorText, email);
         passwordText = new Texts(151, 611, font, 32, baseColorText, password);
         backFrameText =   new Texts(151, 939, font, 24, colorMessage, backText );
-        warningNumberPhoneText = new Texts(171, 416, font, 20, nullColorText, "");
-        warningEmailText = new Texts(171, 582, font, 20, nullColorText, "");
-        warningFalseText = new Texts(171, 748, font, 20, nullColorText, "");
-        warningFalseText2 = new Texts(171, 776, font, 20, nullColorText, warningFalse2);
+        
+        warningNumberPhoneText = new Texts(171, 416, font, 20, warningTextColor, "");
+        warningEmailText = new Texts(171, 582, font, 20, warningTextColor, "");
+        warningFalseText = new Texts(171, 748, font, 20, warningTextColor, "");
+        warningFalseText2 = new Texts(171, 776, font, 20, warningTextColor, "");
 
 
         loginText = new Texts(255, 870, font, 36, colorText, login);
@@ -239,32 +234,56 @@ public class Frame4
     public static void Warning(RenderWindow _window)
     {
         Vector2i mousePosition = Mouse.GetPosition(_window);
-       
-        clic();
+
+        canClick = DelayClic.clic(canClick);
         Warnings warnings = new Warnings();
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick && buttonSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+        if (Mouse.IsButtonPressed(Mouse.Button.Left)   &&
+            buttonSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && canClick) 
         {
-             warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame));
-                warningFlagEmail = warnings.getWarningFlag();
-                
-                
-                warningNumberPhoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame4));
-                warningFlagNumberPhone = warnings.getWarningFlag();
-                
-                warningFalseText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame));
-                warningFlagPassword = warnings.getWarningFlag();
-                
-              
-                
-                
-                canClick = false;
-                clock.Restart(); 
-          
+            warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame));
+            warningFlagEmail = warnings.getWarningFlag();
+
+            warningNumberPhoneText.SetText(warnings.WarningLineNumberPhoneLogin(numberPhoneMiniTextFrame4));
+            warningFlagNumberPhone = warnings.getWarningFlag();
             
+            
+           Console.WriteLine(warnings.WarningLineNumberPhone(emailMiniTextFrame));
+         
+            warningFalseText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame));
+            warningFlagPassword = warnings.getWarningFlag();
+         
+            Database database = new Database();
+
+       
+            string numberPhone = numberPhoneMiniTextFrame4;
+            string email = emailMiniTextFrame;
+            string password = passwordMiniTextFrame;
+            bool flag = database.loginUser(numberPhone, email, password);
+            if (!flag)
+            {
+                flagEmail = false;
+                flagPassword = false;
+                flagNumberPhone = false;
+                warningFalseText.SetColor(warningTextColor);
+                warningFalseText2.SetColor(warningTextColor);
+                warningFalseText.SetText(warningFalse);
+                warningFalseText2.SetText(warningFalse2);
+                flagRestoreAcess = true;
+            }
+            else if (flag)
+            {
+                warningFalseText.SetText("");
+                warningFalseText2.SetText("");
+                var fullName = database.GetUserFullName(numberPhoneMiniTextFrame4, emailMiniTextFrame,
+                    passwordMiniTextFrame);
+                
+                SavingLogin.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame4,
+                    emailMiniTextFrame, passwordMiniTextFrame);
+                database.notificationsAdd(fullName.FirstName, "Выполнен вход", "0");
+            }
+            canClick = false;
         }
-       
- 
-       
+      
     }
     public static void ButtonInteraction(RenderWindow _window)
     {
@@ -272,13 +291,12 @@ public class Frame4
         Vector2i mousePosition = Mouse.GetPosition(_window);
         Flags flags = new Flags();
         FlagFrames flagFrames = new FlagFrames();
-        clic();
+  
    
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
+        if (Mouse.IsButtonPressed(Mouse.Button.Left) && DelayClic.clic(canClick))
         {
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-              
                 flags.changeFlag();
                 line.clearLine();
                flagFrames.ChangeFlagsFrame();
@@ -297,8 +315,6 @@ public class Frame4
             {
                 isVisiblePassword = false;
                 buttonPasswordHideSprite.SetTexture(hideOnTexture);
-               
-             
             }
             
             
@@ -308,8 +324,10 @@ public class Frame4
                 flagNumberPhone = true;
                 line.parametres(numberPhoneMiniTextsFrame4, flagNumberPhone);
                 line.LineParametr(numberPhoneMiniTextFrame4 ,cursorNumberPhonePosition);
-       
-
+            }
+            else
+            {
+                flagNumberPhone = false;
             }
 
             if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -320,12 +338,20 @@ public class Frame4
                 line.LineParametr(emailMiniTextFrame ,cursorEmailPosition);
        
             }
+            else
+            {
+                flagEmail = false;
+            }
             if (buttonEmptyPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
                 flagPassword = true;
                 line.parametres(passwordMiniText, flagPassword);
                 line.LineParametr(passwordMiniTextFrame ,cursorPasswordPosition);
+            }
+            else
+            {
+                flagPassword = false;
             }
             if (buttonSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -337,16 +363,10 @@ public class Frame4
                 {
                     buttonSprite.SetTexture(buttonTexture);
                 }
-              
-                
+
+                canClick = false;
             }
-            
-           
-            
-           
-            
-            canClick = false;
-            clock.Restart();  
+          
                 
         }
   
@@ -354,14 +374,11 @@ public class Frame4
         
         if (flagNumberPhone)
         {
-                
             numberPhoneMiniTextFrame4 = line.GetLine();
             cursorNumberPhonePosition = line.GetCursor();
             numberPhoneMiniTextsFrame4.SetText(numberPhoneMiniTextFrame4);
             line.Update(_window);  
-            Console.WriteLine(numberPhoneMiniTextFrame4);
-  
-                
+            
         }
 
         if (flagEmail)
@@ -385,7 +402,6 @@ public class Frame4
             }
             else if (isVisiblePassword)
             {
-                    
                 passwordMiniText.SetText(passwordMiniTextFrame); 
                 passwordMiniText.SetPosition(171, 682);
                     
@@ -394,34 +410,7 @@ public class Frame4
         }
         
         Warning(_window);
-        Database database = new Database();
         
-        if (warningFlagEmail || warningFlagPassword || warningFlagNumberPhone)
-        {
-            
-            string numberPhone = numberPhoneMiniTextFrame4;
-            string email = emailMiniTextFrame;
-            string password = passwordMiniTextFrame;
-            bool flag = database.loginUser(numberPhone, email, password);
-            if (!flag)
-            {
-                flagEmail = false;
-                flagPassword = false;
-                flagNumberPhone = false;
-                warningFalseText.SetColor(warningTextColor);
-                warningFalseText2.SetColor(warningTextColor);
-                warningFalseText.SetText(warningFalse);
-                warningFalseText2.SetText(warningFalse2);
-                flagRestoreAcess = true;    
-            }
-
-            if (flag)
-            {
-                var fullName = database.GetUserFullName(numberPhoneMiniTextFrame4, emailMiniTextFrame, passwordMiniTextFrame);
-                SavingLogin.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame4, emailMiniTextFrame, passwordMiniTextFrame);
-            }
-
-        }
     }
  
  
@@ -508,10 +497,6 @@ public class Frame4
         if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
             buttonRestoreAccessSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && canClickRestoreAcess)
         {
-            
-
-           
-                
             if (!flagEmailRequest)
             {
                 flagEmailRequest = true;
@@ -539,13 +524,7 @@ public class Frame4
         }
 
     }
-    public static void clic()
-    {
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
-    }
+
     public static void clicRestoreAcess()
     {
         if (!canClickRestoreAcess && clockRestoreAcess.ElapsedTime.AsSeconds() >= clickDelayRestoreAcess)
@@ -757,8 +736,7 @@ public class Frame4
        
         warningRestoreAccess(_window);
     }
-   
-
+    
     public void restoreAccessSructure()
     {
         clockRestoreAcess = new Clock();

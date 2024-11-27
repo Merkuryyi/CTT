@@ -49,9 +49,6 @@ public class Frame3
     private static bool flagEmailRequest = true;
     private static  bool canClick = false;
     
-    private static Clock clock;
-    private static float clickDelay;
-    
     public static int cursorNumberPhonePosition;
     public static int cursorEmailPosition;
     public static string numberPhoneMiniTextFrame3;
@@ -69,8 +66,7 @@ public class Frame3
     private static InputLine line = new InputLine();
     public void Structure()
     {
-        clock = new Clock();
-        clickDelay = 0.3f;    
+      
         
         
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
@@ -156,7 +152,7 @@ public class Frame3
     {
        
         Vector2i mousePosition = Mouse.GetPosition(_window);
-        clic();
+        canClick = DelayClic.clic(canClick);
         if (Mouse.IsButtonPressed(Mouse.Button.Left)  &&
              buttonRegistrationSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)  && canClick)
         {
@@ -175,12 +171,7 @@ public class Frame3
                 flagNumberPhoneRequest = true;
                 
             }
-          
-            
-
-
-            canClick = false;
-            clock.Restart();
+           
             Warnings warningText = new Warnings();
             
             warningEmailText.SetText(warningText.WarningLineCode(emailMiniTextFrame3, numberCodeEmail.ToString()));
@@ -203,24 +194,20 @@ public class Frame3
                 SavingLogin.SaveToJson(Frame2.nameMiniTextFrame2, Frame2.lMiniTextFrame2,
                     Frame2.numberPhoneMiniTextFrame2,
                     Frame2.emailMiniTextFrame2, Frame2.passwordMiniTextFrame2);
+                database.notificationsAdd(Frame2.nameMiniTextFrame2, "Выполнен вход", "0");
             }
+
             canClick = false;
-            clock.Restart(); 
+
         }
     }
 
-    public void clic()
-    {
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
-    }
+ 
     public void ButtonInteraction(RenderWindow _window)
     {
          Vector2i mousePosition = Mouse.GetPosition(_window);
          FlagFrames flagFrames = new FlagFrames();
-         clic();
+         canClick = DelayClic.clic(canClick);
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
             if (buttonRequestСodeNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)  && flagNumberPhoneRequest)
@@ -230,7 +217,7 @@ public class Frame3
                 messageText2.SetColor(colorMessage);
                 messageText3.SetColor(colorMessage);
                 canClick = false;
-                clock.Restart();
+ 
                 flagNumberPhoneRequest = false;
                 numberCodeNumberPhone = random.randomCode();
                 Console.WriteLine($"number phone {numberCodeNumberPhone}");
@@ -247,8 +234,6 @@ public class Frame3
                 numberCodeEmail = random.randomCode();
                 Console.WriteLine($"email {numberCodeEmail}");
 
-                canClick = false;
-                clock.Restart();
             }
            
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -278,9 +263,8 @@ public class Frame3
             }
             else
             { flagEmail = false; }
-            Warning(_window);
+    
             canClick = false;
-            clock.Restart(); 
             
         }
         
