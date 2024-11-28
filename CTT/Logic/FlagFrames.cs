@@ -1,4 +1,4 @@
-﻿namespace CTT;
+﻿namespace CTT.Frame;
 
 public class FlagFrames
 {

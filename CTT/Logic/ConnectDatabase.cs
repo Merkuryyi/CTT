@@ -68,7 +68,78 @@ public class Database
         command.ExecuteNonQuery();
         conn.Close();
     }
-    
+    public void notificationsUpdate(string login)
+    {
+        string result = null;
+        var conn = GetSqlConnection();
+        using (conn)
+        {
+     
+
+            string query = @"UPDATE Notifications
+                SET Status = 'read'
+                WHERE IdNotifications = (
+                    SELECT IdNotifications
+                    FROM Notifications
+                    WHERE Login = @login AND Status = 'unread'
+                    ORDER BY Date ASC
+                    LIMIT 1);	";
+
+            using (var command = new NpgsqlCommand(query, conn))
+            {
+                command.Parameters.AddWithValue("login", login);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result = reader.GetString(0);
+                    }
+                }
+            }
+        }
+
+    }
+    public string notificationGet(string login)
+    {
+        string result = null;
+        var conn = GetSqlConnection();
+        using (conn)
+        {
+     
+
+            string query = @"
+                SELECT Action
+                FROM Notifications
+                WHERE Login = @login AND Status = 'unread'
+                ORDER BY Date asc
+                LIMIT 1";
+
+            using (var command = new NpgsqlCommand(query, conn))
+            {
+                command.Parameters.AddWithValue("login", login);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result = reader.GetString(0);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+    public int notificationsCount()
+    {
+        var conn = GetSqlConnection();
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"select count(*) from notifications where Status = 'unread'", conn);
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        conn.Close();
+        return count;
+    }
     public (string FirstName, string LastName) GetUserFullName(string numberPhone, string email, string password)
     {
         var conn = GetSqlConnection();

@@ -2,8 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using System.Text.RegularExpressions;
-namespace CTT
-{
+namespace CTT.Frame;
     public class InputLine
     {
         private static Button Button;
@@ -249,4 +248,3 @@ namespace CTT
         
 
     }
-}

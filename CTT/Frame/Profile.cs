@@ -1,4 +1,4 @@
-﻿using CTT;
+﻿namespace CTT.Frame;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
@@ -69,11 +69,13 @@ public class Profile
     private static bool profileFlag = false;
     private static bool settingsFlag = true;
     private static bool  notificationWork = true;
+    
+    private static Clock clock;
+    private static float clickDelay;
           //      private static 
     public void Display(RenderWindow _window)
     {
         _window.Clear(new Color(233, 233, 233));
-     
         if (mainProfileFlag)
         {
             backgroundFrame.Draw(_window);
@@ -140,7 +142,9 @@ public class Profile
 
     public void Structure()
     {
-      
+        clock = new Clock();
+        clickDelay = 0.3f;  
+
         line = new InputLine();
         
         background =
@@ -202,7 +206,8 @@ public class Profile
         string warnings = "*";
         notifications = "Уведомления";
         security = "Безопасность";
-        countNotifications = "2";
+    
+        countNotifications = "0";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
         firstName = new Texts(283, 227, font, 40, baseColorText, fname);
@@ -212,9 +217,9 @@ public class Profile
         warningNameText = new Texts(563, 244, font, 20, warningTextColor, warnings);
         warningLNameText = new Texts(563, 325, font, 20, warningTextColor, warnings);
         countNotificationsText = new Texts(397, 407, font, 20, baseColorText, countNotifications);
-
-        informationNotifications = "Поступление:";
-        dateOfNotifications = "01.01.2024";
+        Database database = new Database();
+        informationNotifications = database.notificationGet(fname);
+        dateOfNotifications = "";
         string markNotifications = "Отметить как прочитанное";
         informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
         dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, dateOfNotifications);
@@ -236,22 +241,39 @@ public class Profile
         passwordInformationTitleText = new Texts(95, 603, font, 24, baseColorText, passwordText);
     }
 
-    private static string CountNotifications(string countNotifications)
+    private static void CountNotifications()
     {
+        Database database = new Database();
+        countNotifications = database.notificationsCount().ToString();
         countNotificationsText.SetText(countNotifications);
-        return countNotifications;
+      
     }
+    private static void updateNotifications()
+    {
+        Database database = new Database();
+        informationNotifications = database.notificationGet(fname);
+        dateOfNotifications = "";
+      
+    }
+    
     private static void Warning(RenderWindow _window)
     {
 
     }
-
-    private static void ButtonInteraction(RenderWindow _window)
+    public void clic()
+    {
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        {
+            canClick = true;
+        }
+    }
+    private void ButtonInteraction(RenderWindow _window)
     {
         Vector2i mousePosition = Mouse.GetPosition(_window);
-        
-        canClick = DelayClic.clic(canClick);
-
+        CountNotifications();
+        clic();
+        updateNotifications();
+        Database database = new Database();
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -296,6 +318,8 @@ public class Profile
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 elementNotifications.SetTexture(elementOfNotificationsOff);
+                database.notificationsUpdate(fname);
+                informationNotificationsText.SetText(database.notificationGet(fname));
             }
             if (switchNotifications.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -304,16 +328,19 @@ public class Profile
                     switchNotifications.SetTexture(switchPart);
                     switchNotificationsCircle.SetPosition(433, 410);
                     notificationWork = true;
+                    
                 }
                 else
                 {
                     switchNotifications.SetTexture(switchPartOff);
                     switchNotificationsCircle.SetPosition(395, 410);
                     notificationWork = false;
+                    elementNotifications.SetTexture(elementOfNotificationsOff);
                 }
                 
             }
-         
+            clock.Restart();
+            canClick = false;
             
         }
 

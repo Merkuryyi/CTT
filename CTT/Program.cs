@@ -1,15 +1,15 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-using CTT;
+namespace CTT.Frame;
 
 public class MainForm
 {
-    public static bool frame1 = true;
+    public static bool frame1 = false;
     public static bool frame2 = false;
     public static bool frame3 = false;
     public static bool frame4 = false;
-    public static bool profile = false;
+    public static bool profile = true;
     
    
 

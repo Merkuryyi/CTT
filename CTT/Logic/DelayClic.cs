@@ -16,11 +16,11 @@ public static class DelayClic
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
         {
             clock.Restart();
-            return true;
+            return false;
         }
 
         
-        return false;
+        return true;
     }
     public static bool clicRestoreAcess()
     {
