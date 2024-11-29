@@ -4,6 +4,7 @@ using System;
 
 public class Database
 {
+    private static bool read;
     public NpgsqlConnection GetSqlConnection()
     {
         NpgsqlConnection conn =
@@ -74,8 +75,6 @@ public class Database
         var conn = GetSqlConnection();
         using (conn)
         {
-     
-
             string query = @"UPDATE Notifications
                 SET Status = 'read'
                 WHERE IdNotifications = (
@@ -100,37 +99,152 @@ public class Database
         }
 
     }
+    public DateTime? notificationDateGetRead()
+    {
+        DateTime? latestDate = null;
+       
+        var conn = GetSqlConnection();
+        
+      
+        
+        using (conn)
+        {
+            string query = @"
+                SELECT MAX(Date)
+                FROM Notifications where status = 'read'";
+
+            using (var command = new NpgsqlCommand(query, conn))
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        if (!reader.IsDBNull(0))
+                        {
+                            latestDate = reader.GetDateTime(0);
+                        }
+                    }
+                }
+            }
+        }
+
+        return latestDate;
+        
+    }
+    public DateTime? notificationDateGetUnread()
+    {
+        DateTime? latestDate = null;
+       
+        var conn = GetSqlConnection();
+        
+            using (conn)
+            {
+                string query = @"
+               SELECT min(Date) FROM Notifications where status = 'unread'";
+
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (!reader.IsDBNull(0))
+                            {
+                                latestDate = reader.GetDateTime(0);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return latestDate;
+        
+        
+    }
+
+
     public string notificationGet(string login)
     {
         string result = null;
         var conn = GetSqlConnection();
         using (conn)
         {
-     
-
-            string query = @"
-                SELECT Action
+            string queryUnread = @"
+                SELECT 
+                    CONCAT(
+                        Action, 
+                        CASE 
+                            WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '') || '₽'
+                            ELSE ''
+                        END
+                    ) AS ActionWithMoney
                 FROM Notifications
                 WHERE Login = @login AND Status = 'unread'
-                ORDER BY Date asc
+                ORDER BY Date ASC
                 LIMIT 1";
 
-            using (var command = new NpgsqlCommand(query, conn))
+            using (var commandUnread = new NpgsqlCommand(queryUnread, conn))
             {
-                command.Parameters.AddWithValue("login", login);
+                commandUnread.Parameters.AddWithValue("login", login);
 
-                using (var reader = command.ExecuteReader())
+                using (var readerUnread = commandUnread.ExecuteReader())
                 {
-                    if (reader.Read())
+                    if (readerUnread.Read())
                     {
-                        result = reader.GetString(0);
+                        result = readerUnread.GetString(0);
                     }
                 }
+            }
+
+    
+            if (result == null)
+            {
+                
+                string queryRead = @"
+                    SELECT 
+                        CONCAT(
+                            Action, 
+                            CASE 
+                                WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '') || '₽'
+                                ELSE ''
+                            END
+                        ) AS ActionWithMoney
+                    FROM Notifications
+                    WHERE Login = @login AND Status = 'read'
+                    ORDER BY Date DESC
+                    LIMIT 1";
+
+                using (var commandRead = new NpgsqlCommand(queryRead, conn))
+                {
+                    commandRead.Parameters.AddWithValue("login", login);
+
+                    using (var readerRead = commandRead.ExecuteReader())
+                    {
+                        if (readerRead.Read())
+                        {
+                            result = readerRead.GetString(0);
+                        }
+                    }
+                }
+
+                read = true;
             }
         }
 
         return result;
     }
+
+
+    public bool notificationUnread()
+    {
+        if (read)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public int notificationsCount()
     {
         var conn = GetSqlConnection();

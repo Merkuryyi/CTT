@@ -4,7 +4,6 @@ public class Flags
 {
     public void changeFlag()
     {
-        InputLine line = new InputLine();
         Frame2.flagLName = false;
         Frame2.flagName = false;
         Frame2.flagPassword = false;
@@ -20,6 +19,8 @@ public class Flags
         Frame4.flagEmailRestoreAccess = false;
         Frame4.flagPasswordRestoreAccess = false;
         Frame4.flagRepeatPasswordRestoreAccess = false;
-     
+        Profile.flagLogin = false;
+        Profile.flagUserName = false;
+
     }
 }

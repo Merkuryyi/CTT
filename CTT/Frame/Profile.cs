@@ -5,6 +5,8 @@ using SFML.System;
 
 public class Profile
 {
+    
+    private static Button profileExit;
     private static Texts passwordInformationTitleText;
     private static Texts emailInformationTitleText;
     private static Texts numberPhoneInformationTitleText;
@@ -14,8 +16,7 @@ public class Profile
     private static Button passwordInformation;
     private static Button emailInformation;
     private static Button numberPhoneInformation;
-    private static string security;
-    private static string notifications;
+   
     private static Texture circleOfNotifications;
     private static Button elementNotifications;
     private static Button switchNotificationsCircle;
@@ -36,8 +37,7 @@ public class Profile
     private static Texts securityText;
     private static Texts notificationText;
     private static Texts lastName;
-    private static string lname;
-    private static string fname;
+ 
     private static Texts firstName;
     private static Color nullColorText;
     private static Button fartherIconNotification;
@@ -62,14 +62,24 @@ public class Profile
     private static Texture elementOfNotificationsOff;
     private static Texture switchPart;
     private static Texture switchPartOff;
+
+    private static string security;
+    private static string notifications;
+    private static string userNameMiniText;
+    private static string loginMiniText;
+    
+    public static bool flagLogin;
+    public static bool flagUserName;
     private static bool canClick ;
     private static bool securityFlag;
     private static bool notificationsFlag;
     private static bool mainProfileFlag = true;
     private static bool profileFlag = false;
     private static bool settingsFlag = true;
-    private static bool  notificationWork = true;
-    
+    private static bool notificationWork = true;
+
+    private static int cursorLogin;
+    private static int cursorUserName;
     private static Clock clock;
     private static float clickDelay;
           //      private static 
@@ -83,6 +93,7 @@ public class Profile
             securityText.Draw(_window);
             fartherIconNotification.Draw(_window);
             fartherIconSecure.Draw(_window);
+            profileExit.Draw(_window);
             if (int.TryParse(countNotifications, out int count) && count > 0 && notificationWork)
             {
                 circleNotifications.Draw(_window);
@@ -92,7 +103,6 @@ public class Profile
         
         if (notificationsFlag)
         {
-           
             backgroundFrameMax.Draw(_window);
             fartherIconNotification.Draw(_window);
             notificationText.Draw(_window);
@@ -176,7 +186,9 @@ public class Profile
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "partOfSwitchOff.png"));
         Texture profileInformation =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "informationsProfile.png"));
-        
+        Texture profileOutExit=
+            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "exitOutProfile.png"));
+        Database database = new Database();
         
         backgroundFrame = new Button(53, 190, background);
         backgroundFrameMax = new Button(53, 190, backgroundMax);
@@ -195,14 +207,21 @@ public class Profile
         
         switchNotifications = new Button(388, 403, switchPart);
         switchNotificationsCircle = new Button(433, 410, miniCircle);
-        elementNotifications = new Button(95, 483, elementOfNotifications);
+        elementNotifications = new Button(95, 483, elementOfNotificationsOff);
+        profileExit = new Button(600, 305, profileOutExit);
+  
+        countNotifications = database.notificationsCount().ToString();
+        if (int.Parse(countNotifications) > 0) 
+        {
+            elementNotifications = new Button(95, 483, elementOfNotifications);
+        }
         
         numberPhoneInformation = new Button(350, 471, profileInformation);
         emailInformation = new Button(350, 536, profileInformation);
         passwordInformation = new Button(350, 601, profileInformation);
         
-        fname = SavingLogin.ReadNameFromFile();
-        lname = SavingLogin.ReadLNameFromFile();
+        loginMiniText = SavingLogin.ReadNameFromFile();
+        userNameMiniText = SavingLogin.ReadLNameFromFile();
         string warnings = "*";
         notifications = "Уведомления";
         security = "Безопасность";
@@ -210,16 +229,16 @@ public class Profile
         countNotifications = "0";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
-        firstName = new Texts(283, 227, font, 40, baseColorText, fname);
-        lastName = new Texts(283, 305, font, 40, baseColorText, lname);
+        firstName = new Texts(283, 227, font, 40, baseColorText, loginMiniText);
+        lastName = new Texts(283, 305, font, 40, baseColorText, userNameMiniText);
         notificationText = new Texts(95, 393, font, 40, baseColorText, notifications);
         securityText = new Texts(95, 486, font, 40, baseColorText, security);
         warningNameText = new Texts(563, 244, font, 20, warningTextColor, warnings);
         warningLNameText = new Texts(563, 325, font, 20, warningTextColor, warnings);
         countNotificationsText = new Texts(397, 407, font, 20, baseColorText, countNotifications);
-        Database database = new Database();
-        informationNotifications = database.notificationGet(fname);
-        dateOfNotifications = "";
+       
+        informationNotifications = database.notificationGet(loginMiniText);
+        dateOfNotifications = notificationsReadOrUnread();
         string markNotifications = "Отметить как прочитанное";
         informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
         dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, dateOfNotifications);
@@ -243,19 +262,45 @@ public class Profile
 
     private static void CountNotifications()
     {
-        Database database = new Database();
-        countNotifications = database.notificationsCount().ToString();
-        countNotificationsText.SetText(countNotifications);
+        if (notificationWork)
+        {
+            Database database = new Database();
+            countNotifications = database.notificationsCount().ToString();
+            countNotificationsText.SetText(countNotifications);
+        }
+       
       
     }
     private static void updateNotifications()
     {
         Database database = new Database();
-        informationNotifications = database.notificationGet(fname);
-        dateOfNotifications = "";
-      
+        if (notificationWork)
+        {
+            if (database.notificationUnread())
+            {
+                elementNotifications.SetTexture(elementOfNotificationsOff);
+            }
+            if (!database.notificationUnread())
+            {
+                elementNotifications.SetTexture(elementOfNotifications);
+            }
+            
+        }
     }
-    
+
+    private static string notificationsReadOrUnread()
+    {
+        Database database = new Database();
+
+        if (int.Parse(countNotifications) > 0)
+        {
+            return database.notificationDateGetUnread().ToString();
+        }
+        
+            return database.notificationDateGetRead().ToString();
+        
+    }
+  
     private static void Warning(RenderWindow _window)
     {
 
@@ -270,17 +315,31 @@ public class Profile
     private void ButtonInteraction(RenderWindow _window)
     {
         Vector2i mousePosition = Mouse.GetPosition(_window);
-        CountNotifications();
         clic();
-        updateNotifications();
+        FlagFrames flagFrames = new FlagFrames();
         Database database = new Database();
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
+            if (profileExit.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                SavingLogin.cleanLoginData();
+                flagFrames.ChangeFlagsFrame();
+                MainForm.frame1 = true;
+            }
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 if (!settingsFlag)
                 {
                     settingsFlag = true;
+                    if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
+                    {
+                        if (emptyNameButton.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                        {
+                           
+                        }
+                        
+                    }
+                    
                 }
                 else
                 {
@@ -303,7 +362,11 @@ public class Profile
                 notificationsFlag = false;
                 mainProfileFlag = true;
                 securityFlag = false;
+                CountNotifications();
                 notificationText.SetText(notifications);
+                informationNotificationsText.SetText(database.notificationGet(loginMiniText));
+                dateNotificationsText.SetText(notificationsReadOrUnread());
+               
             }
             
            else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -313,13 +376,15 @@ public class Profile
                securityFlag = true;
                notificationText.SetText(security);
            }
-          
            
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 elementNotifications.SetTexture(elementOfNotificationsOff);
-                database.notificationsUpdate(fname);
-                informationNotificationsText.SetText(database.notificationGet(fname));
+                database.notificationsUpdate(loginMiniText);
+                CountNotifications();
+                informationNotificationsText.SetText(database.notificationGet(loginMiniText));
+                dateNotificationsText.SetText(notificationsReadOrUnread());
+                updateNotifications();
             }
             if (switchNotifications.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -328,6 +393,7 @@ public class Profile
                     switchNotifications.SetTexture(switchPart);
                     switchNotificationsCircle.SetPosition(433, 410);
                     notificationWork = true;
+                    updateNotifications();
                     
                 }
                 else
@@ -349,9 +415,8 @@ public class Profile
  
     public void workProgram(RenderWindow _window)
     {
-            Display(_window);
-            ButtonInteraction(_window);
-        
+        Display(_window);
+        ButtonInteraction(_window);
     }
     
 

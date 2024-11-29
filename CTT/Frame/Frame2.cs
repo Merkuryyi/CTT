@@ -10,8 +10,7 @@ public class Frame2
     private static int cursorRepeatPasswordPosition ;
     private static int cursorNumberPhonePosition;
     private static int cursorEmailPosition;
-    private static int xWarningRightBorderFrame;
-    private static int xWarningLeftBorderFrame;
+
     private static int yLowerMiniText;
     private static int yHideText;
     
@@ -93,8 +92,8 @@ public class Frame2
         hideOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOff.png"));
         hideOnTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOn.png"));
        
-        xWarningLeftBorderFrame = 171;
-        xWarningRightBorderFrame = 634;
+
+
     
         int yUpperWarningText = 416;
         int yAvarageWarningText = 585;
@@ -107,6 +106,7 @@ public class Frame2
         
         yLowerMiniText = 682;
         yHideText = 688;
+        
         uint sizeTextMax = 64;
         uint sizeTextTitleFrame = 48;
         uint sizeTextMiniTitle = 36;
@@ -159,32 +159,32 @@ public class Frame2
         repeatPasswordText  = new Texts(614, yLowerText, 
             font, sizeTextMiniTitle, baseColorText, repeatPasswordTextFrame );
         
-        warningNameText  = new Texts(xWarningLeftBorderFrame, yUpperWarningText, 
+        warningNameText  = new Texts(171, yUpperWarningText, 
             font, sizeWarningText, warningTextColor, "" );
-        warningLNameText = new Texts(xWarningRightBorderFrame, yUpperWarningText, 
+        warningLNameText = new Texts(634, yUpperWarningText, 
             font, sizeWarningText, warningTextColor, "" );
-        warningNumberPfoneText = new Texts(xWarningLeftBorderFrame, yAvarageWarningText, 
+        warningNumberPfoneText = new Texts(171, yAvarageWarningText, 
             font, sizeWarningText, warningTextColor, "" );
-        warningEmailText = new Texts(xWarningRightBorderFrame, yAvarageWarningText,
+        warningEmailText = new Texts(634, yAvarageWarningText,
             font, sizeWarningText, warningTextColor, "" );
-        warningPasswordText = new Texts(xWarningLeftBorderFrame, 749,
+        warningPasswordText = new Texts(171, 749,
             font, sizeWarningText,warningTextColor, "" ); 
-        warningRepeatPasswordText = new Texts(xWarningRightBorderFrame, 749,
+        warningRepeatPasswordText = new Texts(634, 749,
             font, sizeWarningText,warningTextColor, "" );
         
         furtherText = new Texts(478, yPositionFurtherText, 
             font, sizeTextMiniTitle, baseColorText, furtherTextFrame2 );
-        nameMiniText = new Texts(xWarningLeftBorderFrame, yUpperMiniText, 
+        nameMiniText = new Texts(171, yUpperMiniText, 
             font, sizeTextInput, baseColorText, nameMiniTextFrame2 );
-        lNameMiniText = new Texts(xWarningRightBorderFrame, yUpperMiniText, 
+        lNameMiniText = new Texts(634, yUpperMiniText, 
             font, sizeTextInput, baseColorText, lMiniTextFrame2 );
-        passwordMiniText = new Texts(xWarningLeftBorderFrame, yLowerMiniText,
+        passwordMiniText = new Texts(171, yLowerMiniText,
             font, sizeTextInput, baseColorText, passwordMiniTextFrame2 );
-        repeatPasswordMiniText = new Texts(xWarningRightBorderFrame,yLowerMiniText,
+        repeatPasswordMiniText = new Texts(634,yLowerMiniText,
             font, sizeTextInput, baseColorText, repeatPasswordMiniTextFrame2 );
-        numberPhoneMiniText = new Texts(xWarningLeftBorderFrame, yAvaregeMiniText, 
+        numberPhoneMiniText = new Texts(171, yAvaregeMiniText, 
             font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame2);
-        emailMiniText = new Texts(xWarningRightBorderFrame, yAvaregeMiniText, 
+        emailMiniText = new Texts(634, yAvaregeMiniText, 
             font, sizeTextInput, baseColorText,  emailMiniTextFrame2);
         backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
     }
@@ -350,12 +350,12 @@ public class Frame2
             if (!isVisiblePassword)
             {
                passwordMiniText.HideText(passwordMiniTextFrame2); 
-               passwordMiniText.SetPosition(xWarningLeftBorderFrame, yHideText);
+               passwordMiniText.SetPosition(171, yHideText);
             }
             else if (isVisiblePassword)
             {
                passwordMiniText.SetText(passwordMiniTextFrame2); 
-               passwordMiniText.SetPosition(xWarningLeftBorderFrame, yLowerMiniText);
+               passwordMiniText.SetPosition(171, yLowerMiniText);
             }
            
         }
@@ -368,12 +368,12 @@ public class Frame2
             if (!isVisibleRepeatPassword)
             {
                 repeatPasswordMiniText.HideText(repeatPasswordMiniTextFrame2); 
-                repeatPasswordMiniText.SetPosition( xWarningRightBorderFrame, yHideText);
+                repeatPasswordMiniText.SetPosition( 634, yHideText);
             }
             else if (isVisibleRepeatPassword)
             {
                 repeatPasswordMiniText.SetText(repeatPasswordMiniTextFrame2); 
-                repeatPasswordMiniText.SetPosition( xWarningRightBorderFrame, yLowerMiniText);
+                repeatPasswordMiniText.SetPosition( 634, yLowerMiniText);
             }
             line.Update(_window);
         }

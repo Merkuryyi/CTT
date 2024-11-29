@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Text.Json;
-
 public class SavingLogin
 {
     private static string filePath = "userdata.json";
@@ -21,11 +20,16 @@ public class SavingLogin
         File.WriteAllText(filePath, jsonString);
     }
 
+    public static void cleanLoginData()
+    {
+        var emptyObject = new { };
+        string json = JsonSerializer.Serialize(emptyObject, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(filePath, json);
+    }
     public static bool AreValuesFilled()
     {
         try
         {
- 
             string jsonString = File.ReadAllText(filePath);
 
             UserData userData = JsonSerializer.Deserialize<UserData>(jsonString);
@@ -48,7 +52,6 @@ public class SavingLogin
     }
     public static string ReadNameFromFile()
     {
-        
         try
         {
             string jsonString = File.ReadAllText(filePath);
@@ -63,7 +66,6 @@ public class SavingLogin
     
     public static string ReadLNameFromFile()
     {
-        
         try
         {
             string jsonString = File.ReadAllText(filePath);
