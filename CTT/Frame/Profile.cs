@@ -226,7 +226,8 @@ public class Profile
         notifications = "Уведомления";
         security = "Безопасность";
     
-        countNotifications = "0";
+
+        countNotifications = database.notificationsCount().ToString();
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
         firstName = new Texts(283, 227, font, 40, baseColorText, loginMiniText);
@@ -238,6 +239,7 @@ public class Profile
         countNotificationsText = new Texts(397, 407, font, 20, baseColorText, countNotifications);
        
         informationNotifications = database.notificationGet(loginMiniText);
+        
         dateOfNotifications = notificationsReadOrUnread();
         string markNotifications = "Отметить как прочитанное";
         informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
@@ -276,11 +278,12 @@ public class Profile
         Database database = new Database();
         if (notificationWork)
         {
-            if (database.notificationUnread())
+            Console.WriteLine(countNotifications);
+            if (int.Parse(countNotifications) == 0)
             {
                 elementNotifications.SetTexture(elementOfNotificationsOff);
             }
-            if (!database.notificationUnread())
+            if (int.Parse(countNotifications) > 0)
             {
                 elementNotifications.SetTexture(elementOfNotifications);
             }
@@ -291,13 +294,11 @@ public class Profile
     private static string notificationsReadOrUnread()
     {
         Database database = new Database();
-
         if (int.Parse(countNotifications) > 0)
         {
             return database.notificationDateGetUnread().ToString();
         }
-        
-            return database.notificationDateGetRead().ToString();
+        return database.notificationDateGetRead().ToString();
         
     }
   
@@ -320,12 +321,12 @@ public class Profile
         Database database = new Database();
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
-            if (profileExit.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+           /* if (profileExit.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 SavingLogin.cleanLoginData();
                 flagFrames.ChangeFlagsFrame();
                 MainForm.frame1 = true;
-            }
+            }*/
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 if (!settingsFlag)
@@ -366,7 +367,7 @@ public class Profile
                 notificationText.SetText(notifications);
                 informationNotificationsText.SetText(database.notificationGet(loginMiniText));
                 dateNotificationsText.SetText(notificationsReadOrUnread());
-               
+                updateNotifications();
             }
             
            else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -380,6 +381,7 @@ public class Profile
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 elementNotifications.SetTexture(elementOfNotificationsOff);
+            
                 database.notificationsUpdate(loginMiniText);
                 CountNotifications();
                 informationNotificationsText.SetText(database.notificationGet(loginMiniText));
@@ -393,10 +395,10 @@ public class Profile
                     switchNotifications.SetTexture(switchPart);
                     switchNotificationsCircle.SetPosition(433, 410);
                     notificationWork = true;
-                    updateNotifications();
+                  updateNotifications();
                     
                 }
-                else
+                else if  (switchNotifications.IfTexture(switchPart))
                 {
                     switchNotifications.SetTexture(switchPartOff);
                     switchNotificationsCircle.SetPosition(395, 410);

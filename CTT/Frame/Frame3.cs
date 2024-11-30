@@ -164,17 +164,17 @@ public class Frame3
           
             if (!flagEmailCodeNext && !flagNumberPhoneCodeNext )
             {
-                string name = Frame2.nameMiniTextFrame2;
-                string lname = Frame2.lMiniTextFrame2;
+                string name = Frame2.loginMiniTextFrame2;
+                string lname = Frame2.userNameMiniTextFrame2;
                 string numberPhone = Frame2.numberPhoneMiniTextFrame2;
                 string email = Frame2.emailMiniTextFrame2;
                 string password = Frame2.passwordMiniTextFrame2;
                 database.registrationUser(name, lname, numberPhone , email ,password);
                 nextWindow = true;
-                SavingLogin.SaveToJson(Frame2.nameMiniTextFrame2, Frame2.lMiniTextFrame2,
+                SavingLogin.SaveToJson(Frame2.loginMiniTextFrame2, Frame2.userNameMiniTextFrame2,
                     Frame2.numberPhoneMiniTextFrame2,
                     Frame2.emailMiniTextFrame2, Frame2.passwordMiniTextFrame2);
-                database.notificationsAdd(Frame2.nameMiniTextFrame2, "Выполнен вход", "0");
+                database.notificationsAdd(Frame2.loginMiniTextFrame2, "Выполнен вход", "0");
             }
 
             clock.Restart();

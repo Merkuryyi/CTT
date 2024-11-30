@@ -14,10 +14,10 @@ public class Frame2
     private static int yLowerMiniText;
     private static int yHideText;
     
-    public static bool flagName;
-    private static bool warningFlagName;
-    public static bool flagLName;
-    private static bool  warningFlagLName;
+    public static bool flagLogin;
+    private static bool warningFlagLogin;
+    public static bool flagUserName;
+    private static bool  warningFlagUserName;
     public static bool flagPassword;
     private static bool warningFlagPassword;
     public static bool flagRepeatPassword;
@@ -30,8 +30,8 @@ public class Frame2
     private static bool isVisibleRepeatPassword;
     private static bool canClick;
     
-    private static Button buttonNameSprite;
-    private static Button buttonLNameSprite;
+    private static Button buttonLoginSprite;
+    private static Button buttonUserNameSprite;
     private static Button buttonNumberPhoneSprite;
     private static Button buttonEmailSprite;
     private static Button buttonPasswordSprite;
@@ -43,29 +43,29 @@ public class Frame2
     private static Button buttonFurtherSprite;
     private static Texts backFrameText;
     private static Texts titleText;
-    private static Texts nameText;
+    private static Texts loginText;
     private static Texts numberPhoneText;
     private static Texts passwordText;
     private static Texts repeatPasswordText;
-    private static Texts lNameText;
+    private static Texts userNameText;
     private static Texts emailText;
     private static Texts furtherText;
     
-    private static Texts nameMiniText;
-    private static Texts lNameMiniText;
+    private static Texts loginMiniText;
+    private static Texts userNameMiniText;
     private static Texts passwordMiniText;
     private static Texts repeatPasswordMiniText;
     private static Texts numberPhoneMiniText;
     private static Texts emailMiniText;
-    private static Texts warningNameText;
-    private static Texts warningLNameText;
+    private static Texts warningLoginText;
+    private static Texts warningUserNameText;
     private static Texts warningNumberPfoneText;
     private static Texts warningEmailText;
     private static Texts warningPasswordText;
     private static Texts warningRepeatPasswordText;
     
-    public static string nameMiniTextFrame2;
-    public static string lMiniTextFrame2;
+    public static string loginMiniTextFrame2;
+    public static string userNameMiniTextFrame2;
     public static string passwordMiniTextFrame2;
     private static string repeatPasswordMiniTextFrame2;
     public static string numberPhoneMiniTextFrame2;
@@ -91,10 +91,7 @@ public class Frame2
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
         hideOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOff.png"));
         hideOnTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOn.png"));
-       
-
-
-    
+   
         int yUpperWarningText = 416;
         int yAvarageWarningText = 585;
         int yUpperText = 277;
@@ -114,10 +111,10 @@ public class Frame2
         uint sizeWarningText = 20;
         
         backgroundFrame = new Button(53, 53, background);
-        buttonNameSprite = new Button(151, 336, emptyButtonTexture);
+        buttonLoginSprite = new Button(151, 336, emptyButtonTexture);
         buttonNumberPhoneSprite = new Button(151, 505,  emptyButtonTexture);
         buttonPasswordSprite = new Button(151,669,  emptyButtonTexture);
-        buttonLNameSprite = new Button(614, 336,  emptyButtonTexture);
+        buttonUserNameSprite = new Button(614, 336,  emptyButtonTexture);
         buttonEmailSprite= new Button(614, 505,  emptyButtonTexture);
         buttonRepeatPasswordSprite = new Button(614, 669,   emptyButtonTexture);
         buttonFurtherSprite = new Button(386, 838,  buttonTexture);
@@ -138,30 +135,30 @@ public class Frame2
         string backText = "<назад"; 
         string furtherTextFrame2 = "Далее";
         
-        nameMiniTextFrame2 = "";
-        lMiniTextFrame2 = "";
+        loginMiniTextFrame2 = "";
+        userNameMiniTextFrame2 = "";
         passwordMiniTextFrame2 = "";
         repeatPasswordMiniTextFrame2 = "";
         numberPhoneMiniTextFrame2 = "";
         emailMiniTextFrame2 = "";
         
         titleText = new Texts(138,125, font, sizeTextTitleFrame, baseColorText, titleTextFrame );
-        nameText = new Texts(151, yUpperText, 
+        loginText = new Texts(151, yUpperText, 
             font, sizeTextInput, baseColorText, loginTextFrame );
         numberPhoneText = new Texts(151, yAverageText, 
             font, sizeTextMiniTitle, baseColorText, numberPhoneTextFrame );
         passwordText  = new Texts(151, yLowerText, 
             font, sizeTextMiniTitle, baseColorText, passwordTextFrame );
-        lNameText  = new Texts(614, yUpperText, 
+        userNameText  = new Texts(614, yUpperText, 
             font, sizeTextMiniTitle, baseColorText, userNameTextFrame );
         emailText  = new Texts(614, yAverageText, 
             font, sizeTextMiniTitle, baseColorText, emailTextFrame );
         repeatPasswordText  = new Texts(614, yLowerText, 
             font, sizeTextMiniTitle, baseColorText, repeatPasswordTextFrame );
         
-        warningNameText  = new Texts(171, yUpperWarningText, 
+        warningLoginText  = new Texts(171, yUpperWarningText, 
             font, sizeWarningText, warningTextColor, "" );
-        warningLNameText = new Texts(634, yUpperWarningText, 
+        warningUserNameText = new Texts(634, yUpperWarningText, 
             font, sizeWarningText, warningTextColor, "" );
         warningNumberPfoneText = new Texts(171, yAvarageWarningText, 
             font, sizeWarningText, warningTextColor, "" );
@@ -174,10 +171,10 @@ public class Frame2
         
         furtherText = new Texts(478, yPositionFurtherText, 
             font, sizeTextMiniTitle, baseColorText, furtherTextFrame2 );
-        nameMiniText = new Texts(171, yUpperMiniText, 
-            font, sizeTextInput, baseColorText, nameMiniTextFrame2 );
-        lNameMiniText = new Texts(634, yUpperMiniText, 
-            font, sizeTextInput, baseColorText, lMiniTextFrame2 );
+        loginMiniText = new Texts(171, yUpperMiniText, 
+            font, sizeTextInput, baseColorText, loginMiniTextFrame2 );
+        userNameMiniText = new Texts(634, yUpperMiniText, 
+            font, sizeTextInput, baseColorText, userNameMiniTextFrame2 );
         passwordMiniText = new Texts(171, yLowerMiniText,
             font, sizeTextInput, baseColorText, passwordMiniTextFrame2 );
         repeatPasswordMiniText = new Texts(634,yLowerMiniText,
@@ -193,10 +190,10 @@ public class Frame2
     {
         _window.Clear(new Color(230, 230, 230)); 
         backgroundFrame.Draw(_window);
-        buttonNameSprite.Draw(_window); 
+        buttonLoginSprite.Draw(_window); 
         buttonNumberPhoneSprite.Draw(_window);
         buttonPasswordSprite.Draw(_window);
-        buttonLNameSprite.Draw(_window);
+        buttonUserNameSprite.Draw(_window);
         buttonNumberPhoneSprite.Draw(_window);
         buttonEmailSprite.Draw(_window);
         buttonFurtherSprite.Draw(_window);
@@ -204,21 +201,21 @@ public class Frame2
         buttonPasswordHideSprite.Draw(_window);
         buttonRepeatPasswordHideSprite.Draw(_window);
         titleText.Draw(_window);
-        nameText.Draw(_window);
+        loginText.Draw(_window);
         passwordText.Draw(_window);
         repeatPasswordText.Draw(_window);
-        lNameText.Draw(_window);
+        userNameText.Draw(_window);
         emailText.Draw(_window);
         numberPhoneText.Draw(_window);
         furtherText.Draw(_window);
-        nameMiniText.Draw(_window);
-        lNameMiniText.Draw(_window);
+        loginMiniText.Draw(_window);
+        userNameMiniText.Draw(_window);
         passwordMiniText.Draw(_window);
         repeatPasswordMiniText.Draw(_window);
         numberPhoneMiniText.Draw(_window);
         emailMiniText.Draw(_window);
-        warningNameText.Draw(_window);
-        warningLNameText.Draw(_window);
+        warningLoginText.Draw(_window);
+        warningUserNameText.Draw(_window);
         warningPasswordText.Draw(_window);
         warningRepeatPasswordText.Draw(_window);
         warningNumberPfoneText.Draw(_window);
@@ -265,25 +262,25 @@ public class Frame2
                 isVisibleRepeatPassword = false;
                 buttonRepeatPasswordHideSprite.SetTexture(hideOnTexture);
             }
-            if (buttonNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            if (buttonLoginSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
-                flagName = true;
-                line.parametres(nameMiniText, flagName);
-                line.LineParametr(nameMiniTextFrame2, cursorNamePosition);
+                flagLogin = true;
+                line.parametres(loginMiniText, flagLogin);
+                line.LineParametr(loginMiniTextFrame2, cursorNamePosition);
             }
             else
-            { flagName = false; }
+            { flagLogin = false; }
             
-            if (buttonLNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            if (buttonUserNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
-                flagLName = true;
-                line.parametres(lNameMiniText, flagLName);
-                line.LineParametr(lMiniTextFrame2 ,cursorLnamePosition);
+                flagUserName = true;
+                line.parametres(userNameMiniText, flagUserName);
+                line.LineParametr(userNameMiniTextFrame2 ,cursorLnamePosition);
             }
             else
-            { flagLName = false; }
+            { flagUserName = false; }
             if (buttonPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
@@ -329,18 +326,18 @@ public class Frame2
             clock.Restart();
             canClick = false;
         }
-        if (flagName)
+        if (flagLogin)
         {
-           nameMiniTextFrame2 = line.GetLine();
-           nameMiniText.SetText(nameMiniTextFrame2);
+           loginMiniTextFrame2 = line.GetLine();
+           loginMiniText.SetText(loginMiniTextFrame2);
            cursorNamePosition = line.GetCursor();
            line.Update(_window);  
         }
-        if (flagLName)
+        if (flagUserName)
         { 
-            lMiniTextFrame2 = line.GetLine();
+            userNameMiniTextFrame2 = line.GetLine();
             cursorLnamePosition = line.GetCursor();
-            lNameMiniText.SetText(lMiniTextFrame2);
+            userNameMiniText.SetText(userNameMiniTextFrame2);
             line.Update(_window);
         }
         if (flagPassword)
@@ -395,8 +392,8 @@ public class Frame2
         if (Mouse.IsButtonPressed(Mouse.Button.Left))
         {
             if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
-                !warningFlagName && 
-                !warningFlagLName && 
+                !warningFlagLogin && 
+                !warningFlagUserName && 
                 !warningFlagEmail && 
                 !warningFlagNumberPhone &&
                 !warningFlagPassword &&
@@ -418,11 +415,11 @@ public class Frame2
         if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
             buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
         {
-            warningNameText.SetText(warnings.WarningLineName(nameMiniTextFrame2));
-            warningFlagName = warnings.getWarningFlag();
+            warningLoginText.SetText(warnings.WarningLineName(loginMiniTextFrame2));
+            warningFlagLogin = warnings.getWarningFlag();
          
-            warningLNameText.SetText(warnings.WarningLineName(lMiniTextFrame2));
-            warningFlagLName = warnings.getWarningFlag();
+            warningUserNameText.SetText(warnings.WarningLineName(userNameMiniTextFrame2));
+            warningFlagUserName = warnings.getWarningFlag();
             
             warningNumberPfoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame2));
             warningFlagNumberPhone = warnings.getWarningFlag();

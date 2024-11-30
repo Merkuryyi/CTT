@@ -4,8 +4,8 @@ public class Flags
 {
     public void changeFlag()
     {
-        Frame2.flagLName = false;
-        Frame2.flagName = false;
+        Frame2.flagUserName = false;
+        Frame2.flagLogin = false;
         Frame2.flagPassword = false;
         Frame2.flagRepeatPassword = false;
         Frame2.flagNumberPhone = false;

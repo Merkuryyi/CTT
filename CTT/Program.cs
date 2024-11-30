@@ -11,8 +11,6 @@ public class MainForm
     public static bool frame4 = false;
     public static bool profile = true;
     
-   
-
     public static RenderWindow Form()
     {
         VideoMode videoMode = VideoMode.DesktopMode;
