@@ -217,16 +217,16 @@ public class Frame4
             buttonSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && canClick) 
         {
             warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame));
-            warningFlagEmail = warnings.getWarningFlag();
+            warningFlagEmail = warnings.GetWarningFlag();
 
             warningNumberPhoneText.SetText(warnings.WarningLineNumberPhoneLogin(numberPhoneMiniTextFrame4));
-            warningFlagNumberPhone = warnings.getWarningFlag();
+            warningFlagNumberPhone = warnings.GetWarningFlag();
             
             
            Console.WriteLine(warnings.WarningLineNumberPhone(emailMiniTextFrame));
          
             warningFalseText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame));
-            warningFlagPassword = warnings.getWarningFlag();
+            warningFlagPassword = warnings.GetWarningFlag();
          
             Database database = new Database();
 
@@ -498,14 +498,14 @@ public class Frame4
             }
             
             warningEmailTextRestoreAccess.SetText(warnings.WarningLineCode(emailMiniTextCodeFrame, numberCodeEmail.ToString()));
-            flagNumberCodeEmail = warnings.getWarningFlag();
+            flagNumberCodeEmail = warnings.GetWarningFlag();
             
             warningNumberPhoneTextRestoreAccess.SetText(warnings.WarningLineCode(numberPhoneMiniTextCodeFrame, numberCodeNumberPhone.ToString()));
-            flagNumberCodeNumber = warnings.getWarningFlag();
+            flagNumberCodeNumber = warnings.GetWarningFlag();
 
 
             warningPasswordTextRestoreAccess.SetText(warnings.WarningLineRepeatPassword(repeatPasswordTextMiniTextResoreAcessFrame, passwordTextMiniTextResoreAcessFrame));
-            warningPasswordRestoreAcess = warnings.getWarningFlag();
+            warningPasswordRestoreAcess = warnings.GetWarningFlag();
 
         }
 

@@ -389,7 +389,8 @@ public class Frame2
             line.Update(_window);   
         }
         Warning(_window);
-        if (Mouse.IsButtonPressed(Mouse.Button.Left))
+        clic();
+        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
             if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
                 !warningFlagLogin && 
@@ -404,34 +405,38 @@ public class Frame2
                 MainForm.frame3 = true;
                 line.clearLine();
             }
+             
+            clock.Restart();
+            canClick = false;
         }
     }
    
     public void Warning(RenderWindow _window)
     {
         mousePosition = Mouse.GetPosition(_window);
-        Warnings warnings = new Warnings();
         clic();
+        Warnings warnings = new Warnings();
+ 
         if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
-            buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && canClick)
         {
             warningLoginText.SetText(warnings.WarningLineName(loginMiniTextFrame2));
-            warningFlagLogin = warnings.getWarningFlag();
+            warningFlagLogin = warnings.GetWarningFlag();
          
             warningUserNameText.SetText(warnings.WarningLineName(userNameMiniTextFrame2));
-            warningFlagUserName = warnings.getWarningFlag();
+            warningFlagUserName = warnings.GetWarningFlag();
             
             warningNumberPfoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame2));
-            warningFlagNumberPhone = warnings.getWarningFlag();
+            warningFlagNumberPhone = warnings.GetWarningFlag();
             
             warningPasswordText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame2));
-            warningFlagPassword = warnings.getWarningFlag();
+            warningFlagPassword = warnings.GetWarningFlag();
             
             warningRepeatPasswordText.SetText(warnings.WarningLineRepeatPassword(repeatPasswordMiniTextFrame2, passwordMiniTextFrame2));
-            warningFlagRepeatPassword = warnings.getWarningFlag();
+            warningFlagRepeatPassword = warnings.GetWarningFlag();
             
             warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame2));
-            warningFlagEmail = warnings.getWarningFlag();
+            warningFlagEmail = warnings.GetWarningFlag();
             clock.Restart();
             canClick = false;
         }

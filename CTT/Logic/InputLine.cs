@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿
 using SFML.Graphics;
 using SFML.Window;
 using System.Text.RegularExpressions;
@@ -225,7 +225,7 @@ namespace CTT.Frame;
             {
                 return false;
             }
-            string pattern = @"^(\+7|8)\d{10}$";
+            string pattern = @"^8\d{10}$";
     
             return Regex.IsMatch(lineBox, pattern);
         }

@@ -155,10 +155,10 @@ public class Frame3
             Warnings warningText = new Warnings();
             
             warningEmailText.SetText(warningText.WarningLineCode(emailMiniTextFrame3, numberCodeEmail.ToString()));
-            flagEmail = warningText.getWarningFlag();
+            flagEmail = warningText.GetWarningFlag();
             
             warningNumberPhoneText.SetText(warningText.WarningLineCode(numberPhoneMiniTextFrame3, numberCodeNumberPhone.ToString()));
-            flagNumberPhoneCodeNext = warningText.getWarningFlag();
+            flagNumberPhoneCodeNext = warningText.GetWarningFlag();
             
             Database database = new Database();
           

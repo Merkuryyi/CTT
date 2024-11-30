@@ -2,10 +2,9 @@
 
 public class Warnings
 {
-    public static bool flag;
-    public static string warningLine;
+    private static bool flag;
 
-    public bool getWarningFlag()
+    public bool GetWarningFlag()
     {
         return flag;
     }
@@ -13,9 +12,6 @@ public class Warnings
     public string WarningLineName(string line)
     {
         string warning = "";
-        InputLine lines = new InputLine();
-        bool format = lines.NumberPhoneFormat();
-        bool formatEmail = lines.EmailFormat();
         Database database = new Database();
         if (line == "")
         {
@@ -32,7 +28,6 @@ public class Warnings
             flag = true;
             warning = "*Длина должна быть более 6";
         }
-      
        else
        {
            flag = false;
