@@ -195,7 +195,7 @@ namespace CTT.Frame;
         public bool ContainsSpecialCharsOrDigits()
         {
             
-            string lineBox = Frame2.passwordMiniTextFrame2;
+            string lineBox = Frame2.passwordMiniTextFrame;
             if (Frame4.passwordMiniTextFrame != "")
             {
                 lineBox = Frame4.passwordMiniTextFrame;
@@ -214,37 +214,22 @@ namespace CTT.Frame;
         }
       
 
-        public bool NumberPhoneFormat()
+        public bool NumberPhoneFormat(string lineBox)
         {
-            string lineBox = Frame2.numberPhoneMiniTextFrame2;
-            if (Frame4.numberPhoneMiniTextFrame4 != "")
-            {
-                lineBox = Frame4.numberPhoneMiniTextFrame4;
-            }
             if (string.IsNullOrEmpty(lineBox))
             {
                 return false;
             }
             string pattern = @"^8\d{10}$";
-    
             return Regex.IsMatch(lineBox, pattern);
         }
-        public bool EmailFormat()
+        public bool EmailFormat(string lineBox)
         {
-            string lineBox = Frame2.emailMiniTextFrame2;
-            if (Frame4.emailMiniTextFrame != "")
-            {
-                lineBox = Frame4.emailMiniTextFrame;
-            }
             if (string.IsNullOrEmpty(lineBox))
             {
                 return false;
             }
-
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-    
             return Regex.IsMatch(lineBox, pattern);
         }
-        
-
     }

@@ -10,21 +10,22 @@ namespace CTT.Frame;
         private static Texts buttonText;
         private static bool canClick;
         private static Clock clock;
+        private static Vector2i mousePosition;
         private static float clickDelay;
+        private static InputLine line;
+        private static FlagFrames flagFrames;
         public void Sructure1()
         {
             clock = new Clock();
             clickDelay = 0.3f;  
+            line = new InputLine();
             Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
-            
             Texture backgroundTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundFrame1.png"));
             Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
             Color baseColorText = new Color(68, 68, 69);
             Color colorText = new Color(0, 0, 0);
-
             string titleTextFrame = "Зарегистрироваться";
             string buttonMiniText = "Войти";
-            
             buttonLogin = new Button(858,571 , buttonTexture);
             backgroundFrame = new Button(53, 53, backgroundTexture);
             titleText = new Texts(685, 455, font, 64, baseColorText, titleTextFrame );
@@ -48,12 +49,10 @@ namespace CTT.Frame;
         }
         public void ButtonInteraction(RenderWindow _window)
         {
-            InputLine line = new InputLine();
-            FlagFrames flagFrames = new FlagFrames();
+           mousePosition = Mouse.GetPosition(_window);
             clic();
             if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
             {
-                Vector2i mousePosition = Mouse.GetPosition(_window);
                 if (titleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
                 {
                     _window.Clear(Color.White);

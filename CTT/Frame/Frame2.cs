@@ -15,16 +15,16 @@ public class Frame2
     private static int yHideText;
     
     public static bool flagLogin;
-    private static bool warningFlagLogin;
     public static bool flagUserName;
-    private static bool  warningFlagUserName;
     public static bool flagPassword;
-    private static bool warningFlagPassword;
     public static bool flagRepeatPassword;
-    private static bool warningFlagRepeatPassword ;
     public static bool flagNumberPhone;
-    private static bool warningFlagNumberPhone;
     public static bool flagEmail;
+    private static bool warningFlagLogin;
+    private static bool  warningFlagUserName;
+    private static bool warningFlagPassword;
+    private static bool warningFlagRepeatPassword;
+    private static bool warningFlagNumberPhone;
     private static bool warningFlagEmail;
     private static bool isVisiblePassword;
     private static bool isVisibleRepeatPassword;
@@ -64,27 +64,33 @@ public class Frame2
     private static Texts warningPasswordText;
     private static Texts warningRepeatPasswordText;
     
-    public static string loginMiniTextFrame2;
-    public static string userNameMiniTextFrame2;
-    public static string passwordMiniTextFrame2;
-    private static string repeatPasswordMiniTextFrame2;
-    public static string numberPhoneMiniTextFrame2;
-    public static string emailMiniTextFrame2;
-    private static Color  baseColorText;
+    public static string loginMiniTextFrame;
+    public static string userNameMiniTextFrame;
+    public static string passwordMiniTextFrame;
+    private static string repeatPasswordMiniTextFrame;
+    public static string numberPhoneMiniTextFrame;
+    public static string emailMiniTextFrame;
+    private static Color baseColorText;
     private static Color warningTextColor; 
     private static Color colorMessage;
     private static Texture hideOffTexture;
     private static Texture hideOnTexture;
- 
     
     private static Vector2i mousePosition;
     private static Clock clock;
     private static float clickDelay;
+    private static Flags flags;
+    private static InputLine line;
+    private static Warnings warnings;
+    private static FlagFrames flagFrames;
     public void Structure()
     {
         clock = new Clock();
         clickDelay = 0.3f;  
-        
+        flags = new Flags();
+        line = new InputLine();
+        warnings = new Warnings();
+       
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         Texture background = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundRegistration.png"));
         Texture emptyButtonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "emptyButton.png"));
@@ -135,12 +141,12 @@ public class Frame2
         string backText = "<назад"; 
         string furtherTextFrame2 = "Далее";
         
-        loginMiniTextFrame2 = "";
-        userNameMiniTextFrame2 = "";
-        passwordMiniTextFrame2 = "";
-        repeatPasswordMiniTextFrame2 = "";
-        numberPhoneMiniTextFrame2 = "";
-        emailMiniTextFrame2 = "";
+        loginMiniTextFrame = "";
+        userNameMiniTextFrame = "";
+        passwordMiniTextFrame = "";
+        repeatPasswordMiniTextFrame = "";
+        numberPhoneMiniTextFrame = "";
+        emailMiniTextFrame = "";
         
         titleText = new Texts(138,125, font, sizeTextTitleFrame, baseColorText, titleTextFrame );
         loginText = new Texts(151, yUpperText, 
@@ -172,17 +178,17 @@ public class Frame2
         furtherText = new Texts(478, yPositionFurtherText, 
             font, sizeTextMiniTitle, baseColorText, furtherTextFrame2 );
         loginMiniText = new Texts(171, yUpperMiniText, 
-            font, sizeTextInput, baseColorText, loginMiniTextFrame2 );
+            font, sizeTextInput, baseColorText, loginMiniTextFrame);
         userNameMiniText = new Texts(634, yUpperMiniText, 
-            font, sizeTextInput, baseColorText, userNameMiniTextFrame2 );
+            font, sizeTextInput, baseColorText, userNameMiniTextFrame);
         passwordMiniText = new Texts(171, yLowerMiniText,
-            font, sizeTextInput, baseColorText, passwordMiniTextFrame2 );
+            font, sizeTextInput, baseColorText, passwordMiniTextFrame);
         repeatPasswordMiniText = new Texts(634,yLowerMiniText,
-            font, sizeTextInput, baseColorText, repeatPasswordMiniTextFrame2 );
+            font, sizeTextInput, baseColorText, repeatPasswordMiniTextFrame);
         numberPhoneMiniText = new Texts(171, yAvaregeMiniText, 
-            font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame2);
+            font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame);
         emailMiniText = new Texts(634, yAvaregeMiniText, 
-            font, sizeTextInput, baseColorText,  emailMiniTextFrame2);
+            font, sizeTextInput, baseColorText,  emailMiniTextFrame);
         backFrameText =   new Texts(151, 914 , font, 24, colorMessage, backText );
     }
     
@@ -231,10 +237,8 @@ public class Frame2
     }
     public void ButtonInteraction(RenderWindow _window)
     {
-        FlagFrames flagFrames = new FlagFrames();
-        Vector2i mousePosition = Mouse.GetPosition(_window);
-        InputLine line = new InputLine();
-        Flags flags = new Flags();
+        flagFrames = new FlagFrames();
+        mousePosition = Mouse.GetPosition(_window);
         clic();
        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -267,17 +271,16 @@ public class Frame2
                 flags.changeFlag();
                 flagLogin = true;
                 line.parametres(loginMiniText, flagLogin);
-                line.LineParametr(loginMiniTextFrame2, cursorNamePosition);
+                line.LineParametr(loginMiniTextFrame, cursorNamePosition);
             }
             else
             { flagLogin = false; }
-            
             if (buttonUserNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
                 flagUserName = true;
                 line.parametres(userNameMiniText, flagUserName);
-                line.LineParametr(userNameMiniTextFrame2 ,cursorLnamePosition);
+                line.LineParametr(userNameMiniTextFrame,cursorLnamePosition);
             }
             else
             { flagUserName = false; }
@@ -286,7 +289,7 @@ public class Frame2
                 flags.changeFlag();
                 flagPassword = true;
                 line.parametres(passwordMiniText, flagPassword);
-                line.LineParametr(passwordMiniTextFrame2 ,cursorPasswordPosition);
+                line.LineParametr(passwordMiniTextFrame, cursorPasswordPosition);
             }
             else
             { flagPassword = false; }
@@ -294,7 +297,7 @@ public class Frame2
             {
                 flags.changeFlag();
                 line.parametres(repeatPasswordMiniText, flagRepeatPassword);
-                line.LineParametr(repeatPasswordMiniTextFrame2, cursorRepeatPasswordPosition);
+                line.LineParametr(repeatPasswordMiniTextFrame, cursorRepeatPasswordPosition);
                 flagRepeatPassword = true;
             }
             else
@@ -304,7 +307,7 @@ public class Frame2
                 flags.changeFlag();
                 flagNumberPhone = true;
                 line.parametres(numberPhoneMiniText, flagNumberPhone);
-                line.LineParametr(numberPhoneMiniTextFrame2 ,cursorNumberPhonePosition);
+                line.LineParametr(numberPhoneMiniTextFrame, cursorNumberPhonePosition);
             }
             else
             { flagNumberPhone = false; }
@@ -313,45 +316,62 @@ public class Frame2
                 flags.changeFlag();
                 flagEmail = true;
                 line.parametres(emailMiniText, flagEmail);
-                line.LineParametr(emailMiniTextFrame2 ,cursorEmailPosition);
+                line.LineParametr(emailMiniTextFrame,cursorEmailPosition);
             }
             else
             { flagEmail = false; }
-            
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flagFrames.ChangeFlagsFrame();
                 MainForm.frame1 = true;
+            }
+            if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+                
+            {
+                Warning();
+                if (!warningFlagLogin && 
+                    !warningFlagUserName && 
+                    !warningFlagEmail && 
+                    !warningFlagNumberPhone &&
+                    !warningFlagPassword &&
+                    !warningFlagRepeatPassword)
+                {
+                    flagFrames.ChangeFlagsFrame();
+                    _window.Clear(Color.White);
+                    MainForm.frame3 = true;
+                }
+               
+                line.clearLine();
             }
             clock.Restart();
             canClick = false;
         }
         if (flagLogin)
         {
-           loginMiniTextFrame2 = line.GetLine();
-           loginMiniText.SetText(loginMiniTextFrame2);
+           loginMiniTextFrame = line.GetLine();
+           loginMiniText.SetText(loginMiniTextFrame);
            cursorNamePosition = line.GetCursor();
            line.Update(_window);  
         }
         if (flagUserName)
         { 
-            userNameMiniTextFrame2 = line.GetLine();
+            userNameMiniTextFrame = line.GetLine();
             cursorLnamePosition = line.GetCursor();
-            userNameMiniText.SetText(userNameMiniTextFrame2);
+            userNameMiniText.SetText(userNameMiniTextFrame);
             line.Update(_window);
         }
         if (flagPassword)
         {
-            passwordMiniTextFrame2 = line.GetLine();
+            passwordMiniTextFrame = line.GetLine();
             cursorPasswordPosition = line.GetCursor();
             if (!isVisiblePassword)
             {
-               passwordMiniText.HideText(passwordMiniTextFrame2); 
+               passwordMiniText.HideText(passwordMiniTextFrame); 
                passwordMiniText.SetPosition(171, yHideText);
             }
             else if (isVisiblePassword)
             {
-               passwordMiniText.SetText(passwordMiniTextFrame2); 
+               passwordMiniText.SetText(passwordMiniTextFrame); 
                passwordMiniText.SetPosition(171, yLowerMiniText);
             }
            
@@ -359,87 +379,55 @@ public class Frame2
         if (flagRepeatPassword)
         {
             
-            repeatPasswordMiniTextFrame2 = line.GetLine();
+            repeatPasswordMiniTextFrame = line.GetLine();
             cursorRepeatPasswordPosition = line.GetCursor();
             
             if (!isVisibleRepeatPassword)
             {
-                repeatPasswordMiniText.HideText(repeatPasswordMiniTextFrame2); 
-                repeatPasswordMiniText.SetPosition( 634, yHideText);
+                repeatPasswordMiniText.HideText(repeatPasswordMiniTextFrame); 
+                repeatPasswordMiniText.SetPosition(634, yHideText);
             }
             else if (isVisibleRepeatPassword)
             {
-                repeatPasswordMiniText.SetText(repeatPasswordMiniTextFrame2); 
-                repeatPasswordMiniText.SetPosition( 634, yLowerMiniText);
+                repeatPasswordMiniText.SetText(repeatPasswordMiniTextFrame); 
+                repeatPasswordMiniText.SetPosition(634, yLowerMiniText);
             }
             line.Update(_window);
         }
         if (flagNumberPhone)
         {
-            numberPhoneMiniTextFrame2 = line.GetLine();
-            numberPhoneMiniText.SetText(numberPhoneMiniTextFrame2);
+            numberPhoneMiniTextFrame = line.GetLine();
+            numberPhoneMiniText.SetText(numberPhoneMiniTextFrame);
             cursorNumberPhonePosition = line.GetCursor();
             line.Update(_window);   
         }
         if (flagEmail)
         {
-            emailMiniTextFrame2 = line.GetLine();
-            emailMiniText.SetText(emailMiniTextFrame2);
+            emailMiniTextFrame = line.GetLine();
+            emailMiniText.SetText(emailMiniTextFrame);
             cursorEmailPosition = line.GetCursor();
             line.Update(_window);   
         }
-        Warning(_window);
-        clic();
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
-        {
-            if (buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && 
-                !warningFlagLogin && 
-                !warningFlagUserName && 
-                !warningFlagEmail && 
-                !warningFlagNumberPhone &&
-                !warningFlagPassword &&
-                !warningFlagRepeatPassword)
-            {
-                flagFrames.ChangeFlagsFrame();
-                _window.Clear(Color.White);
-                MainForm.frame3 = true;
-                line.clearLine();
-            }
-             
-            clock.Restart();
-            canClick = false;
-        }
     }
-   
-    public void Warning(RenderWindow _window)
+    public void Warning()
     {
-        mousePosition = Mouse.GetPosition(_window);
-        clic();
-        Warnings warnings = new Warnings();
- 
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) &&
-            buttonFurtherSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) && canClick)
-        {
-            warningLoginText.SetText(warnings.WarningLineName(loginMiniTextFrame2));
-            warningFlagLogin = warnings.GetWarningFlag();
-         
-            warningUserNameText.SetText(warnings.WarningLineName(userNameMiniTextFrame2));
-            warningFlagUserName = warnings.GetWarningFlag();
-            
-            warningNumberPfoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame2));
-            warningFlagNumberPhone = warnings.GetWarningFlag();
-            
-            warningPasswordText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame2));
-            warningFlagPassword = warnings.GetWarningFlag();
-            
-            warningRepeatPasswordText.SetText(warnings.WarningLineRepeatPassword(repeatPasswordMiniTextFrame2, passwordMiniTextFrame2));
-            warningFlagRepeatPassword = warnings.GetWarningFlag();
-            
-            warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame2));
-            warningFlagEmail = warnings.GetWarningFlag();
-            clock.Restart();
-            canClick = false;
-        }
+        warningLoginText.SetText(warnings.WarningLineName(loginMiniTextFrame));
+        warningFlagLogin = warnings.GetWarningFlag();
+     
+        warningUserNameText.SetText(warnings.WarningLineName(userNameMiniTextFrame));
+        warningFlagUserName = warnings.GetWarningFlag();
+        
+        warningNumberPfoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame));
+        warningFlagNumberPhone = warnings.GetWarningFlag();
+        
+        warningPasswordText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame));
+        warningFlagPassword = warnings.GetWarningFlag();
+        
+        warningRepeatPasswordText.SetText(warnings.WarningLineRepeatPassword(repeatPasswordMiniTextFrame, passwordMiniTextFrame));
+        warningFlagRepeatPassword = warnings.GetWarningFlag();
+        
+        warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame));
+        warningFlagEmail = warnings.GetWarningFlag();
     }
     public void workProgram(RenderWindow _window)
     {

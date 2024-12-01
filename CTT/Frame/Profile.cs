@@ -29,8 +29,8 @@ public class Profile
     private static Texts markNotificationsText;
     private static Texts dateNotificationsText;
     private static Texts informationNotificationsText;
-    private static string dateOfNotifications;
-    private static string informationNotifications;
+
+
     private static Texts warningLNameText;
     private static Texts warningNameText;
     private static Button emptyLNameButton;
@@ -217,11 +217,9 @@ public class Profile
         elementNotifications = new Button(95, 483, elementOfNotificationsOff);
         profileExit = new Button(600, 305, profileOutExit);
  
-        countNotifications = database.notificationsCount().ToString();
-        
-            elementNotifications = new Button(95, 483, elementOfNotifications);
 
-        updateNotifications();
+        
+        elementNotifications = new Button(95, 483, elementOfNotifications);
         
         numberPhoneInformation = new Button(350, 471, profileInformation);
         emailInformation = new Button(350, 536, profileInformation);
@@ -229,9 +227,6 @@ public class Profile
         
         loginMiniText = SavingLogin.ReadNameFromFile();
         userNameMiniText = SavingLogin.ReadLNameFromFile();
-
-        cursorLogin = loginMiniText.Length;
-        cursorUserName = userNameMiniText.Length;
         notifications = "Уведомления";
         security = "Безопасность";
     
@@ -245,14 +240,12 @@ public class Profile
         securityText = new Texts(95, 486, font, 40, baseColorText, security);
         warningNameText = new Texts(563, 244, font, 20, warningTextColor, "");
         warningLNameText = new Texts(563, 325, font, 20, warningTextColor, "");
-        countNotificationsText = new Texts(397, 407, font, 20, baseColorText, countNotifications);
-       
-        informationNotifications = database.notificationGet(loginMiniText);
-        
-        dateOfNotifications = notificationsReadOrUnread();
+        countNotificationsText = new Texts(397, 407, font, 20, baseColorText, "");
+
+    
         string markNotifications = "Отметить как прочитанное";
-        informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, informationNotifications);
-        dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, dateOfNotifications);
+        informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, "");
+        dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, "");
         markNotificationsText = new Texts(227, 600, font, 24, baseColorText, markNotifications);
         string password = SavingLogin.ReadPasswordFromFile();
         email = MaskEmail();
@@ -269,14 +262,21 @@ public class Profile
         numberPhoneInformationTitleText = new Texts(95, 472, font, 24, baseColorText, numberPhoneText);
         emailInformationTitleText = new Texts(95, 536, font, 24, baseColorText, emailText);
         passwordInformationTitleText = new Texts(95, 603, font, 24, baseColorText, passwordText);
+        int id = database.GetUserId(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile());
+        CountNotifications(id);
+        dateNotificationsText.SetText(notificationsReadOrUnread());
+        informationNotificationsText.SetText(database.notificationGet(id));
+        cursorLogin = SavingLogin.ReadNameFromFile().Length;
+        cursorUserName = SavingLogin.ReadLNameFromFile().Length;
+        
     }
   
-    private static void CountNotifications()
+    private static void CountNotifications(int id)
     {
         if (notificationWork)
         {
             Database database = new Database();
-            countNotifications = database.notificationsCount().ToString();
+            countNotifications = database.notificationsCount(id).ToString();
             countNotificationsText.SetText(countNotifications);
         }
     }
@@ -307,65 +307,54 @@ public class Profile
         
     }
   
-    private void Warning(RenderWindow _window)
+    private void Warning()
     {
        
-        Vector2i mousePosition = Mouse.GetPosition(_window);
+     
         Warnings warnings = new Warnings();
         clic();
         Database database = new Database();
 
-        if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
+        warnings.WarningLineName(loginMiniText);
+      
+        warningLogin = warnings.GetWarningFlag();
+        if (warningLogin)
         {
-            if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)
-                || settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-            {
-                warnings.WarningLineName(loginMiniText);
-              
-                warningLogin = warnings.GetWarningFlag();
-                if (warningLogin)
-                {
-                    warningNameText.SetText("*");
-                }
-                else
-                {
-                    warningNameText.SetText("");
-                }
-                
-                warningUserName = warnings.GetWarningFlag();
-                warnings.WarningLineName(userNameMiniText);
-                if (warningUserName)
-                {
-                    warningLNameText.SetText("*");
-                }
-                else
-                {
-                    warningLNameText.SetText("");
-                }
-             
-                
-            
-                
-            }
-            clock.Restart();
-            canClick = false;
-           
-           
+            warningNameText.SetText("*");
         }
+        else
+        {
+            warningNameText.SetText("");
+        }
+        
+        warningUserName = warnings.GetWarningFlag();
+        warnings.WarningLineName(userNameMiniText);
+        if (warningUserName)
+        {
+            warningLNameText.SetText("*");
+        }
+        else
+        {
+            warningLNameText.SetText("");
+        }
+
+        if (!warningLogin && !warningUserName)
+        {
+            database.updateNameUser(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile(), loginMiniText, userNameMiniText);
+            SavingLogin.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
+        }  
+  
     }
     public static string MaskEmail()
     {
         string email = SavingLogin.ReadEmailFromFile();
-        // Проверяем, что email соответствует формату
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         if (Regex.IsMatch(email, pattern))
         {
-            // Получаем имя пользователя и домен из электронной почты
             string[] emailParts = email.Split('@');
             string username = emailParts[0];
             string domain = emailParts[1];
 
-            // Заменяем все символы имени пользователя, кроме первых трех, на звездочки
             if (username.Length > 3)
             {
                 username = username.Substring(0, 3) + new string('*', username.Length - 3);
@@ -374,15 +363,12 @@ public class Profile
             {
                 username = new string('*', username.Length);
             }
-
-            // Возвращаем электронную почту в формате nik****@gmail.com
+            
             return $"{username}@{domain}";
         }
-        else
-        {
-            Console.WriteLine("Email format is invalid.");
+      
             return null;
-        }
+        
     }
     public static string MaskPhoneNumber()
     {
@@ -398,69 +384,51 @@ public class Profile
     }
     private void ButtonInteraction(RenderWindow _window)
     {
+        
         Vector2i mousePosition = Mouse.GetPosition(_window);
        
         FlagFrames flagFrames = new FlagFrames();
         Flags flags = new Flags();
         Database database = new Database();
+        int id = database.GetUserId(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile());
         clic();
-       if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
-        {
-            if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)
-                || settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-            {
-                if (!warningLogin && !warningUserName)
-                {
-                    database.updateNameUser(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile(), loginMiniText,userNameMiniText);
-                }
-            }
-            clock.Restart();
-            canClick = false;
-        }
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
             if (profileExit.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-             {
-                 flagFrames.ChangeFlagsFrame();
-                 SavingLogin.cleanLoginData();
-                 MainForm.frame1 = true;
-             }
-
+            {
+                _window.Clear(Color.White);
+                flagFrames.ChangeFlagsFrame();
+                SavingLogin.cleanLoginData();
+                MainForm.frame1 = true;
+            }
+            if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                Warning();
+            }
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                Warning(_window);
                 if (!settingsFlag && !warningLogin && !warningUserName)
                 {
-                    
                     settingsFlag = true;
-                    
                 }
                 else
                 {
                     settingsFlag = false;
                 }
-     
-              
+                Warning();
             }
-
-            
             if (emptyNameButton.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                
                 if (!settingsFlag)
                 {
                     flags.changeFlag();
                     flagLogin = true;
                     line.parametres(firstName, flagLogin);
                     line.LineParametr(loginMiniText, cursorLogin);
-                 
                 }
-
-            
             }
             if (emptyLNameButton.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                
                 if (!settingsFlag)
                 {
                     flags.changeFlag();
@@ -469,8 +437,6 @@ public class Profile
                     line.LineParametr(userNameMiniText, cursorUserName);
                 }
             }
-
-
             if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) ||
                  fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) &&
                 mainProfileFlag)
@@ -478,7 +444,6 @@ public class Profile
                 notificationsFlag = true;
                 mainProfileFlag = false;
                 securityFlag = false;
-
             }
             else if ((notificationText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) ||
                       fartherIconNotification.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)) &&
@@ -487,9 +452,9 @@ public class Profile
                 notificationsFlag = false;
                 mainProfileFlag = true;
                 securityFlag = false;
-                CountNotifications();
+                CountNotifications(id);
                 notificationText.SetText(notifications);
-                informationNotificationsText.SetText(database.notificationGet(loginMiniText));
+                informationNotificationsText.SetText(database.notificationGet(id));
                 dateNotificationsText.SetText(notificationsReadOrUnread());
                 updateNotifications();
             }
@@ -500,16 +465,14 @@ public class Profile
                 securityFlag = true;
                 notificationText.SetText(security);
             }
-
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                database.notificationsUpdate(loginMiniText);
-                CountNotifications();
-                informationNotificationsText.SetText(database.notificationGet(loginMiniText));
+                database.notificationsUpdate(id.ToString());
+                CountNotifications(id);
+                informationNotificationsText.SetText(database.notificationGet(id));
                 dateNotificationsText.SetText(notificationsReadOrUnread());
                 updateNotifications();
             }
-
             if (switchNotifications.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 if (switchNotifications.IfTexture(switchPartOff))
@@ -518,7 +481,6 @@ public class Profile
                     switchNotificationsCircle.SetPosition(433, 410);
                     notificationWork = true;
                     updateNotifications();
-
                 }
                 else if (switchNotifications.IfTexture(switchPart))
                 {
@@ -527,14 +489,10 @@ public class Profile
                     notificationWork = false;
                     elementNotifications.SetTexture(elementOfNotificationsOff);
                 }
-
             }
-
             clock.Restart();
             canClick = false;
-
         }
-      
         if (flagLogin)
         {
             loginMiniText = line.GetLine();
@@ -549,21 +507,11 @@ public class Profile
             cursorUserName = line.GetCursor();
             line.Update(_window);
         }
-        
-        clic();
-  
-
-   
-
-      
-        
     }
-
     public void workProgram(RenderWindow _window)
     {
         Display(_window);
         ButtonInteraction(_window);
-        
     }
     public void clic()
     {
@@ -572,5 +520,4 @@ public class Profile
             canClick = true;
         }
     }
-
 }

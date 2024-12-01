@@ -54,7 +54,7 @@ public class Warnings
         {
             
             flag = true;
-            warning = "*необходимы цифры, спецсимволы";
+            warning = "*необходимы цифры, спецсимволы, буквы";
         }
         else
         {
@@ -66,7 +66,7 @@ public class Warnings
     {
         InputLine lines = new InputLine();
         string warning = "";
-        bool format = lines.NumberPhoneFormat();
+        bool format = lines.NumberPhoneFormat(line);
         Database database = new Database();
         if (line == "")
         {
@@ -94,7 +94,7 @@ public class Warnings
     {
         InputLine lines = new InputLine();
         string warning = "";
-        bool format = lines.NumberPhoneFormat();
+        bool format = lines.NumberPhoneFormat(line);
         if (line == "")
         {
             flag = true;
@@ -116,7 +116,7 @@ public class Warnings
     {
         InputLine lines = new InputLine();
         string warning = "";
-        bool formatEmail = lines.EmailFormat();
+        bool formatEmail = lines.EmailFormat(line);
        
         if (line == "")
         {

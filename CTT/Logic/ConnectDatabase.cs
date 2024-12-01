@@ -36,7 +36,9 @@ public class Database
         conn.Close();
         if (count == 1)
         {
+            Console.WriteLine("fff");
             return true;
+          
         }
 
         return false;
@@ -82,17 +84,17 @@ public class Database
         conn.Close();
     }
 
-    public void notificationsAdd(string login, string action, string actionMoney)
+    public void notificationsAdd(int id, string action, string actionMoney)
     {
         var conn = GetSqlConnection();
         NpgsqlCommand command = new NpgsqlCommand(
-            $"INSERT INTO Notifications (Login, status, action, actionMoney, date)VALUES('{login}', 'unread', '{action}', '{actionMoney}', now())",
+            $"INSERT INTO Notifications (IdUsers, status, action, actionMoney, date) VALUES('{id}', 'unread', '{action}', '{actionMoney}', now())",
             conn);
         command.ExecuteNonQuery();
         conn.Close();
     }
 
-    public void notificationsUpdate(string login)
+    public void notificationsUpdate(string id)
     {
         string result = null;
         var conn = GetSqlConnection();
@@ -109,7 +111,7 @@ public class Database
 
             using (var command = new NpgsqlCommand(query, conn))
             {
-                command.Parameters.AddWithValue("login", login);
+                command.Parameters.AddWithValue("login", id);
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -188,10 +190,12 @@ public class Database
     }
 
 
-    public string notificationGet(string login)
+       public string notificationGet(int userId)
     {
         string result = null;
+     
         var conn = GetSqlConnection();
+
         using (conn)
         {
             string queryUnread = @"
@@ -204,13 +208,13 @@ public class Database
                         END
                     ) AS ActionWithMoney
                 FROM Notifications
-                WHERE IdUsers = @login AND Status = 'unread'
+                WHERE IdUsers = @IdUsers AND Status = 'unread'
                 ORDER BY Date ASC
                 LIMIT 1";
 
             using (var commandUnread = new NpgsqlCommand(queryUnread, conn))
             {
-                commandUnread.Parameters.AddWithValue("IdUsers", login);
+                commandUnread.Parameters.AddWithValue("IdUsers", NpgsqlTypes.NpgsqlDbType.Integer, userId);
 
                 using (var readerUnread = commandUnread.ExecuteReader())
                 {
@@ -221,10 +225,8 @@ public class Database
                 }
             }
 
-
             if (result == null)
             {
-
                 string queryRead = @"
                     SELECT 
                         CONCAT(
@@ -235,13 +237,13 @@ public class Database
                             END
                         ) AS ActionWithMoney
                     FROM Notifications
-                    WHERE Login = @login AND Status = 'read'
+                    WHERE IdUsers = @IdUsers AND Status = 'read'
                     ORDER BY Date DESC
                     LIMIT 1";
 
                 using (var commandRead = new NpgsqlCommand(queryRead, conn))
                 {
-                    commandRead.Parameters.AddWithValue("login", login);
+                    commandRead.Parameters.AddWithValue("IdUsers", NpgsqlTypes.NpgsqlDbType.Integer, userId);
 
                     using (var readerRead = commandRead.ExecuteReader())
                     {
@@ -251,22 +253,19 @@ public class Database
                         }
                     }
                 }
-
             }
         }
 
         return result;
     }
 
-    public string GetUserId(string numberPhone, string email)
+    public int GetUserId(string numberPhone, string email)
     {
         var conn = GetSqlConnection();
         using (conn)
         {
-            conn.Open();
-
             string query = @"
-                SELECT IdUsers
+                SELECT Id_Users
                 FROM Users
                 WHERE Email = @email AND NumberPhone = @numberPhone";
 
@@ -279,20 +278,20 @@ public class Database
                 {
                     if (reader.Read())
                     {
-                        return reader.GetInt32(0).ToString();
+                        return reader.GetInt32(0);
                     }
                 }
             }
         }
 
-        return string.Empty;
+        return 0;
     }
 
-    public int notificationsCount()
+    public int notificationsCount(int id)
         {
             var conn = GetSqlConnection();
             NpgsqlCommand command = new NpgsqlCommand(
-                $"select count(*) from notifications where Status = 'unread'", conn);
+                $"select count(*) from notifications where Status = 'unread' and idusers = '{id}' ", conn);
             int count = Convert.ToInt32(command.ExecuteScalar());
             conn.Close();
             return count;
