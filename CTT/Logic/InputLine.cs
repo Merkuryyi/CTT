@@ -1,40 +1,30 @@
-﻿
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.Window;
 using System.Text.RegularExpressions;
 namespace CTT.Frame;
     public class InputLine
     {
         private static Button Button;
-        private static Texts Text;
         private static int Cursor = 0;
         public static string Line = "";
         private static bool Flag = true;
         private static bool isVisible = false;
         public static string displayedText;
-
-    public void parametres(Texts text, bool flag)
+        public void parametres(bool flag)
         {
-            Text = text;
             Flag = flag;
         }
-
         public void LineParametr(string line, int cursor)
         {
             Cursor = cursor;
             Line = line;
         }
-        
-
         public void OnKeyPressedName(object sender, KeyEventArgs e)
         {
-            
             HandleNavigationKeys(e);
             HandleNumberInput(e);
             HandleCharacterInput(e);
-
         }
-
         private void HandleNavigationKeys(KeyEventArgs e)
         {
             switch (e.Code)
@@ -46,21 +36,18 @@ namespace CTT.Frame;
                         Cursor--;
                     }
                     break;
-
                 case Keyboard.Key.Delete:
                     if (Cursor < Line.Length)
                     {
                         Line = Line.Remove(Cursor, 1);
                     }
                     break;
-
                 case Keyboard.Key.Left:
                     if (Cursor > 0)
                     {
                         Cursor--;
                     }
                     break;
-
                 case Keyboard.Key.Right:
                     if (Cursor < Line.Length)
                     {
@@ -69,40 +56,30 @@ namespace CTT.Frame;
                     break;
             }
         }
-
-      
-
         private void HandleCharacterInput(KeyEventArgs e)
         {
             char charToAdd = GetCharFromKey(e);
-
             if (charToAdd != '\0')
             {
                 Line = Line.Insert(Cursor, charToAdd.ToString());
                 Cursor++;
             }
         }
-
         private char GetCharFromKey(KeyEventArgs e)
         {
             string keyString = e.Code.ToString();
-
             if (Regex.IsMatch(keyString, @"^[a-zA-Z]$"))
             {
                 bool isShiftPressed = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || Keyboard.IsKeyPressed(Keyboard.Key.RShift);
                 return isShiftPressed ? keyString[0].ToString().ToUpper()[0] : keyString[0].ToString().ToLower()[0];
             }
-
             return '\0';
         }
-
-     
-
         private void HandleNumberInput(KeyEventArgs e){
             string symbol = string.Empty;
             bool isShiftPressed = Keyboard.IsKeyPressed(Keyboard.Key.LShift) || Keyboard.IsKeyPressed(Keyboard.Key.RShift);
-
-            switch (e.Code) {
+            switch (e.Code) 
+            {
                 case Keyboard.Key.Num1:
                     symbol = isShiftPressed ? "!" : "1"; break;
                 case Keyboard.Key.Num2:
@@ -128,32 +105,24 @@ namespace CTT.Frame;
                 case Keyboard.Key.Period:
                     symbol = "."; break;
             }
-
             if (!string.IsNullOrEmpty(symbol)) {
                 Line = Line.Insert(Cursor, symbol);
                 Cursor++;
             }
         }
-
-
-
         public string GetLine()
         {
             return Line;
         }
-
         public int GetCursor()
         {
             return Cursor;
         }
-    
-
         public void clearLine()
         {
             Line = "";
             Cursor = 0;
         }
-
         public void Update(RenderWindow _window)
         {
             /*
@@ -186,12 +155,7 @@ namespace CTT.Frame;
 
 
             }*/
-
-          
         }
-      
-
-
         public bool ContainsSpecialCharsOrDigits()
         {
             
@@ -209,11 +173,8 @@ namespace CTT.Frame;
                 }
             }
             
-
             return false; 
         }
-      
-
         public bool NumberPhoneFormat(string lineBox)
         {
             if (string.IsNullOrEmpty(lineBox))

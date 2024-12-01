@@ -108,20 +108,20 @@ public class Frame3
         uint sizeTextInput = 32;
         uint sizeWarningText = 20;
 
-        titleText = new Texts(138, 125 , font, sizeTextTitleFrame, baseColorText, registrationText );
-        titleRequestСodeNumberPhoneTextMini = new Texts(151, 277 , font, 32, baseColorText, requestNumberPhoneText );
-        requestСodeNumberPhoneText = new Texts(517, 354 , font, 20, colorText, requestText );
-        titleRequestСodeEmailTextMini = new Texts(151, 476 , font, 32, baseColorText, requestEmailText );
-        requestСodeEmailText = new Texts(517, 553 , font, 20, colorText, requestText );
-        RegistrationText = new Texts(293, 847 , font, 32, colorText, registrationTitleText );
+        titleText = new Texts(138, 125 , font, sizeTextTitleFrame, baseColorText, registrationText);
+        titleRequestСodeNumberPhoneTextMini = new Texts(151, 277 , font, 32, baseColorText, requestNumberPhoneText);
+        requestСodeNumberPhoneText = new Texts(517, 354 , font, 20, colorText, requestText);
+        titleRequestСodeEmailTextMini = new Texts(151, 476 , font, 32, baseColorText, requestEmailText);
+        requestСodeEmailText = new Texts(517, 553 , font, 20, colorText, requestText);
+        RegistrationText = new Texts(293, 847 , font, 32, colorText, registrationTitleText);
         numberPhoneMiniText = new Texts(171, 350, font, sizeTextInput, baseColorText, numberPhoneMiniTextFrame);
         emailMiniText = new Texts(171, 549, font, sizeTextInput, baseColorText, emailMiniTextFrame);
         warningNumberPhoneText = new Texts(171, 414 , font, 20, warningTextColor, "" );
-        warningEmailText = new Texts(171, 613 , font, 20, warningTextColor, "" );
-        messageText = new Texts(151, 675, font, 24, nullColorText, boxText1 );
-        messageText2 = new Texts(151, 710, font, 24, nullColorText, boxText2 );
-        messageText3 = new Texts(151, 745, font, 24, nullColorText, boxText3 );
-        backFrameText =   new Texts(151, 914, font, 24, colorMessage, backText );
+        warningEmailText = new Texts(171, 613 , font, 20, warningTextColor, "");
+        messageText = new Texts(151, 675, font, 24, nullColorText, boxText1);
+        messageText2 = new Texts(151, 710, font, 24, nullColorText, boxText2);
+        messageText3 = new Texts(151, 745, font, 24, nullColorText, boxText3);
+        backFrameText = new Texts(151, 914, font, 24, colorMessage, backText);
     }
     public void clic()
     {
@@ -203,11 +203,11 @@ public class Frame3
                 flagFrames.ChangeFlagsFrame();
                 MainForm.frame2 = true;
             }
-            if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) )
+            if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flags.changeFlag();
                 flagNumberPhone = true;
-                line.parametres(numberPhoneMiniText, flagNumberPhone);
+                line.parametres(flagNumberPhone);
                 line.LineParametr(numberPhoneMiniTextFrame , cursorNumberPhonePosition);
             }
             else
@@ -216,7 +216,7 @@ public class Frame3
             {
                 flags.changeFlag();
                 flagEmail = true;
-                line.parametres(emailMiniText, flagEmail);
+                line.parametres(flagEmail);
                 line.LineParametr(emailMiniTextFrame, cursorEmailPosition);
             }
             else

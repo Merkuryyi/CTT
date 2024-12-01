@@ -48,7 +48,7 @@ public class MainForm
         InputLine inputLine = new InputLine();
         _window.KeyPressed += inputLine.OnKeyPressedName;
         Frame1 frames1 = new Frame1();
-        frames1.Sructure1();
+        frames1.Structure();
         Frame2 frames2 = new Frame2();
         frames2.Structure();
         Frame3 frames3 = new Frame3();
@@ -66,32 +66,19 @@ public class MainForm
         { 
             frame1 = true;
         }
-    
         while (_window.IsOpen)
         {  
             Ivents(_window);
-
             if (frame1)
-            { 
-                frames1.workProgram(_window);
-            }
-
+            { frames1.workProgram(_window); }
             if (frame2)
-            { 
-                frames2.workProgram(_window);
-            }
+            { frames2.workProgram(_window); }
             if (frame3)
-            { 
-                frames3.workProgram(_window);
-            }
+            { frames3.workProgram(_window); }
             if (frame4)
-            { 
-                frames4.workProgram(_window);
-            }
+            { frames4.workProgram(_window); }
             if (profile)
-            { 
-                profiles.workProgram(_window);
-            }
+            { profiles.workProgram(_window); }
             _window.Display();
         }
     }
