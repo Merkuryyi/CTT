@@ -182,69 +182,69 @@ public class Profile
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "informationsProfile.png"));
         Texture profileOutExit=
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "exitOutProfile.png"));
-        backgroundFrame = new Button(53, 190, background);
-        backgroundFrameMax = new Button(53, 190, backgroundMax);
-        photoAreaButton = new Button(78, 220, photoArea);
-        settings = new Button(590, 220, settingsIcon);
+        backgroundFrame = new Button(53, 180, background);
+        backgroundFrameMax = new Button(53, 180, backgroundMax);
+        photoAreaButton = new Button(78, 210, photoArea);
+        settings = new Button(590, 210, settingsIcon);
         checkMark = new Button(595, 230, checkMarkIcon);
-        circleNotifications = new Button(383, 400, circleOfNotifications);
+        circleNotifications = new Button(383, 390, circleOfNotifications);
         
-        fartherIconNotification = new Button(600, 400, fartherIcon);
-        fartherIconSecure = new Button(600, 498, fartherIcon);
-        emptyNameButton = new Button(255, 220, emptyButton);
-        emptyLNameButton = new Button(255, 298, emptyButton);
+        fartherIconNotification = new Button(600, 390, fartherIcon);
+        fartherIconSecure = new Button(600, 488, fartherIcon);
+        emptyNameButton = new Button(255, 210, emptyButton);
+        emptyLNameButton = new Button(255, 288, emptyButton);
         baseColorText = new Color(68, 68, 69);
         warningTextColor = new Color(202, 128, 128);
         nullColorText = new Color(255,255, 255);
-        switchNotifications = new Button(388, 403, switchPart);
-        switchNotificationsCircle = new Button(433, 410, miniCircle);
-        elementNotifications = new Button(95, 483, elementOfNotificationsOff);
-        profileExit = new Button(600, 305, profileOutExit);
-        elementNotifications = new Button(95, 483, elementOfNotifications);
+        switchNotifications = new Button(388, 393, switchPart);
+        switchNotificationsCircle = new Button(433, 400, miniCircle);
+        elementNotifications = new Button(95, 473, elementOfNotificationsOff);
+        profileExit = new Button(600, 295, profileOutExit);
+        elementNotifications = new Button(95, 473, elementOfNotifications);
         
-        numberPhoneInformation = new Button(350, 471, profileInformation);
-        emailInformation = new Button(350, 536, profileInformation);
-        passwordInformation = new Button(350, 601, profileInformation);
+        numberPhoneInformation = new Button(350, 461, profileInformation);
+        emailInformation = new Button(350, 526, profileInformation);
+        passwordInformation = new Button(350, 591, profileInformation);
         
-        loginMiniText = SavingLogin.ReadNameFromFile();
-        userNameMiniText = SavingLogin.ReadLNameFromFile();
+        loginMiniText = WorkWithJson.ReadNameFromFile();
+        userNameMiniText = WorkWithJson.ReadLNameFromFile();
         notifications = "Уведомления";
         security = "Безопасность";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
-        firstName = new Texts(283, 227, font, 40, baseColorText, loginMiniText);
-        lastName = new Texts(283, 305, font, 40, baseColorText, userNameMiniText);
-        notificationText = new Texts(95, 393, font, 40, baseColorText, notifications);
-        securityText = new Texts(95, 486, font, 40, baseColorText, security);
-        warningNameText = new Texts(563, 244, font, 20, warningTextColor, "");
-        warningLNameText = new Texts(563, 325, font, 20, warningTextColor, "");
-        countNotificationsText = new Texts(397, 407, font, 20, baseColorText, "");
+        firstName = new Texts(283, 217, font, 40, baseColorText, loginMiniText);
+        lastName = new Texts(283, 295, font, 40, baseColorText, userNameMiniText);
+        notificationText = new Texts(95, 383, font, 40, baseColorText, notifications);
+        securityText = new Texts(95, 476, font, 40, baseColorText, security);
+        warningNameText = new Texts(563, 234, font, 20, warningTextColor, "");
+        warningLNameText = new Texts(563, 315, font, 20, warningTextColor, "");
+        countNotificationsText = new Texts(397, 397, font, 20, baseColorText, "");
         
         string markNotifications = "Отметить как прочитанное";
-        informationNotificationsText = new Texts(266, 483, font, 32, baseColorText, "");
-        dateNotificationsText = new Texts(266, 550, font, 24, baseColorText, "");
-        markNotificationsText = new Texts(227, 600, font, 24, baseColorText, markNotifications);
-        string password = SavingLogin.ReadPasswordFromFile();
+        informationNotificationsText = new Texts(266, 473, font, 32, baseColorText, "");
+        dateNotificationsText = new Texts(266, 540, font, 24, baseColorText, "");
+        markNotificationsText = new Texts(227, 590, font, 24, baseColorText, markNotifications);
+        string password = WorkWithJson.ReadPasswordFromFile();
         email = MaskEmail();
         numberPhone = MaskPhoneNumber();
         
-        numberPhoneInformationText = new Texts(359, 472, font, 24, baseColorText, numberPhone);
-        emailInformationText = new Texts(359, 536, font, 24, baseColorText, email);
-        passwordInformationText = new Texts(359, 603, font, 24, baseColorText, password);
+        numberPhoneInformationText = new Texts(359, 462, font, 24, baseColorText, numberPhone);
+        emailInformationText = new Texts(359, 526, font, 24, baseColorText, email);
+        passwordInformationText = new Texts(359, 593, font, 24, baseColorText, password);
         
         string passwordText = "Пароль";
         string emailText = "Почта";
         string numberPhoneText = "Номер телефона";
         
-        numberPhoneInformationTitleText = new Texts(95, 472, font, 24, baseColorText, numberPhoneText);
-        emailInformationTitleText = new Texts(95, 536, font, 24, baseColorText, emailText);
-        passwordInformationTitleText = new Texts(95, 603, font, 24, baseColorText, passwordText);
-        int id = database.GetUserId(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile());
+        numberPhoneInformationTitleText = new Texts(95, 462, font, 24, baseColorText, numberPhoneText);
+        emailInformationTitleText = new Texts(95, 526, font, 24, baseColorText, emailText);
+        passwordInformationTitleText = new Texts(95, 593, font, 24, baseColorText, passwordText);
+        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
         CountNotifications(id);
         dateNotificationsText.SetText(notificationsReadOrUnread());
         informationNotificationsText.SetText(database.notificationGet(id));
-        cursorLogin = SavingLogin.ReadNameFromFile().Length;
-        cursorUserName = SavingLogin.ReadLNameFromFile().Length;
+        cursorLogin = WorkWithJson.ReadNameFromFile().Length;
+        cursorUserName = WorkWithJson.ReadLNameFromFile().Length;
     }
     private void CountNotifications(int id)
     {
@@ -293,13 +293,13 @@ public class Profile
         { warningLNameText.SetText(""); }
         if (!warningLogin && !warningUserName)
         {
-            database.updateNameUser(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile(), loginMiniText, userNameMiniText);
-            SavingLogin.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
+            database.updateNameUser(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile(), loginMiniText, userNameMiniText);
+            WorkWithJson.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
         }  
     }
     public static string MaskEmail()
     {
-        string email = SavingLogin.ReadEmailFromFile();
+        string email = WorkWithJson.ReadEmailFromFile();
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         if (Regex.IsMatch(email, pattern))
         {
@@ -316,7 +316,7 @@ public class Profile
     }
     public static string MaskPhoneNumber()
     {
-        string phoneNumber = SavingLogin.ReadPhoneNumberFromFile();
+        string phoneNumber = WorkWithJson.ReadPhoneNumberFromFile();
         string pattern = @"^8\d{10}$";
         if (Regex.IsMatch(phoneNumber, pattern))
         {
@@ -328,7 +328,7 @@ public class Profile
     private void ButtonInteraction(RenderWindow _window)
     {
         mousePosition = Mouse.GetPosition(_window);
-        int id = database.GetUserId(SavingLogin.ReadPhoneNumberFromFile(), SavingLogin.ReadEmailFromFile());
+        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
         clic();
         if (Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -336,9 +336,10 @@ public class Profile
             {
                 _window.Clear(Color.White);
                 flagFrames.ChangeFlagsFrame();
-                SavingLogin.cleanLoginData();
+                WorkWithJson.cleanLoginData();
                 MainForm.frame1 = true;
             }
+            
             if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 Warning();
@@ -392,7 +393,8 @@ public class Profile
                 dateNotificationsText.SetText(notificationsReadOrUnread());
                 updateNotifications();
             }
-            else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            else if (securityText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) || 
+                     fartherIconSecure.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 notificationsFlag = false;
                 mainProfileFlag = false;

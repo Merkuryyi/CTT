@@ -211,7 +211,7 @@ public class Frame4
                 passwordMiniTextFrame);
             int id = database.GetUserId(numberPhoneMiniTextFrame, emailMiniTextFrame);
             
-            SavingLogin.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame,
+            WorkWithJson.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame,
                 emailMiniTextFrame, passwordMiniTextFrame);
             database.notificationsAdd(id, "Выполнен вход", "0");
             flags.changeFlag();
@@ -409,7 +409,7 @@ public class Frame4
         if (!warningPasswordRestoreAcess  && !flagNumberCodeNumber && !flagNumberCodeEmail)
         {
             database.updateUser(numberPhoneMiniTextFrame, emailMiniTextFrame, passwordTextMiniTextResoreAcessFrame);
-            SavingLogin.UpdatePasswordInJson(passwordTextMiniTextResoreAcessFrame);
+            WorkWithJson.UpdatePasswordInJson(passwordTextMiniTextResoreAcessFrame);
         }
     }
     public static void clicRestoreAcess()

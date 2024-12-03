@@ -21,7 +21,7 @@ public class Frame1
         line = new InputLine();
         flagFrames = new FlagFrames();
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
-        Texture backgroundTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundFrame1.png"));
+        Texture backgroundTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundFrame.png"));
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
         Color baseColorText = new Color(68, 68, 69);
         Color colorText = new Color(0, 0, 0);

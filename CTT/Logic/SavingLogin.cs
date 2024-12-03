@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Text.Json;
-public class SavingLogin
+public class WorkWithJson
 {
     private static string filePath = "userdata.json";
     public static void SaveToJson(string name, string lname, string phoneNumber, string email, string password)

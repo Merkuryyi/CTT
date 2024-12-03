@@ -147,7 +147,7 @@ public class Frame3
             database.registrationUser(name, lname, numberPhone, email ,password);
             nextWindow = true;
             int id = database.GetUserId(numberPhone, email);
-            SavingLogin.SaveToJson(Frame2.loginMiniTextFrame, Frame2.userNameMiniTextFrame,
+            WorkWithJson.SaveToJson(Frame2.loginMiniTextFrame, Frame2.userNameMiniTextFrame,
             Frame2.numberPhoneMiniTextFrame,
             Frame2.emailMiniTextFrame, Frame2.passwordMiniTextFrame);
             database.notificationsAdd(id, "Выполнен вход", "0");
