@@ -242,7 +242,6 @@ public class Frame3
     }
     public void Display(RenderWindow _window)
     {
-        _window.Clear(new Color(233, 233, 233));      
         backgroundFrame.Draw(_window);
         buttonEmptyEmailSprite.Draw(_window);
         buttonEmptyNumberPfoneSprite.Draw(_window);

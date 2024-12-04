@@ -34,7 +34,6 @@ public class Frame1
     }
     public void Display(RenderWindow _window)
     {
-        _window.Clear(new Color(230, 230, 230));
         backgroundFrame.Draw(_window); 
         buttonLogin.Draw(_window); 
         titleText.Draw(_window); 

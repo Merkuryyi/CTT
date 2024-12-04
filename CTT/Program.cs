@@ -9,7 +9,10 @@ public class MainForm
     public static bool frame2 = false;
     public static bool frame3 = false;
     public static bool frame4 = false;
-    public static bool profile;
+    public static bool profile = false;
+    public static bool topPanel;
+    public static bool frame9;
+    
     private static string filePath = "userdata.json";
     public static RenderWindow Form()
     {
@@ -58,16 +61,23 @@ public class MainForm
         frames4.restoreAccessSructure();
         Profile profiles = new Profile();
         profiles.Structure();
+        Frame9 frames9 = new Frame9();
+            frames9.Structure();
+        topPanel topPaneles = new topPanel();
+        topPaneles.Structure();
         if (fastLogin)
         {
-            profile = true;
+            frame9 = true;
+            topPanel = true;
+
         }
         else if (!fastLogin)
         { 
-            frame1 = true;
+            topPanel = false;
         }
         while (_window.IsOpen)
-        {  
+        {    
+            _window.Clear(new Color(230, 230, 230));
             Ivents(_window);
             if (frame1)
             { frames1.workProgram(_window); }
@@ -77,8 +87,15 @@ public class MainForm
             { frames3.workProgram(_window); }
             if (frame4)
             { frames4.workProgram(_window); }
+            if (frame9)
+            { frames9.workProgram(_window); }
             if (profile)
             { profiles.workProgram(_window); }
+            if (topPanel)
+            { topPaneles.workProgram(_window); }
+            
+            
+            
             _window.Display();
         }
     }

@@ -8,5 +8,7 @@ public class FlagFrames
         MainForm.frame2 = false;
         MainForm.frame3 = false;
         MainForm.frame4 = false;
+        MainForm.profile = false;
+        MainForm.topPanel = false;
     }
 }

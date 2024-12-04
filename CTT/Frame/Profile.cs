@@ -88,7 +88,6 @@ public class Profile
     private Vector2i mousePosition;
     public void Display(RenderWindow _window)
     {
-        _window.Clear(new Color(233, 233, 233));
         if (mainProfileFlag)
         {
             backgroundFrame.Draw(_window);

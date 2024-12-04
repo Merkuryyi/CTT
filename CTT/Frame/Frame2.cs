@@ -175,8 +175,6 @@ public class Frame2
     }
     public void Display(RenderWindow _window)
     {
-        _window.Clear(new Color(230, 230, 230));
-        
         backgroundFrame.Draw(_window);
         buttonLoginSprite.Draw(_window); 
         buttonNumberPhoneSprite.Draw(_window);
@@ -316,7 +314,7 @@ public class Frame2
                     !warningFlagPassword &&
                     !warningFlagRepeatPassword)
                 {
-                    flagFrames.ChangeFlagsFrame();
+                   flagFrames.ChangeFlagsFrame();
                     _window.Clear(Color.White);
                     MainForm.frame3 = true;
                 }

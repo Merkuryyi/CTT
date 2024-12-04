@@ -335,7 +335,6 @@ public class Frame4
     }
     public void Display(RenderWindow _window)
     {
-        _window.Clear(new Color(233, 233, 233));
         backgroundFrame.Draw(_window);
         buttonEmptyNumberPhoneSprite.Draw(_window);
         buttonSprite.Draw(_window);

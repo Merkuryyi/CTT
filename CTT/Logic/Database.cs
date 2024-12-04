@@ -288,34 +288,110 @@ public class Database
     }
 
     public int notificationsCount(int id)
+    {
+        var conn = GetSqlConnection();
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"select count(*) from notifications where Status = 'unread' and idusers = '{id}' ", conn);
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        conn.Close();
+        return count;
+    }
+
+    public (string FirstName, string LastName) GetUserFullName(string numberPhone, string email, string password)
+    {
+        var conn = GetSqlConnection();
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"SELECT Login, username FROM users WHERE NumberPhone = '{numberPhone}' and Email = '{email}' and password = '{password}'",
+            conn);
+
+        using (var reader = command.ExecuteReader())
         {
-            var conn = GetSqlConnection();
-            NpgsqlCommand command = new NpgsqlCommand(
-                $"select count(*) from notifications where Status = 'unread' and idusers = '{id}' ", conn);
-            int count = Convert.ToInt32(command.ExecuteScalar());
-            conn.Close();
-            return count;
+            if (reader.Read())
+            {
+                string firstName = reader.GetString(0);
+                string lastName = reader.GetString(1);
+                conn.Close();
+                return (firstName, lastName);
+            }
         }
 
-        public (string FirstName, string LastName) GetUserFullName(string numberPhone, string email, string password)
+        conn.Close();
+        return (null, null);
+    }
+    public string ticketPriceGet(string ticketName)
+    {
+        string ticketPrice = null;
+        try
         {
-            var conn = GetSqlConnection();
-            NpgsqlCommand command = new NpgsqlCommand(
-                $"SELECT Login, username FROM users WHERE NumberPhone = '{numberPhone}' and Email = '{email}' and password = '{password}'",
-                conn);
-
-            using (var reader = command.ExecuteReader())
+            using (var conn = GetSqlConnection())
             {
-                if (reader.Read())
+                string query = "SELECT CONCAT(ticketPrice, '\u20bd') FROM tickets WHERE ticketName = @ticketName";
+                using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                 {
-                    string firstName = reader.GetString(0);
-                    string lastName = reader.GetString(1);
-                    conn.Close();
-                    return (firstName, lastName);
+                    command.Parameters.AddWithValue("ticketName", ticketName);
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        ticketPrice = result.ToString();
+                    }
                 }
             }
-
-            conn.Close();
-            return (null, null);
         }
+        catch (Exception)
+        {
+            ticketPrice = null;
+        }
+        return ticketPrice;
     }
+    public string ticketDecriptionGet(string ticketName)
+    {
+        string ticketDecription = null;
+        try
+        {
+            using (var conn = GetSqlConnection())
+            {
+                string query = "SELECT ticketDescription FROM tickets WHERE ticketName = @ticketName";
+                using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("ticketName", ticketName);
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        ticketDecription = result.ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception)
+        {
+            ticketDecription = null;
+        }
+        return ticketDecription;
+    }
+    public string ticketCardPriceGet(string ticketName)
+    {
+        string ticketPrice = null;
+        try
+        {
+            using (var conn = GetSqlConnection())
+            {
+                string query = "SELECT CONCAT(ticketCardsPrice, '\u20bd') FROM ticketCards WHERE ticketCardName = @ticketName";
+                using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("ticketName", ticketName);
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        ticketPrice = result.ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception)
+        {
+            ticketPrice = null;
+        }
+        return ticketPrice;
+    }
+
+}
