@@ -127,7 +127,7 @@ public class Frame9
         
         string titleTicketPension = "Пенсионный билет";
         string descriptionTicketPension = database.ticketDecriptionGet(titleTicketPension);
-        string warning = "*Необходим документ";
+        string warning = "*необходим документ";
         string pricePensionTicket = database.ticketPriceGet(titleTicketPension);
         titleTicketPensionText = new Texts(282, 569, font, 36, baseColorText, titleTicketPension);
         decriptionTicketPensionText = new Texts(286, 624, font, 20, baseColorText, descriptionTicketPension);

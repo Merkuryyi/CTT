@@ -37,17 +37,19 @@ namespace CTT
         {
             return textElement.GetGlobalBounds();
         }
-
-        public bool IsPressed(Vector2i mousePosition)
-        {
-            return textElement.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y);
-        }
+        
         public void SetText(string newText)
         {
-            
             textElement.DisplayedString = newText;
         }
-        
+        public bool IfTexts(string texts)
+        {
+            return textElement.DisplayedString == texts;
+        }
+        public string GetTextString()
+        {
+            return textElement.DisplayedString;
+        }
         public void SetColor(Color newColor)
         {
             textElement.FillColor = newColor;

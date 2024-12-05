@@ -114,11 +114,12 @@ public class Database
 
     public void notificationsAdd(int id, string action, string actionMoney)
     {
+        float actionMoneyConvert = float.Parse(actionMoney);
         try
         {
             var conn = GetSqlConnection();
             NpgsqlCommand command = new NpgsqlCommand(
-                $"INSERT INTO Notifications (IdUsers, status, action, actionMoney, date) VALUES('{id}', 'unread', '{action}', '{actionMoney}', now())",
+                $"INSERT INTO Notifications (IdUsers, status, action, actionMoney, date) VALUES('{id}', 'unread', '{action}', '{actionMoneyConvert}', now())",
                 conn);
             command.ExecuteNonQuery();
             conn.Close();
@@ -458,7 +459,7 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-                string query = "SELECT CONCAT(ticketCardsPrice, '\u20bd') FROM ticketCards WHERE ticketCardName = @ticketName";
+                string query = "SELECT ticketCardsPrice FROM ticketCards WHERE ticketCardName = @ticketName";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("ticketName", ticketName);

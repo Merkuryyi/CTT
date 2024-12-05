@@ -13,6 +13,8 @@ public class MainForm
     public static bool topPanel;
     public static bool frame9;
     public static bool frame8;
+    public static bool frame7;
+    public static bool frame6;
     private static string filePath = "userdata.json";
     public static RenderWindow Form()
     {
@@ -60,7 +62,11 @@ public class MainForm
         frames4.Structure();
         frames4.restoreAccessSructure();
         Profile profiles = new Profile();
+        Frame6 frames6 = new Frame6();
+        frames6.Structure();
         profiles.Structure();
+        Frame7 frames7 = new Frame7();
+        frames7.Structure();
         Frame9 frames9 = new Frame9();
         frames9.Structure();
         topPanel topPaneles = new topPanel();
@@ -69,7 +75,7 @@ public class MainForm
         frames8.Structure();
         if (fastLogin)
         {
-            frame8 = true;
+            frame6 = true;
             topPanel = true;
 
         }
@@ -79,6 +85,10 @@ public class MainForm
         if (frame9)
         { topPanel = true; }
         if (frame8)
+        { topPanel = true; }
+        if (frame7)
+        { topPanel = true; }
+        if (frame6)
         { topPanel = true; }
         while (_window.IsOpen)
         {    
@@ -92,14 +102,19 @@ public class MainForm
             { frames3.workProgram(_window); }
             if (frame4)
             { frames4.workProgram(_window); }
+            if (frame6)
+            { frames6.workProgram(_window); }
+            if (frame7)
+            { frames7.workProgram(_window); }
+            if (frame8)
+            { frames8.workProgram(_window); }
             if (frame9)
             { frames9.workProgram(_window); }
             if (profile)
             { profiles.workProgram(_window); }
             if (topPanel)
             { topPaneles.workProgram(_window); }
-            if (frame8)
-            { frames8.workProgram(_window); }
+            
             
             
             _window.Display();
