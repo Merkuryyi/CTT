@@ -3,7 +3,7 @@ using SFML.Window;
 using SFML.System;
 namespace CTT.Frame;
 
-public class Frame3
+public class ConfirmationRegistration
 {
     private static bool flagEmailCodeNext = true;
     private static bool flagNumberPhoneCodeNext = true;
@@ -139,17 +139,17 @@ public class Frame3
         
         if (!flagEmailCodeNext && !flagNumberPhoneCodeNext )
         {
-            string name = Frame2.loginMiniTextFrame;
-            string lname = Frame2.userNameMiniTextFrame;
-            string numberPhone = Frame2.numberPhoneMiniTextFrame;
-            string email = Frame2.emailMiniTextFrame;
-            string password = Frame2.passwordMiniTextFrame;
+            string name = Registration.loginMiniTextFrame;
+            string lname = Registration.userNameMiniTextFrame;
+            string numberPhone = Registration.numberPhoneMiniTextFrame;
+            string email = Registration.emailMiniTextFrame;
+            string password = Registration.passwordMiniTextFrame;
             database.registrationUser(name, lname, numberPhone, email ,password);
             nextWindow = true;
             int id = database.GetUserId(numberPhone, email);
-            WorkWithJson.SaveToJson(Frame2.loginMiniTextFrame, Frame2.userNameMiniTextFrame,
-            Frame2.numberPhoneMiniTextFrame,
-            Frame2.emailMiniTextFrame, Frame2.passwordMiniTextFrame);
+            WorkWithJson.SaveToJson(Registration.loginMiniTextFrame, Registration.userNameMiniTextFrame,
+            Registration.numberPhoneMiniTextFrame,
+            Registration.emailMiniTextFrame, Registration.passwordMiniTextFrame);
             database.notificationsAdd(id, "Выполнен вход", "0");
         }
     }

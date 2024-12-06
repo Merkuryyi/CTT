@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class Frame8
+public class News
 {
     
     private static Clock clock;

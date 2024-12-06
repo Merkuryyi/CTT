@@ -119,14 +119,12 @@ public class topPanel
             {
                 if (!profile)
                 {
-                    flagFrames.ChangeFlagsFrame();
                     MainForm.profile = true;
                     MainForm.topPanel = true;
                     profile = true;
                 }
                 else
                 {
-                    flagFrames.ChangeFlagsFrame();
                     MainForm.profile = false;
                     MainForm.topPanel = true;
                     profile = false;
@@ -135,8 +133,7 @@ public class topPanel
 
             if (backgroundCatalogOnPanel.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
                 || catalogOnPanel.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
-                || farther.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)
-                )
+                || farther.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flagFrames.ChangeFlagsFrame();
                 MainForm.topPanel = true;

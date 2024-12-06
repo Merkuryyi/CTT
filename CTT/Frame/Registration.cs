@@ -2,7 +2,7 @@
 using SFML.Window;
 using SFML.System;
 namespace CTT.Frame;
-public class Frame2
+public class Registration
 {
     private static int cursorLnamePosition;
     private static int cursorNamePosition;

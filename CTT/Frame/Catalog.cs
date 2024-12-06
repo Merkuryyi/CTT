@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class Frame9
+public class Catalog
 {
     
     private static Clock clock;
@@ -43,6 +43,7 @@ public class Frame9
     private Texts titleTicketCardStudentText2;
     private Texts priceStudentTicketCardText;
     private Texts warningsStudentCardText;
+  
 
     private static bool canClick;
     public void Display(RenderWindow _window)
@@ -94,9 +95,11 @@ public class Frame9
         Texture backgroundRightTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundRightWithTop.png"));
         Texture backgroundTicketsTexture =
-            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgrondTicket.png"));
+            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundTicket.png"));
         Texture fartherIcon =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fartherIcon.png"));
+       
+        
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         backgroundLeft = new Button(53, 170, backgroundLeftTexture);
         backgroundRight = new Button(994, 170, backgroundRightTexture);
@@ -109,6 +112,9 @@ public class Frame9
         ticketTravelUpper = new Button(1038, 316, backgroundTicketsTexture);
         ticketTravelMiddle = new Button(1038, 542, backgroundTicketsTexture);
         ticketTravelLower = new Button(1038, 767, backgroundTicketsTexture);
+        
+        
+        
         
         Color baseColorText = new Color(68, 68, 69);
         Color warningTextColor = new Color(202, 128, 128);
@@ -177,9 +183,22 @@ public class Frame9
         mousePosition = Mouse.GetPosition(_window);
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
-           
-           
-            
+
+            if (fartherLeft.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                flagFrames.ChangeFlagsFrame();
+                MainForm.frame6 = true;
+                MainForm.topPanel = true;
+                
+            }
+            if (fartherRight.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                flagFrames.ChangeFlagsFrame();
+                MainForm.frame7 = true;
+                MainForm.topPanel = true;
+                
+            }
+
             clock.Restart();
             canClick = false;
         }

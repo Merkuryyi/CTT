@@ -4,21 +4,21 @@ public class Flags
 {
     public void changeFlag()
     {
-        Frame2.flagUserName = false;
-        Frame2.flagLogin = false;
-        Frame2.flagPassword = false;
-        Frame2.flagRepeatPassword = false;
-        Frame2.flagNumberPhone = false;
-        Frame2.flagEmail = false;
-        Frame3.flagNumberPhone = false;
-        Frame3.flagEmail = false;
-        Frame4.flagNumberPhone = false;
-        Frame4.flagEmail = false;
-        Frame4.flagPassword = false;
-        Frame4.flagNumberPhoneRestoreAccess = false;
-        Frame4.flagEmailRestoreAccess = false;
-        Frame4.flagPasswordRestoreAccess = false;
-        Frame4.flagRepeatPasswordRestoreAccess = false;
+        Registration.flagUserName = false;
+        Registration.flagLogin = false;
+        Registration.flagPassword = false;
+        Registration.flagRepeatPassword = false;
+        Registration.flagNumberPhone = false;
+        Registration.flagEmail = false;
+        ConfirmationRegistration.flagNumberPhone = false;
+        ConfirmationRegistration.flagEmail = false;
+        LogIn.flagNumberPhone = false;
+        LogIn.flagEmail = false;
+        LogIn.flagPassword = false;
+        LogIn.flagNumberPhoneRestoreAccess = false;
+        LogIn.flagEmailRestoreAccess = false;
+        LogIn.flagPasswordRestoreAccess = false;
+        LogIn.flagRepeatPasswordRestoreAccess = false;
         Profile.flagLogin = false;
         Profile.flagUserName = false;
 

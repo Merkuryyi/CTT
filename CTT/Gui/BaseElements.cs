@@ -16,17 +16,8 @@ public abstract  class BaseElements
     public Vector2f Position { get; set; }
     
     protected Texts TextsElement  { get; set; }
-   
-    
-    
-    
-    
+ 
     public abstract void Draw(RenderWindow _window);
-    
-    
-    
-    
-    
 
 }
 

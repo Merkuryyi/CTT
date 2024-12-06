@@ -257,7 +257,7 @@ public class Database
                         CONCAT(
                             Action, 
                             CASE 
-                                WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '') || '₽'
+                                WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '')
                                 ELSE ''
                             END
                         ) AS ActionWithMoney
@@ -286,7 +286,7 @@ public class Database
                             CONCAT(
                                 Action, 
                                 CASE 
-                                    WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '') || '₽'
+                                    WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '')
                                     ELSE ''
                                 END
                             ) AS ActionWithMoney

@@ -159,10 +159,10 @@ namespace CTT.Frame;
         public bool ContainsSpecialCharsOrDigits()
         {
             
-            string lineBox = Frame2.passwordMiniTextFrame;
-            if (Frame4.passwordMiniTextFrame != "")
+            string lineBox = Registration.passwordMiniTextFrame;
+            if (LogIn.passwordMiniTextFrame != "")
             {
-                lineBox = Frame4.passwordMiniTextFrame;
+                lineBox = LogIn.passwordMiniTextFrame;
             }
             
             foreach (char c in lineBox)

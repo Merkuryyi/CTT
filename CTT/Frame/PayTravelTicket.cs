@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class Frame7
+public class PayTravelTicket
 {
     
     private static Clock clock;
@@ -128,7 +128,7 @@ public class Frame7
         benefitsStudent = "Студенческий";
         
         string titleTicketCard2 = "проездной билет";
-        string priceTravelTicket = database.ticketCardPriceGet(benefitsShared) + "\u20bd";
+        string priceTravelTicket = database.ticketCardPriceGet(benefitsShared);
         amount = database.ticketCardPriceGet(benefitsShared);
         warningDocument = "*необходим документ, можно купить только 1 за месяц";
         warning = "*можно купить только 1 за месяц";
@@ -234,7 +234,6 @@ public class Frame7
                 string email = WorkWithJson.ReadEmailFromFile();
                 int id = database.GetUserId(numberPhone, email);
                database.notificationsAdd(id, "Списание", amount);
-               //yfgbcfnm ,fkfyc
             }
 
             clock.Restart();

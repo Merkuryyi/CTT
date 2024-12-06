@@ -15,6 +15,7 @@ public class MainForm
     public static bool frame8;
     public static bool frame7;
     public static bool frame6;
+    public static bool frame5;
     private static string filePath = "userdata.json";
     public static RenderWindow Form()
     {
@@ -52,30 +53,34 @@ public class MainForm
  
         InputLine inputLine = new InputLine();
         _window.KeyPressed += inputLine.OnKeyPressedName;
-        Frame1 frames1 = new Frame1();
-        frames1.Structure();
-        Frame2 frames2 = new Frame2();
-        frames2.Structure();
-        Frame3 frames3 = new Frame3();
-        frames3.Structure();
-        Frame4 frames4 = new Frame4();
-        frames4.Structure();
-        frames4.restoreAccessSructure();
-        Profile profiles = new Profile();
-        Frame6 frames6 = new Frame6();
-        frames6.Structure();
-        profiles.Structure();
-        Frame7 frames7 = new Frame7();
-        frames7.Structure();
-        Frame9 frames9 = new Frame9();
-        frames9.Structure();
         topPanel topPaneles = new topPanel();
         topPaneles.Structure();
-        Frame8 frames8 = new Frame8();
+        InitialPage frames1 = new InitialPage();
+        frames1.Structure();
+        Registration frames2 = new Registration();
+        frames2.Structure();
+        ConfirmationRegistration frames3 = new ConfirmationRegistration();
+        frames3.Structure();
+        LogIn frames4 = new LogIn();
+        frames4.Structure();
+        frames4.restoreAccessSructure();
+        
+        PayTicket frames6 = new PayTicket();
+        frames6.Structure();
+       
+        PayTravelTicket frames7 = new PayTravelTicket();
+        frames7.Structure();
+        Catalog frames9 = new Catalog();
+        frames9.Structure();
+        
+        News frames8 = new News();
         frames8.Structure();
+        
+        Profile profiles = new Profile();
+        profiles.Structure();
         if (fastLogin)
         {
-            frame6 = true;
+            frame9 = true;
             topPanel = true;
 
         }

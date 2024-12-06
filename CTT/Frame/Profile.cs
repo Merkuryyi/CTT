@@ -333,7 +333,6 @@ public class Profile
         {
             if (profileExit.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                _window.Clear(Color.White);
                 flagFrames.ChangeFlagsFrame();
                 WorkWithJson.cleanLoginData();
                 MainForm.frame1 = true;

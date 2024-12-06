@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class Frame5
+public class MainPage
 {
     
     private static Clock clock;

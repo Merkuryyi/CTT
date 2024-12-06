@@ -31,13 +31,10 @@ namespace CTT
         {
             _window.Draw(textElement);
         }
-        
-
         public FloatRect GetGlobalBounds()
         {
             return textElement.GetGlobalBounds();
         }
-        
         public void SetText(string newText)
         {
             textElement.DisplayedString = newText;
@@ -63,9 +60,5 @@ namespace CTT
         {
             textElement.Position = new Vector2f(x, y); 
         }
-        
-        
-
-       
     }
 }

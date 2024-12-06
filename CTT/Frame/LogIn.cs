@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class Frame4
+public class LogIn
 {
     private static int cursorEmailPositionRestoreAccess;
     public static int cursorNumberPhonePositionRestoreAccess;

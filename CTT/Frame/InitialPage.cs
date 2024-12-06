@@ -2,7 +2,7 @@
 using SFML.Window;
 using SFML.System;
 namespace CTT.Frame;
-public class Frame1
+public class InitialPage
 {
     private static Button buttonLogin;
     private static Button backgroundFrame;
