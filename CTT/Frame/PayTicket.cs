@@ -321,13 +321,6 @@ public class PayTicket
             warningTextUpper.SetText(warningDocument);
         }
     }
-
-    private void countPriceTicket(Texts text, string price, string count)
-    {
-        float priceCount = float.Parse(price) * int.Parse(count);
-        text.SetText(priceCount.ToString());
-    }
-
     private void setPrice(string price, string title, string warning)
     {
         
