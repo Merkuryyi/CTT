@@ -151,6 +151,7 @@ public class ConfirmationRegistration
             Registration.numberPhoneMiniTextFrame,
             Registration.emailMiniTextFrame, Registration.passwordMiniTextFrame);
             database.notificationsAdd(id, "Выполнен вход", "0");
+            database.addCard(id);
         }
     }
     public void ButtonInteraction(RenderWindow _window)

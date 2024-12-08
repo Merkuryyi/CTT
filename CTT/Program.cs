@@ -64,7 +64,8 @@ public class MainForm
         LogIn frames4 = new LogIn();
         frames4.Structure();
         frames4.restoreAccessSructure();
-        
+        MainPage mainPage = new MainPage();
+        mainPage.Structure();
         PayTicket frames6 = new PayTicket();
         frames6.Structure();
        
@@ -80,8 +81,7 @@ public class MainForm
         profiles.Structure();
         if (fastLogin)
         {
-            frame9 = true;
-            topPanel = true;
+            frame5 = true;
 
         }
         else if (!fastLogin)
@@ -95,6 +95,8 @@ public class MainForm
         { topPanel = true; }
         if (frame6)
         { topPanel = true; }
+        if (frame5)
+        { topPanel = true; }
         while (_window.IsOpen)
         {    
             _window.Clear(new Color(230, 230, 230));
@@ -107,6 +109,8 @@ public class MainForm
             { frames3.workProgram(_window); }
             if (frame4)
             { frames4.workProgram(_window); }
+            if (frame5)
+            { mainPage.workProgram(_window); }
             if (frame6)
             { frames6.workProgram(_window); }
             if (frame7)

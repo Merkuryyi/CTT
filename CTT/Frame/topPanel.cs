@@ -11,7 +11,7 @@ public class topPanel
     private Vector2i mousePosition;
     private Button backgroundProfile;
     private Button photoProfile;
-    private Texts userNameOnPanel;
+    public static Texts userNameOnPanel;
     private Texts nameProgramOnPanel;
     private Button logoProgram;
     private Button backgroundLogo;
@@ -101,7 +101,7 @@ public class topPanel
         string refund = "Возврат средств";
         string details = "Подробности";
         string catalog = "Каталог билетов и проездных";
-        userNameOnPanel = new Texts(126, 79, font, 32, baseColorText, userName);
+        userNameOnPanel = new Texts(126, 87, font, 24, baseColorText, userName);
         nameProgramOnPanel = new Texts(413, 71, font, 48, baseColorText, nameProgram);
         searchOnPanel = new Texts(556, 63, font, 20, baseColorText, search);
         refundOnPanel = new Texts(756, 118, font, 20, baseColorText, refund);
@@ -139,9 +139,19 @@ public class topPanel
                 MainForm.topPanel = true;
                 MainForm.frame9 = true;
             }
+            if (logoProgram.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)
+                || backgroundLogo.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                flagFrames.ChangeFlagsFrame();
+                MainForm.topPanel = true;
+                MainForm.frame5 = true;
+            }
             clock.Restart();
             canClick = false;
         }
+        
+       
+
         clic();
     }
     public void workProgram(RenderWindow _window)

@@ -23,7 +23,15 @@ public class Database
         command.ExecuteNonQuery();
         conn.Close();
     }
-
+    public void addCard(int id)
+    {
+        var conn = GetSqlConnection();
+        NpgsqlCommand command = new NpgsqlCommand(
+            $"insert into cards (idusers, balance) values ('{id}', '0' )",
+            conn);
+        command.ExecuteNonQuery();
+        conn.Close();
+    }
     public bool loginUser(string numberPhone, string email, string password)
     {
         var conn = GetSqlConnection();
@@ -39,7 +47,6 @@ public class Database
             {
                 Console.WriteLine("fff");
                 return true;
-          
             }
         }
         catch (Exception)
@@ -49,7 +56,6 @@ public class Database
 
         return false;
     }
-
     public bool uniqueNumberPhone(string numberPhone)
     {
         var conn = GetSqlConnection();
@@ -459,7 +465,7 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-                string query = "SELECT ticketCardsPrice FROM ticketCards WHERE ticketCardName = @ticketName";
+                string query = "SELECT travelticketsprice FROM tickettravel WHERE travelticketName = @ticketName";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("ticketName", ticketName);
@@ -471,9 +477,10 @@ public class Database
                 }
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             ticketPrice = null;
+            Console.WriteLine(ex);
         }
         return ticketPrice;
     }
@@ -770,5 +777,199 @@ public class Database
             latestNewsTitle = null;
         }
         return latestNewsTitle;
+    }
+    public float GetUserBalance(int userId)
+    {
+        using (var conn = GetSqlConnection())
+        {
+            try
+            {
+                string query = @"
+                    SELECT balance
+                    FROM cards
+                    WHERE idusers = @userId;
+                ";
+
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("userId", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return Convert.ToSingle(reader["balance"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
+            }
+        }
+        return 0.0f;
+    }
+    
+    public int GetCardId(int userId)
+    {
+        using (var conn = GetSqlConnection())
+        {
+            try
+            {
+                string query = @"
+                    SELECT idcard
+                    FROM cards
+                    WHERE idusers = @userId;
+                ";
+
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("userId", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return Convert.ToInt32(reader["idCard"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
+            }
+        }
+        return 0;
+    }
+
+    public string GetTicketName(int userId, string period)
+    {
+        using (var conn =  GetSqlConnection())
+        {
+            string query = "";
+            try
+            {
+                if (period == "upper")
+                {
+                        query = @"SELECT ticketname FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historyTickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    LIMIT 1;
+                    ";
+                }
+                if (period == "middle")
+                {
+                    query = @"SELECT ticketname FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historyTickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    OFFSET 1 LIMIT 1;
+                    ";
+                }
+                if (period == "lower")
+                {
+                    query = @"SELECT ticketname FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historyTickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    OFFSET 2 LIMIT 1;
+                    ";
+                }
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("userId", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return reader["ticketname"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
+            }
+        }
+
+        return null;
+    }
+    private string connectionString = "your_connection_string_here";
+
+    public string GetDateTicket(int userId, string format, string period)
+    {
+        using (var conn = GetSqlConnection())
+        {
+            string query = "";
+            try
+            {
+                if (period == "upper")
+                {
+                    query = @"
+                    SELECT ticketname, ticketdescription, date
+                    FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historytickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    LIMIT 1;
+                ";
+                }
+                if (period == "middle")
+                {
+                    query = @"
+                    SELECT ticketname, ticketdescription, date
+                    FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historytickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    OFFSET 1 LIMIT 1;
+                ";
+                }
+                if (period == "lower")
+                {
+                    query = @"
+                    SELECT ticketname, ticketdescription, date
+                    FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historytickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    OFFSET 2 LIMIT 1;
+                ";
+                }
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("userId", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (format == "time")
+                            {
+                                DateTime date = Convert.ToDateTime(reader["date"]);
+                                return date.ToString("HH:mm");
+                            }
+                            if (format == "date")
+                            {
+                                DateTime date = Convert.ToDateTime(reader["date"]);
+                                return date.ToString("dd.MM");
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
+            }
+        }
+
+        return null; 
     }
 }

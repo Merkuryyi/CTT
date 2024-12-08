@@ -284,6 +284,7 @@ public class Profile
         { warningNameText.SetText("*"); }
         else
         { warningNameText.SetText(""); }
+        
         warningUserName = warnings.GetWarningFlag();
         warnings.WarningLineName(userNameMiniText);
         if (warningUserName)
@@ -294,6 +295,7 @@ public class Profile
         {
             database.updateNameUser(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile(), loginMiniText, userNameMiniText);
             WorkWithJson.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
+            topPanel.userNameOnPanel.SetText(userNameMiniText);
         }  
     }
     public static string MaskEmail()
@@ -339,9 +341,7 @@ public class Profile
             }
             
             if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-            {
-                Warning();
-            }
+            { Warning(); }
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 if (!settingsFlag && !warningLogin && !warningUserName)
