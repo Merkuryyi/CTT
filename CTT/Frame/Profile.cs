@@ -295,7 +295,7 @@ public class Profile
         {
             database.updateNameUser(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile(), loginMiniText, userNameMiniText);
             WorkWithJson.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
-            topPanel.userNameOnPanel.SetText(userNameMiniText);
+            TopPanel.userNameOnPanel.SetText(userNameMiniText);
         }  
     }
     public static string MaskEmail()

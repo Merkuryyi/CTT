@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class topPanel
+public class TopPanel
 {
     private static Clock clock;
     private static float clickDelay;

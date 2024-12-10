@@ -53,7 +53,7 @@ public class MainForm
  
         InputLine inputLine = new InputLine();
         _window.KeyPressed += inputLine.OnKeyPressedName;
-        topPanel topPaneles = new topPanel();
+        TopPanel topPaneles = new TopPanel();
         topPaneles.Structure();
         InitialPage frames1 = new InitialPage();
         frames1.Structure();

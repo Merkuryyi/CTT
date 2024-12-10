@@ -69,8 +69,7 @@ public class MainPage
     private static bool ticketUpperFlag = false;
     private static bool ticketMiddleFlag = false;
     private static bool ticketLowerFlag = false;
-    private static bool ticketNo = false;
-    private static bool travelTicketNo = false;
+    private static bool travelTickets = false;
     public void Display(RenderWindow _window)
     {
         backgroundRight.Draw(_window);
@@ -79,7 +78,7 @@ public class MainPage
         titleTicketPay.Draw(_window);
         plusTicket.Draw(_window);
         plusTravelTicket.Draw(_window);
-        travelTicket.Draw(_window);
+       
         backgroundCards.Draw(_window);
         card.Draw(_window);
         fartherMiniIcon.Draw(_window);
@@ -123,20 +122,22 @@ public class MainPage
            
         }
 
-        if (travelTicketNo)
+        if (!travelTickets)
         {
             titleNoTravelTickets.Draw(_window);
         }
         else
         {
+            travelTicket.Draw(_window);
             titleTavelTickets.Draw(_window);
             title2TavelTickets.Draw(_window);
+            
             priceTravelTickets.Draw(_window);
             warningTravelTickets.Draw(_window);
             monthTravelTickets.Draw(_window);
             expirationDateTravelTickets.Draw(_window);
         }
-        if (ticketNo)
+        if (ticketUpperFlag && ticketMiddleFlag && ticketLowerFlag)
         {
             titleNoTickets.Draw(_window);
         }
@@ -176,7 +177,7 @@ public class MainPage
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "plus.png"));
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
-        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
+       
         backgroundRight = new Button(994, 170, backgroundRightTexture);
         backgroundNews = new Button(53, 842, backgroundNewsMainPage);
         backgroundTravelTicket = new Button(53, 490, backgroundTravelTicketMainPage);
@@ -207,37 +208,26 @@ public class MainPage
         pricePension = database.ticketCardPriceGet(benefitsPension);
        
         titleTicketPay = new Texts(1055, 221, font, 36, baseColorText, "Купить билет");
-        string nameTicketUpper = database.GetTicketName(id, "upper");
-        if (!string.IsNullOrEmpty(nameTicketUpper))
-        { ticketUpperFlag = true; }
-        string nameTicketMiddle = database.GetTicketName(id, "middle");
-        Console.WriteLine(nameTicketMiddle);
-        
-        if (!string.IsNullOrEmpty(nameTicketMiddle))
-        { ticketMiddleFlag = true; }
-        string nameTicketLower = database.GetTicketName(id, "lower");
-        Console.WriteLine(nameTicketLower);
-        if (!string.IsNullOrEmpty(nameTicketLower))
-        { ticketLowerFlag = true; }
-        titleTicketUpper = new Texts(1240, 336, font, 36, baseColorText, nameTicketUpper);
-        titleTicketMiddle = new Texts(1240, 562, font, 36, baseColorText, nameTicketMiddle);
-        titleTicketLower = new Texts(1240, 787, font, 36, baseColorText, nameTicketLower);
 
-        decriptionTicketUpper = new Texts(1244, 391, font, 20, baseColorText, database.ticketDecriptionGet(nameTicketUpper));
-        decriptionTicketMiddle = new Texts(1244, 617, font, 20, baseColorText, database.ticketDecriptionGet(nameTicketMiddle));
-        decriptionTicketLower = new Texts(1244, 842, font, 20, baseColorText, database.ticketDecriptionGet(nameTicketLower));
+        titleTicketUpper = new Texts(1240, 336, font, 36, baseColorText, "");
+        titleTicketMiddle = new Texts(1240, 562, font, 36, baseColorText, "");
+        titleTicketLower = new Texts(1240, 787, font, 36, baseColorText, "");
+
+        decriptionTicketUpper = new Texts(1244, 391, font, 20, baseColorText, database.ticketDecriptionGet(""));
+        decriptionTicketMiddle = new Texts(1244, 617, font, 20, baseColorText, database.ticketDecriptionGet(""));
+        decriptionTicketLower = new Texts(1244, 842, font, 20, baseColorText, database.ticketDecriptionGet(""));
         
-        priceTicketUpper = new Texts(1080, 426, font, 24, baseColorText, database.ticketPriceGet(nameTicketUpper));
-        priceTicketMiddle = new Texts(1080, 652, font, 24, baseColorText, database.ticketPriceGet(nameTicketMiddle));
-        priceTicketLower = new Texts(1080, 877, font, 24, baseColorText, database.ticketPriceGet(nameTicketLower));
+        priceTicketUpper = new Texts(1080, 426, font, 24, baseColorText, database.ticketPriceGet(""));
+        priceTicketMiddle = new Texts(1080, 652, font, 24, baseColorText, database.ticketPriceGet(""));
+        priceTicketLower = new Texts(1080, 877, font, 24, baseColorText, database.ticketPriceGet(""));
         
-        timeTicketUpper = new Texts(1703, 325, font, 36, baseColorText, database.GetDateTicket(id, "time", "upper"));
-        timeTicketMiddle = new Texts(1703, 551, font, 36, baseColorText, database.GetDateTicket(id, "time", "middle"));
-        timeTicketLower = new Texts(1703, 776, font, 36, baseColorText, database.GetDateTicket(id, "time", "lower"));
+        timeTicketUpper = new Texts(1703, 325, font, 36, baseColorText, "");
+        timeTicketMiddle = new Texts(1703, 551, font, 36, baseColorText, "");
+        timeTicketLower = new Texts(1703, 776, font, 36, baseColorText, "");
         
-        dateTicketUpper = new Texts(1711, 382, font, 24, baseColorText, database.GetDateTicket(id, "date", "upper"));
-        dateTicketMiddle = new Texts(1711, 608, font, 24, baseColorText, database.GetDateTicket(id, "date", "middle"));
-        dateTicketLower = new Texts(1711, 833, font, 24, baseColorText, database.GetDateTicket(id, "date", "lower"));
+        dateTicketUpper = new Texts(1711, 382, font, 24, baseColorText, "");
+        dateTicketMiddle = new Texts(1711, 608, font, 24, baseColorText, "");
+        dateTicketLower = new Texts(1711, 833, font, 24, baseColorText, "");
         
         titleNews = new Texts(97, 899, font, 36, baseColorText, "Транспортные новости");
         string ticketNo = "Билеты не найдены";
@@ -247,11 +237,13 @@ public class MainPage
         
         titleTavelTicketsPay = new Texts(97, 524, font, 36, baseColorText, "Купить проездной");
         titleCard = new Texts(108, 189, font, 36, baseColorText, "Карты");
+        
         titleTavelTickets = new Texts(294, 620, font, 36, baseColorText, "");
         title2TavelTickets = new Texts(294, 661, font, 36, baseColorText, "проездной билет");
         
-        priceTravelTickets = new Texts(139, 697, font, 24, baseColorText, "1");
+        priceTravelTickets = new Texts(139, 697, font, 24, baseColorText, "" );
         monthTravelTickets = new Texts(747, 629, font, 36, baseColorText, "s");
+        
         expirationDateTravelTickets = new Texts(757, 688, font, 20, baseColorText, "s");
         warningTravelTickets = new Texts(130, 768, font, 20, warningTextColor, "*необходим документ");
         upBalance = new Texts(108, 396, font, 20, baseColorText, "Пополнить баланс");
@@ -261,21 +253,76 @@ public class MainPage
         title1Cards = new Texts(604, 248, font, 36, colorMessage, "Здесь будут");
         title2Cards = new Texts(507, 290, font, 36, colorMessage, "появляться все ваши");
         title3Cards = new Texts(582, 334, font, 36, colorMessage, "карты и счета");
-        float balanceCard = database.GetUserBalance(id);
-        balance = new Texts(256, 283, font, 36, baseColorText, balanceCard.ToString());
-        cardInformation = new Texts(256, 329, font, 16, baseColorText, "standart " + database.GetCardId(id));
+     
+        balance = new Texts(256, 283, font, 36, baseColorText, "");
+        cardInformation = new Texts(256, 329, font, 16, baseColorText, "");
+        updateTickets();
     }
+
+
+    private void updateTickets()
+    {
+        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
+        
+        
+        string titleTavelTicket = database.travelTicketTitleGet(id);
+        string priceTravelTicket = "";
+        if (!string.IsNullOrEmpty(titleTavelTicket))
+        {
+            travelTickets = true;
+            priceTravelTicket = database.ticketCardPriceGet(titleTavelTicket);
+        }
+        
+        titleTavelTickets.SetText(titleTavelTicket);
+        priceTravelTickets.SetText(priceTravelTicket);
+        float balanceCard = database.GetUserBalance(id);
+        balance.SetText(balanceCard.ToString());
+        cardInformation.SetText("standart " + database.GetCardId(id));
+            
+        timeTicketUpper.SetText(database.GetDateTicket(id, "time", "upper"));
+        timeTicketMiddle.SetText(database.GetDateTicket(id, "time", "middle"));
+        timeTicketLower.SetText(database.GetDateTicket(id, "time", "lower"));
+        
+        dateTicketUpper.SetText(database.GetDateTicket(id, "date", "upper"));
+        dateTicketMiddle.SetText(database.GetDateTicket(id, "date", "middle"));
+        dateTicketLower .SetText(database.GetDateTicket(id, "date", "lower"));    
+        
+        
+        string nameTicketUpper = database.GetTicketName(id, "upper");
+        if (!string.IsNullOrEmpty(nameTicketUpper))
+        { ticketUpperFlag = true; }
+        string nameTicketMiddle = database.GetTicketName(id, "middle");
+        
+        if (!string.IsNullOrEmpty(nameTicketMiddle))
+        { ticketMiddleFlag = true; }
+        string nameTicketLower = database.GetTicketName(id, "lower");
+        if (!string.IsNullOrEmpty(nameTicketLower))
+        { ticketLowerFlag = true; }
+        
+        titleTicketUpper.SetText( nameTicketUpper);
+        titleTicketMiddle.SetText( nameTicketMiddle);
+        titleTicketLower.SetText(nameTicketLower);
+
+        decriptionTicketUpper.SetText(database.ticketDecriptionGet(nameTicketUpper));
+        decriptionTicketMiddle.SetText(database.ticketDecriptionGet(nameTicketMiddle));
+        decriptionTicketLower.SetText(database.ticketDecriptionGet(nameTicketLower));
+        
+        priceTicketUpper.SetText(database.ticketPriceGet(nameTicketUpper));
+        priceTicketMiddle.SetText(database.ticketPriceGet(nameTicketMiddle));
+        priceTicketLower.SetText(database.ticketPriceGet(nameTicketLower));
+    }
+
 /*
- 
+
 int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
         titleTicketUpper.SetText(database.GetLatestTicketName(id));
        if (database.GetLatestTicketName(id) != "")
        {
        }
-        
-        
-        
-        
+
+
+
+
 */
     private void ButtonInteraction(RenderWindow _window)
     {

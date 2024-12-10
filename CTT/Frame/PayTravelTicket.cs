@@ -84,7 +84,6 @@ public class PayTravelTicket
         DateTime monthToReturn = currentDate.Day <= 15 ? currentDate : currentDate.AddMonths(1);
         string monthName = monthToReturn.ToString("MMMM");
         string capitalizedMonthName = char.ToUpper(monthName[0]) + monthName.Substring(1).ToLower();
-
         return capitalizedMonthName;
     }
     public void Structure()

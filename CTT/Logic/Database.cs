@@ -484,7 +484,42 @@ public class Database
         }
         return ticketPrice;
     }
-    
+    public string travelTicketTitleGet(int id)
+    {
+        string ticketTitle = null;
+        try
+        {
+            using (var conn = GetSqlConnection())
+            {
+                string query = @"
+                SELECT travelticketname 
+                FROM tickettravel
+                JOIN historytravelticket 
+                ON tickettravel.idtravelticket = historytravelticket.idtravelticket
+                WHERE historytravelticket.id_users = @id
+                ORDER BY historytravelticket.date DESC
+                LIMIT 1;
+            ";
+
+                using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("id", id);
+
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        ticketTitle = result.ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ticketTitle = null;
+            Console.WriteLine("Ошибка при выполнении запроса: " + ex.Message);
+        }
+        return ticketTitle;
+    }
     public string GetLatestNewsDate()
     {
         string latestNewsTitle = null;
@@ -959,6 +994,48 @@ public class Database
                                 DateTime date = Convert.ToDateTime(reader["date"]);
                                 return date.ToString("dd.MM");
                             }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
+            }
+        }
+
+        return null; 
+    }
+    public string GetDateravelTicket(int userId)
+    {
+        using (var conn = GetSqlConnection())
+        {
+            string query = "";
+            try
+            {
+                
+                    query = @"
+                    SELECT ticketname, ticketdescription, date
+                    FROM tickets
+                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    WHERE historytickets.id_users = @userId
+                    ORDER BY historytickets.date DESC
+                    LIMIT 1;
+                ";
+                    
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("userId", userId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            //ljltkfnm
+                            DateTime date = Convert.ToDateTime(reader["date"]);
+                            return date.ToString("HH:mm");
+                          
 
                         }
                     }
