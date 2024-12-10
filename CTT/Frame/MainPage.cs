@@ -213,13 +213,13 @@ public class MainPage
         titleTicketMiddle = new Texts(1240, 562, font, 36, baseColorText, "");
         titleTicketLower = new Texts(1240, 787, font, 36, baseColorText, "");
 
-        decriptionTicketUpper = new Texts(1244, 391, font, 20, baseColorText, database.ticketDecriptionGet(""));
-        decriptionTicketMiddle = new Texts(1244, 617, font, 20, baseColorText, database.ticketDecriptionGet(""));
-        decriptionTicketLower = new Texts(1244, 842, font, 20, baseColorText, database.ticketDecriptionGet(""));
+        decriptionTicketUpper = new Texts(1244, 391, font, 20, baseColorText, "");
+        decriptionTicketMiddle = new Texts(1244, 617, font, 20, baseColorText, "");
+        decriptionTicketLower = new Texts(1244, 842, font, 20, baseColorText, "");
         
-        priceTicketUpper = new Texts(1080, 426, font, 24, baseColorText, database.ticketPriceGet(""));
-        priceTicketMiddle = new Texts(1080, 652, font, 24, baseColorText, database.ticketPriceGet(""));
-        priceTicketLower = new Texts(1080, 877, font, 24, baseColorText, database.ticketPriceGet(""));
+        priceTicketUpper = new Texts(1080, 426, font, 24, baseColorText, "");
+        priceTicketMiddle = new Texts(1080, 652, font, 24, baseColorText, "");
+        priceTicketLower = new Texts(1080, 877, font, 24, baseColorText, "");
         
         timeTicketUpper = new Texts(1703, 325, font, 36, baseColorText, "");
         timeTicketMiddle = new Texts(1703, 551, font, 36, baseColorText, "");
@@ -240,12 +240,11 @@ public class MainPage
         
         titleTavelTickets = new Texts(294, 620, font, 36, baseColorText, "");
         title2TavelTickets = new Texts(294, 661, font, 36, baseColorText, "проездной билет");
-        
         priceTravelTickets = new Texts(139, 697, font, 24, baseColorText, "" );
-        monthTravelTickets = new Texts(747, 629, font, 36, baseColorText, "s");
+        monthTravelTickets = new Texts(747, 629, font, 36, baseColorText, "");
         
-        expirationDateTravelTickets = new Texts(757, 688, font, 20, baseColorText, "s");
-        warningTravelTickets = new Texts(130, 768, font, 20, warningTextColor, "*необходим документ");
+        expirationDateTravelTickets = new Texts(757, 688, font, 24, baseColorText, "");
+        warningTravelTickets = new Texts(130, 768, font, 20, warningTextColor, "");
         upBalance = new Texts(108, 396, font, 20, baseColorText, "Пополнить баланс");
         DateTime today = DateTime.Today;
         date = new Texts(326, 202, font, 20, baseColorText,  today.ToString("dd.MM.yyyy"));
@@ -259,6 +258,21 @@ public class MainPage
         updateTickets();
     }
 
+    public string expirationDateTickets(string month)
+    {
+        string[] months = {
+            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+        };
+        int currentMonthIndex = Array.FindIndex(months, m => m.Equals(month, StringComparison.OrdinalIgnoreCase));
+
+        if (currentMonthIndex == -1)
+        {
+            return "Неизвестный месяц";
+        }
+        int nextMonthIndex = (currentMonthIndex + 1) % 12;
+        return $"до 01.{nextMonthIndex + 1:D2}";
+    }
 
     private void updateTickets()
     {
@@ -272,8 +286,19 @@ public class MainPage
             travelTickets = true;
             priceTravelTicket = database.ticketCardPriceGet(titleTavelTicket);
         }
+
+        string month = database.GetDateTravelTicket(id);
+        monthTravelTickets.SetText(month);
         
         titleTavelTickets.SetText(titleTavelTicket);
+        if (titleTavelTickets.IfTexts("Пенсионный") || titleTavelTickets.IfTexts("Студенческий"))
+        {
+            warningTravelTickets.SetText("*необходим документ");
+        }
+        else
+        {
+            warningTravelTickets.SetText("");
+        }
         priceTravelTickets.SetText(priceTravelTicket);
         float balanceCard = database.GetUserBalance(id);
         balance.SetText(balanceCard.ToString());
@@ -286,7 +311,7 @@ public class MainPage
         dateTicketUpper.SetText(database.GetDateTicket(id, "date", "upper"));
         dateTicketMiddle.SetText(database.GetDateTicket(id, "date", "middle"));
         dateTicketLower .SetText(database.GetDateTicket(id, "date", "lower"));    
-        
+        expirationDateTravelTickets.SetText(expirationDateTickets(month));
         
         string nameTicketUpper = database.GetTicketName(id, "upper");
         if (!string.IsNullOrEmpty(nameTicketUpper))

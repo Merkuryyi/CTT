@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="Npgsql" Version="8.0.5" />
       <PackageReference Include="SFML.Graphics" Version="2.6.0" />
       <PackageReference Include="SFML.Net" Version="2.6.0" />

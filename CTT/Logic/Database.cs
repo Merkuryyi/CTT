@@ -415,7 +415,7 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-                string query = "SELECT CONCAT(ticketPrice, '\u20bd') FROM tickets WHERE ticketName = @ticketName";
+                string query = "SELECT ticketPrice FROM tickets WHERE ticketName = @ticketName";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("ticketName", ticketName);
@@ -484,6 +484,8 @@ public class Database
         }
         return ticketPrice;
     }
+    
+   
     public string travelTicketTitleGet(int id)
     {
         string ticketTitle = null;
@@ -1007,14 +1009,13 @@ public class Database
 
         return null; 
     }
-    public string GetDateravelTicket(int userId)
+    public string GetDateTravelTicket(int userId)
     {
         using (var conn = GetSqlConnection())
         {
             string query = "";
             try
             {
-                
                     query = @"
                     SELECT ticketname, ticketdescription, date
                     FROM tickets
@@ -1032,9 +1033,9 @@ public class Database
                     {
                         if (reader.Read())
                         {
-                            //ljltkfnm
                             DateTime date = Convert.ToDateTime(reader["date"]);
-                            return date.ToString("HH:mm");
+                            string month = date.ToString("MMMM");
+                            return char.ToUpper(month[0]) + month.Substring(1).ToLower();
                           
 
                         }

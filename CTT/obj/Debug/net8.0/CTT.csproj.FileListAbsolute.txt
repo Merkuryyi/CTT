@@ -992,3 +992,4 @@ A:\RiderProjects\CTT\CTT\obj\Debug\net8.0\CTT.sourcelink.json
 A:\RiderProjects\CTT\CTT\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 A:\RiderProjects\CTT\CTT\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 A:\RiderProjects\CTT\CTT\bin\Debug\net8.0\Npgsql.dll
+A:\RiderProjects\CTT\CTT\bin\Debug\net8.0\Newtonsoft.Json.dll

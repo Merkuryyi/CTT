@@ -1,8 +1,10 @@
-﻿namespace CTT.Frame;
+﻿using CTT.Logic;
+
+namespace CTT.Frame;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-
+using System.Threading.Tasks;
 public class PayTicket
 {
     
@@ -15,7 +17,7 @@ public class PayTicket
     private Button backgroundRight;
     
     private Texts titleFrameText;
-    private Texts monthText;
+  
     private Texts titleTicketUpper;
     private Texts benefitsSharedText;
     private Texts benefitsPensionText;
@@ -90,7 +92,7 @@ public class PayTicket
         backgroundRight.Draw(_window);
         titleFrameText.Draw(_window);
         titleFrameTextRight.Draw(_window);
-        monthText.Draw(_window);
+     
         
         backgroundTicketUpper.Draw(_window); 
         plusTicketUpper.Draw(_window);  
@@ -172,15 +174,7 @@ public class PayTicket
         }
         return count; 
     }
-    private string GetMonthName()
-    {
-        DateTime currentDate = DateTime.Now;
-        DateTime monthToReturn = currentDate.Day <= 15 ? currentDate : currentDate.AddMonths(1);
-        string monthName = monthToReturn.ToString("MMMM");
-        string capitalizedMonthName = char.ToUpper(monthName[0]) + monthName.Substring(1).ToLower();
-
-        return capitalizedMonthName;
-    }
+    
     public void Structure()
     {
         clock = new Clock();
@@ -239,18 +233,17 @@ public class PayTicket
         qrCode = new Button(1283, 437, qrCodeTexture);
         buttonPayment = new Button(1310, 878, buttonPaymentTexture);
         
-        string titleFrame = "Купить проездной:";
+        string titleFrame = "Купить разовый билет";
         
         benefitsShared = "Общий";
         benefitsPension = "Пенсионный";
-        benefitsStudent = "Студенческий";
+        benefitsStudent = "Багажный";
         
 
-        priceShare = database.ticketCardPriceGet(benefitsShared);
-        priceStudent = database.ticketCardPriceGet(benefitsStudent);
-        pricePension = database.ticketCardPriceGet(benefitsPension);
+        priceShare = database.ticketPriceGet(benefitsShared);
+        priceStudent = database.ticketPriceGet(benefitsStudent);
+        pricePension = database.ticketPriceGet(benefitsPension);
         amount = database.ticketCardPriceGet(benefitsPension);
-        
         
         warningDocument = "*необходим документ";
         
@@ -267,7 +260,7 @@ public class PayTicket
         Color colorMessage = new Color(136, 136, 136);
         
         titleFrameText = new Texts(114, 237, font, 36, baseColorText, titleFrame);
-        monthText = new Texts(530, 237, font, 36, baseColorText, GetMonthName());
+     
         
         benefitsSharedText = new Texts(169, 313, font, 24, baseColorText, benefitsShared);
         benefitsPensionText = new Texts(585, 313, font, 24, baseColorText, benefitsPension);
@@ -440,10 +433,10 @@ public class PayTicket
             titleTicketLower.SetText("");
         }
     }
-    private void ButtonInteraction(RenderWindow _window)
+    private async void ButtonInteraction(RenderWindow _window)
     {
-        
-        
+
+        clic();
         mousePosition = Mouse.GetPosition(_window);
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -559,12 +552,60 @@ public class PayTicket
                database.notificationsAdd(id, "Списание", amount);
             }
 
+         
+       
+            if (paymentTitleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                
+                amount = amountCount.ToString();
+                Console.WriteLine(amount);
+                if (!_isProcessing)
+                {
+                    _isProcessing = true;
+                    if (float.TryParse(amount, out float parsedAmount))
+                    {
+                        Console.WriteLine(parsedAmount);
+                        Task.Run(async () =>
+                        {
+                            try
+                            {
+                                PaymentService paymentService = new PaymentService();
+                                string payUrl = await paymentService.CreateInvoiceAsync(parsedAmount);
+                                Console.WriteLine("Invoice created successfully. Opening payment URL...");
+                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                                {
+                                    FileName = payUrl,
+                                    UseShellExecute = true
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.Message);
+                            }
+                            finally
+                            {
+                                _isProcessing = false;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid amount format.");
+                        _isProcessing = false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Request is already being processed.");
+                }
+            }
+
             clock.Restart();
             canClick = false;
         }
 
-        clic();
     }
+    private bool _isProcessing;
     public void workProgram(RenderWindow _window)
     {
         Display(_window);
