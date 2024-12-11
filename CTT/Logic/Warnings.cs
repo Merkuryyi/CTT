@@ -3,12 +3,8 @@
 public class Warnings
 {
     private static bool flag;
-
     public bool GetWarningFlag()
-    {
-        return flag;
-    }
-
+    { return flag; }
     public string WarningLineName(string line)
     {
         string warning = "";
@@ -18,7 +14,7 @@ public class Warnings
             flag = true;
             warning = "*обязательно";
         }
-        else if (database.uniqueNumberPhone(line))
+        else if (database.UniqueNumberPhone(line))
         {
             flag = true;
             warning = "*Не уникально";
@@ -29,11 +25,8 @@ public class Warnings
             warning = "*Длина должна быть более 6";
         }
        else
-       {
-           flag = false;
-       }
+       { flag = false; }
         return warning;
-       
     }
     public string WarningLinePassword(string line)
     {
@@ -46,20 +39,16 @@ public class Warnings
         }
         else if (line.Length < 6)
         {
-               
             flag = true;
             warning = "*Длина должна быть более 6";
         }
         else if (!lines.ContainsSpecialCharsOrDigits())
         {
-            
             flag = true;
             warning = "*необходимы цифры, спецсимволы, буквы";
         }
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
     public string WarningLineNumberPhone(string line)
@@ -73,7 +62,7 @@ public class Warnings
             flag = true;
             warning = "*обязательно";
         }
-        else if (database.uniqueNumberPhone(line))
+        else if (database.UniqueNumberPhone(line))
         {
             flag = true;
             warning = "*Не уникально";
@@ -83,11 +72,8 @@ public class Warnings
             flag = true;
             warning = "*Неверный формат";
         }
-        
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
     public string WarningLineNumberPhoneLogin(string line)
@@ -105,11 +91,8 @@ public class Warnings
             flag = true;
             warning = "*Неверный формат";
         }
-        
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
     public string WarningLineEmail(string line)
@@ -117,7 +100,6 @@ public class Warnings
         InputLine lines = new InputLine();
         string warning = "";
         bool formatEmail = lines.EmailFormat(line);
-       
         if (line == "")
         {
             flag = true;
@@ -125,20 +107,15 @@ public class Warnings
         }
         else if (!formatEmail)
         {
-               
             flag = true;
             warning = "*Неверный формат";
         }
-       
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
     public string WarningLineRepeatPassword(string repeatPassword, string password)
     {
-        
         InputLine lines = new InputLine();
         string warning = "";
         if (password == "")
@@ -148,24 +125,18 @@ public class Warnings
         }
         else if (password.Length < 6)
         {
-               
             flag = true;
             warning = "*Длина должна быть более 6";
         }
         else if (repeatPassword != password)
-        {
-            warning = "*пароли не совпадают";
-        }
+        { warning = "*пароли не совпадают"; }
         else if (!lines.ContainsSpecialCharsOrDigits())
         {
-            
             flag = true;
             warning = "*необходимы цифры, спецсимволы";
         }
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
     public string WarningLineCode(string code, string number)
@@ -177,15 +148,9 @@ public class Warnings
             warning = "*обязательно";
         }
         else if (code != number)
-        {
-            warning = "*неверный код";
-        }
-        
+        { warning = "*неверный код"; }
         else
-        {
-            flag = false;
-        }
+        { flag = false; }
         return warning;
     }
-    
 }

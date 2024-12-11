@@ -1,14 +1,14 @@
 ﻿namespace CTT.Frame;
+using Logic;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
 public class PayTravelTicket
 {
-    
     private static Clock clock;
     private static float clickDelay;
     private Database database;
-    private FlagFrames flagFrames;
+    
     private Vector2i mousePosition;
     private Button backgroundLeft;
     private Button backgroundRight;
@@ -20,8 +20,7 @@ public class PayTravelTicket
     private Texts benefitsStudentText;
     private Texts titleTravelTicketText2;
     private Texts priceTravelTicketText;
-    private string warningDocument;
-    private string warning;
+
     private Texts warningText;
     private Texts lineText;
     private Texts lineText2;
@@ -34,7 +33,7 @@ public class PayTravelTicket
     private Button chooseBenefitsPension;
     private Button lines;
     private Button travelTicket;
-    private Button qrCode;
+ 
     private Button buttonPayment;
     private Texts paymentTitleText;
     private Texts titleFrameTextRight;
@@ -44,7 +43,6 @@ public class PayTravelTicket
     private string benefitsPension;
     private string benefitsStudent;
     private static bool canClick;
-   // public float amount;
     private string amount;
     public void Display(RenderWindow _window)
     {
@@ -71,7 +69,7 @@ public class PayTravelTicket
         chooseBenefitsPension.Draw(_window);
         lines.Draw(_window);
         travelTicket.Draw(_window);
-        qrCode.Draw(_window);
+      
         buttonPayment.Draw(_window);
         paymentTitleText.Draw(_window);
         titleTravelTicketText.Draw(_window);
@@ -91,7 +89,7 @@ public class PayTravelTicket
         clock = new Clock();
         clickDelay = 0.3f;   
         database = new Database();
-        flagFrames = new FlagFrames();
+      
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         Texture backgroundLeftTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundLeftWithTop.png"));
@@ -105,11 +103,10 @@ public class PayTravelTicket
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "line.png"));
         Texture travelTicketTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "travelTicket.png"));
-        Texture qrCodeTexture =
-            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "qrCode.png"));
         
         Texture buttonPaymentTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonPayment.png"));
+        
         backgroundLeft = new Button(53, 170, backgroundLeftTexture);
         backgroundRight = new Button(994, 170, backgroundRightTexture);
         chooseBenefitsShared = new Button(114, 310, chooseBenefitsOnTexture);
@@ -117,28 +114,22 @@ public class PayTravelTicket
         chooseBenefitsPension = new Button(530, 310, chooseBenefitsOffTexture);
         lines = new Button(114, 376, lineTexture);
         travelTicket = new Button(114, 396, travelTicketTexture);
-        qrCode = new Button(1283, 437, qrCodeTexture);
-        buttonPayment = new Button(1310, 878, buttonPaymentTexture);
-        
-        string titleFrame = "Купить проездной:";
+        buttonPayment = new Button(1310, 717, buttonPaymentTexture);
         
         benefitsShared = "Общий";
         benefitsPension = "Пенсионный";
         benefitsStudent = "Студенческий";
-        
+        string titleFrame = "Купить проездной:";
         string titleTicketCard2 = "проездной билет";
-        string priceTravelTicket = database.ticketCardPriceGet(benefitsShared);
-        amount = database.ticketCardPriceGet(benefitsShared);
-        warningDocument = "*необходим документ, можно купить только 1 за месяц";
-        warning = "*можно купить только 1 за месяц";
-        
-        
+        string priceTravelTicket = database.TicketCardPriceGet(benefitsShared);
+        amount = database.TicketCardPriceGet(benefitsShared);
+        string warningDocument = "*необходим документ, можно купить только 1 за месяц";
+        string warning = "*можно купить только 1 за месяц";
         string titleFrameRight = "Оплата проездного билета";
         string line = "Для оплаты проезда нажмите “оплатить”, а после  предъявите ";
         string line2 = "необходимые документы кондуктору транспортного средства.";
         string line3 = "Хорошей поездки!";
         string payment = "К оплате:";
-
         string paymentTitle = "Оплатить";
         string warningPayment = "*недостаточно средств";
         Color baseColorText = new Color(68, 68, 69);
@@ -162,16 +153,15 @@ public class PayTravelTicket
         lineText = new Texts(1037, 309, font, 24, colorMessage, line);
         lineText2 = new Texts(1037, 345, font, 24, colorMessage, line2);
         lineText3 = new Texts(1037, 379, font, 24, colorMessage, line3);
-        paymentText = new Texts(1345, 739, font, 36, baseColorText, payment);
-        amountText = new Texts(1345, 786, font, 36, baseColorText, priceTravelTicket);
-        warningPaymentText = new Texts(1315, 838, font, 20, warningTextColor, warningPayment);
-        
-        paymentTitleText = new Texts(1345, 886, font, 36, baseColorText, paymentTitle);
-        //amount = float.Parse(priceTravelTicket);
+        paymentText = new Texts(1345, 578, font, 36, baseColorText, payment);
+        amountText = new Texts(1345, 625, font, 36, baseColorText, priceTravelTicket);
+        warningPaymentText = new Texts(1315, 677, font, 20, warningTextColor, warningPayment);
+        paymentTitleText = new Texts(1345, 725, font, 36, baseColorText, paymentTitle);
     }
-
     private void ButtonInteraction(RenderWindow _window)
     {
+        FlagFrames flagFrames = new FlagFrames();
+        clic();
         mousePosition = Mouse.GetPosition(_window);
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -182,15 +172,13 @@ public class PayTravelTicket
                     chooseBenefitsShared.SetTexture(chooseBenefitsOnTexture);
                     chooseBenefitsPension.SetTexture(chooseBenefitsOffTexture);
                     chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture);
-                    priceTravelTicketText.SetText(database.ticketCardPriceGet(benefitsShared));
-                    amountText.SetText(database.ticketCardPriceGet(benefitsShared));
+                    priceTravelTicketText.SetText(database.TicketCardPriceGet(benefitsShared));
+                    amountText.SetText(database.TicketCardPriceGet(benefitsShared));
                     titleTravelTicketText.SetText(benefitsShared);
-                    amount = database.ticketCardPriceGet(benefitsShared);
+                    amount = database.TicketCardPriceGet(benefitsShared);
                 }
                 else
-                {
-                    chooseBenefitsShared.SetTexture(chooseBenefitsOffTexture);
-                }
+                { chooseBenefitsShared.SetTexture(chooseBenefitsOffTexture); }
             }
             if (chooseBenefitsStudent.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -199,15 +187,13 @@ public class PayTravelTicket
                     chooseBenefitsStudent.SetTexture(chooseBenefitsOnTexture);
                     chooseBenefitsPension.SetTexture(chooseBenefitsOffTexture);
                     chooseBenefitsShared.SetTexture(chooseBenefitsOffTexture);
-                    priceTravelTicketText.SetText(database.ticketCardPriceGet(benefitsStudent));
-                    amountText.SetText(database.ticketCardPriceGet(benefitsStudent));
+                    priceTravelTicketText.SetText(database.TicketCardPriceGet(benefitsStudent));
+                    amountText.SetText(database.TicketCardPriceGet(benefitsStudent));
                     titleTravelTicketText.SetText(benefitsStudent);
-                    amount = database.ticketCardPriceGet(benefitsStudent);
+                    amount = database.TicketCardPriceGet(benefitsStudent);
                 }
                 else
-                {
-                    chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture);
-                }
+                { chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture); }
             }
             if (chooseBenefitsPension.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
@@ -216,31 +202,75 @@ public class PayTravelTicket
                     chooseBenefitsPension.SetTexture(chooseBenefitsOnTexture);
                     chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture);
                     chooseBenefitsShared.SetTexture(chooseBenefitsOffTexture);
-                    priceTravelTicketText.SetText(database.ticketCardPriceGet(benefitsPension));
-                    amountText.SetText(database.ticketCardPriceGet(benefitsPension));
+                    priceTravelTicketText.SetText(database.TicketCardPriceGet(benefitsPension));
+                    amountText.SetText(database.TicketCardPriceGet(benefitsPension));
                     titleTravelTicketText.SetText(benefitsPension);
-                    amount = database.ticketCardPriceGet(benefitsPension);
+                    amount = database.TicketCardPriceGet(benefitsPension);
+                }
+                else
+                { chooseBenefitsPension.SetTexture(chooseBenefitsOffTexture); }
+            }
+            if (paymentTitleText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y)
+                || buttonPayment.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                if (!_isProcessing)
+                {
+                    _isProcessing = true;
+                    if (float.TryParse(amount, out float parsedAmount))
+                    {
+                        Task.Run(async () =>
+                        {
+                            try
+                            {
+                                PaymentService paymentService = new PaymentService();
+                                string payUrl = await paymentService.CreateInvoiceAsync(parsedAmount);
+                                Console.WriteLine("Invoice created successfully. Opening payment URL...");
+                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                                {
+                                    FileName = payUrl,
+                                    UseShellExecute = true
+                                });
+                                string numberPhone = WorkWithJson.ReadPhoneNumberFromFile();
+                                string email = WorkWithJson.ReadEmailFromFile();
+                                int id = database.GetUserId(numberPhone, email);
+                                database.NotificationsAdd(id, "Списание", parsedAmount);
+                                if (titleTravelTicketText.IfTexts("Общий"))
+                                { database.InsertHistoryTravelTicket(id, 1); }
+                                else if (titleTravelTicketText.IfTexts("Студенческий"))
+                                { database.InsertHistoryTravelTicket(id, 2); }
+                                else if (titleTravelTicketText.IfTexts("Пенсионный"))
+                                { database.InsertHistoryTravelTicket(id, 3); }
+                                
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.Message);
+                            }
+                            finally
+                            {
+                                _isProcessing = false;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid amount format.");
+                        _isProcessing = false;
+                    }
                 }
                 else
                 {
-                    chooseBenefitsPension.SetTexture(chooseBenefitsOffTexture);
+                    Console.WriteLine("Request is already being processed.");
                 }
+                flagFrames.ChangeFlagsFrame();
+                MainForm.topPanel = true;
+                MainForm.frame5 = true;
             }
-
-            if (buttonPayment.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
-            {
-                string numberPhone = WorkWithJson.ReadPhoneNumberFromFile();
-                string email = WorkWithJson.ReadEmailFromFile();
-                int id = database.GetUserId(numberPhone, email);
-               database.notificationsAdd(id, "Списание", amount);
-            }
-
             clock.Restart();
             canClick = false;
         }
-
-        clic();
     }
+    private bool _isProcessing;
     public void workProgram(RenderWindow _window)
     {
         Display(_window);
@@ -249,9 +279,6 @@ public class PayTravelTicket
     public void clic()
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        { canClick = true; }
     }
-    
 }

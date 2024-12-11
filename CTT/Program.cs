@@ -21,10 +21,10 @@ public class MainForm
     {
         VideoMode videoMode = VideoMode.DesktopMode;
         uint customHeight = videoMode.Height; 
-        RenderWindow _window = new RenderWindow(new VideoMode(videoMode.Width, customHeight), "STT");
-        _window.Closed += (sender, e) => _window.Close();
-        _window.Resized += OnResize;
-        return _window;
+        RenderWindow window = new RenderWindow(new VideoMode(videoMode.Width, customHeight), "STT");
+        window.Closed += (sender, e) => window.Close();
+        window.Resized += OnResize;
+        return window;
     }
     static void OnResize(object sender, SizeEventArgs e)
     {
@@ -43,14 +43,11 @@ public class MainForm
                loginData.PhoneNumber == "0";
     }
     public static void Ivents(RenderWindow _window)
-    {
-        _window.DispatchEvents();
-    }
+    { _window.DispatchEvents(); }
     public static void Main(string[] args)
     {
         RenderWindow _window = Form();
         bool fastLogin = !IsFileFilledWithZeros();
- 
         InputLine inputLine = new InputLine();
         _window.KeyPressed += inputLine.OnKeyPressedName;
         TopPanel topPaneles = new TopPanel();
@@ -61,32 +58,26 @@ public class MainForm
         frames2.Structure();
         ConfirmationRegistration frames3 = new ConfirmationRegistration();
         frames3.Structure();
-        LogIn frames4 = new LogIn();
+        Login frames4 = new Login();
         frames4.Structure();
         frames4.restoreAccessSructure();
         MainPage mainPage = new MainPage();
         mainPage.Structure();
         PayTicket frames6 = new PayTicket();
         frames6.Structure();
-       
         PayTravelTicket frames7 = new PayTravelTicket();
         frames7.Structure();
         Catalog frames9 = new Catalog();
         frames9.Structure();
-        
         News frames8 = new News();
         frames8.Structure();
         
         Profile profiles = new Profile();
         profiles.Structure();
         if (fastLogin)
-        {
-            frame5 = true;
-
-        }
+        { frame5 = true; }
         else if (!fastLogin)
         { topPanel = false; }
-
         if (frame9)
         { topPanel = true; }
         if (frame8)
@@ -123,9 +114,6 @@ public class MainForm
             { profiles.workProgram(_window); }
             if (topPanel)
             { topPaneles.workProgram(_window); }
-            
-            
-            
             _window.Display();
         }
     }

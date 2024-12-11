@@ -12,13 +12,13 @@ public class Flags
         Registration.flagEmail = false;
         ConfirmationRegistration.flagNumberPhone = false;
         ConfirmationRegistration.flagEmail = false;
-        LogIn.flagNumberPhone = false;
-        LogIn.flagEmail = false;
-        LogIn.flagPassword = false;
-        LogIn.flagNumberPhoneRestoreAccess = false;
-        LogIn.flagEmailRestoreAccess = false;
-        LogIn.flagPasswordRestoreAccess = false;
-        LogIn.flagRepeatPasswordRestoreAccess = false;
+        Login.flagNumberPhone = false;
+        Login.flagEmail = false;
+        Login.flagPassword = false;
+        Login.flagNumberPhoneRestoreAccess = false;
+        Login.flagEmailRestoreAccess = false;
+        Login.flagPasswordRestoreAccess = false;
+        Login.flagRepeatPasswordRestoreAccess = false;
         Profile.flagLogin = false;
         Profile.flagUserName = false;
 

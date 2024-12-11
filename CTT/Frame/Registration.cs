@@ -47,7 +47,6 @@ public class Registration
     private static Texts userNameText;
     private static Texts emailText;
     private static Texts furtherText;
-    
     private static Texts loginMiniText;
     private static Texts userNameMiniText;
     private static Texts passwordMiniText;
@@ -211,9 +210,7 @@ public class Registration
     public void clic()
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        { canClick = true; }
     }
     public void ButtonInteraction(RenderWindow _window)
     {
@@ -328,14 +325,12 @@ public class Registration
            loginMiniTextFrame = line.GetLine();
            loginMiniText.SetText(loginMiniTextFrame);
            cursorNamePosition = line.GetCursor();
-           line.Update(_window);  
         }
         if (flagUserName)
         { 
             userNameMiniTextFrame = line.GetLine();
             cursorLnamePosition = line.GetCursor();
             userNameMiniText.SetText(userNameMiniTextFrame);
-            line.Update(_window);
         }
         if (flagPassword)
         {
@@ -351,14 +346,11 @@ public class Registration
                passwordMiniText.SetText(passwordMiniTextFrame); 
                passwordMiniText.SetPosition(171, 682);
             }
-           
         }
         if (flagRepeatPassword)
         {
-            
             repeatPasswordMiniTextFrame = line.GetLine();
             cursorRepeatPasswordPosition = line.GetCursor();
-            
             if (!isVisibleRepeatPassword)
             {
                 repeatPasswordMiniText.HideText(repeatPasswordMiniTextFrame); 
@@ -369,21 +361,18 @@ public class Registration
                 repeatPasswordMiniText.SetText(repeatPasswordMiniTextFrame); 
                 repeatPasswordMiniText.SetPosition(634, 682);
             }
-            line.Update(_window);
         }
         if (flagNumberPhone)
         {
             numberPhoneMiniTextFrame = line.GetLine();
             numberPhoneMiniText.SetText(numberPhoneMiniTextFrame);
             cursorNumberPhonePosition = line.GetCursor();
-            line.Update(_window);   
         }
         if (flagEmail)
         {
             emailMiniTextFrame = line.GetLine();
             emailMiniText.SetText(emailMiniTextFrame);
             cursorEmailPosition = line.GetCursor();
-            line.Update(_window);   
         }
     }
     public void Warning()

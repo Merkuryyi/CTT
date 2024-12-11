@@ -144,14 +144,13 @@ public class ConfirmationRegistration
             string numberPhone = Registration.numberPhoneMiniTextFrame;
             string email = Registration.emailMiniTextFrame;
             string password = Registration.passwordMiniTextFrame;
-            database.registrationUser(name, lname, numberPhone, email ,password);
+            database.RegistrationUser(name, lname, numberPhone, email ,password);
             nextWindow = true;
             int id = database.GetUserId(numberPhone, email);
             WorkWithJson.SaveToJson(Registration.loginMiniTextFrame, Registration.userNameMiniTextFrame,
             Registration.numberPhoneMiniTextFrame,
             Registration.emailMiniTextFrame, Registration.passwordMiniTextFrame);
-            database.notificationsAdd(id, "Выполнен вход", "0");
-            database.addCard(id);
+            database.NotificationsAdd(id, "Выполнен вход", 0);
         }
     }
     public void ButtonInteraction(RenderWindow _window)
@@ -230,16 +229,13 @@ public class ConfirmationRegistration
             numberPhoneMiniTextFrame = line.GetLine();
             numberPhoneMiniText.SetText(numberPhoneMiniTextFrame);
             cursorNumberPhonePosition = line.GetCursor();
-            line.Update(_window);   
         }
         if (flagEmail)
         { 
             emailMiniTextFrame = line.GetLine();
             emailMiniText.SetText(emailMiniTextFrame);
             cursorEmailPosition = line.GetCursor();
-            line.Update(_window); 
         }
-       
     }
     public void Display(RenderWindow _window)
     {

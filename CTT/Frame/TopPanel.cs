@@ -6,7 +6,7 @@ public class TopPanel
 {
     private static Clock clock;
     private static float clickDelay;
-    private Database database;
+
     private FlagFrames flagFrames;
     private Vector2i mousePosition;
     private Button backgroundProfile;
@@ -32,8 +32,7 @@ public class TopPanel
         backgroundProfile.Draw(_window);
         photoProfile.Draw(_window);
         userNameOnPanel.Draw(_window);
-       
-      
+        
         backgroundLogo.Draw(_window);
         logoProgram.Draw(_window);
         nameProgramOnPanel.Draw(_window);
@@ -53,9 +52,7 @@ public class TopPanel
     {
         clock = new Clock();
         clickDelay = 0.3f;   
-        database = new Database();
         flagFrames = new FlagFrames();
-        
         Texture backgroundProfileArea =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundProfileTop.png"));
         Texture photoProfileArea =
@@ -64,7 +61,6 @@ public class TopPanel
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundLogo.png"));
         Texture logo =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "logo.png"));
-        
         Texture backgroundSearchArea =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundSearch.png"));
         Texture backgroundMiniArea =
@@ -75,7 +71,6 @@ public class TopPanel
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundCatalog.png"));
         Texture serchIcon =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "searchIcon.png"));
-        
         Texture fartherIcon =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fartherIcon.png"));
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");

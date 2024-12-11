@@ -124,25 +124,25 @@ public class Catalog
         string titleTravelTicket = "Каталог проездных билетов";
         titleTravelTicketText = new Texts(1038, 227, font, 36, baseColorText, titleTravelTicket);
         
-        string titleTicketShared = "Общий билет";
-        string descriptionTicketShared = database.ticketDecriptionGet(titleTicketShared);
-        string priceSharedTicket = database.ticketPriceGet(titleTicketShared);
+        string titleTicketShared = "Общий";
+        string descriptionTicketShared = database.TicketDecriptionGet(titleTicketShared);
+        string priceSharedTicket = database.TicketPriceGet(titleTicketShared);
         titleTicketSharedText = new Texts(282, 343, font, 36, baseColorText, titleTicketShared);
         decriptionTicketSharedText = new Texts(286, 398, font, 20, baseColorText, descriptionTicketShared);
         priceSharedTicketText = new Texts(135, 432, font, 24, baseColorText, priceSharedTicket);
         
-        string titleTicketPension = "Пенсионный билет";
-        string descriptionTicketPension = database.ticketDecriptionGet(titleTicketPension);
+        string titleTicketPension = "Пенсионный";
+        string descriptionTicketPension = database.TicketDecriptionGet(titleTicketPension);
         string warning = "*необходим документ";
-        string pricePensionTicket = database.ticketPriceGet(titleTicketPension);
+        string pricePensionTicket = database.TicketPriceGet(titleTicketPension);
         titleTicketPensionText = new Texts(282, 569, font, 36, baseColorText, titleTicketPension);
         decriptionTicketPensionText = new Texts(286, 624, font, 20, baseColorText, descriptionTicketPension);
         warningPensionText = new Texts(111, 722, font, 20, warningTextColor, warning);
         pricePensionTicketText = new Texts(135, 659, font, 24, baseColorText, pricePensionTicket);
         
-        string titleTicketBaggage = "Багажный билет";
-        string descriptionTicketBaggage = database.ticketDecriptionGet(titleTicketBaggage);
-        string priceBaggageTicket = database.ticketPriceGet(titleTicketBaggage);
+        string titleTicketBaggage = "Багажный";
+        string descriptionTicketBaggage = database.TicketDecriptionGet(titleTicketBaggage);
+        string priceBaggageTicket = database.TicketPriceGet(titleTicketBaggage);
         titleTicketBaggageText = new Texts(282, 794, font, 36, baseColorText, titleTicketBaggage);
         decriptionTicketBaggageText = new Texts(286, 849, font, 20, baseColorText, descriptionTicketBaggage);
         priceBaggageTicketText = new Texts(135, 884, font, 24, baseColorText, priceBaggageTicket);
@@ -150,18 +150,14 @@ public class Catalog
         string titleTicketCard2 = "проездной билет";
         
         string titleTicketCardShared = "Общий";
-        string priceSharedTicketCard = database.ticketCardPriceGet(titleTicketCardShared);
+        string priceSharedTicketCard = database.TicketCardPriceGet(titleTicketCardShared);
         titleTicketCardSharedText = new Texts(1235, 343, font, 36, baseColorText, titleTicketCardShared);
         titleTicketCardSharedText2 = new Texts(1235, 387, font, 36, baseColorText, titleTicketCard2);
         priceSharedTicketCardText = new Texts(1080, 432, font, 24, baseColorText, priceSharedTicketCard);
         
-     
-        
-        
-        
         
         string titleTicketCardStudent = "Студенческий";
-        string priceStudentTicketCard = database.ticketCardPriceGet(titleTicketCardStudent);
+        string priceStudentTicketCard = database.TicketCardPriceGet(titleTicketCardStudent);
         titleTicketCardStudentText = new Texts(1235, 569, font, 36, baseColorText, titleTicketCardStudent);
         titleTicketCardStudentText2 = new Texts(1235, 613, font, 36, baseColorText, titleTicketCard2);
         priceStudentTicketCardText = new Texts(1080, 659, font, 24, baseColorText, priceStudentTicketCard);
@@ -171,7 +167,7 @@ public class Catalog
      
         
         
-        string pricePensionTicketCard = database.ticketCardPriceGet(titleTicketCardPension);
+        string pricePensionTicketCard = database.TicketCardPriceGet(titleTicketCardPension);
         titleTicketCardPensionText = new Texts(1235, 794, font, 36, baseColorText, titleTicketCardPension);
         titleTicketCardPensionText2 = new Texts(1235, 838, font, 36, baseColorText, titleTicketCard2);
         warningPensionCardText = new Texts(1070, 947, font, 20, warningTextColor, warning);

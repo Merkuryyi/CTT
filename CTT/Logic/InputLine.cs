@@ -123,46 +123,14 @@ namespace CTT.Frame;
             Line = "";
             Cursor = 0;
         }
-        public void Update(RenderWindow _window)
-        {
-            /*
-            Text = Frame2.nameMiniText;
-
-            if ((Line == Frame2.passwordMiniTextFrame2
-                 || Line == Frame2.repeatPasswordMiniTextFrame2
-                 || Line == Frame4.passwordMiniTextFrame
-                 || Line == Frame4.passwordTextMiniTextResoreAcessFrame
-                 || Line == Frame4.repeatPasswordTextMiniTextResoreAcessFrame) && isVisible)
-            {
-                displayedText = Flag && isVisible ? Line.Insert(Cursor, "|") : Line;
-
-
-            }
-            else  if (Line == Frame2.nameMiniTextFrame2
-                    || Line == Frame2.lMiniTextFrame2
-                    || Line == Frame2.numberPhoneMiniTextFrame2
-                    || Line == Frame2.emailMiniTextFrame2
-                    || Line == Frame3.numberPhoneMiniTextFrame3
-                    || Line == Frame4.numberPhoneMiniTextFrame4
-                    ||  Line == Frame4.numberPhoneMiniTextCodeFrame
-                    ||  Line == Frame4.emailMiniTextCodeFrame
-                    || Line == Frame4.emailMiniTextFrame)
-
-            {
-                displayedText = Line.Insert(Cursor, "|");
-                
-                
-
-
-            }*/
-        }
+       
         public bool ContainsSpecialCharsOrDigits()
         {
             
             string lineBox = Registration.passwordMiniTextFrame;
-            if (LogIn.passwordMiniTextFrame != "")
+            if (Login.passwordMiniTextFrame != "")
             {
-                lineBox = LogIn.passwordMiniTextFrame;
+                lineBox = Login.passwordMiniTextFrame;
             }
             
             foreach (char c in lineBox)

@@ -2,7 +2,7 @@
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
-public class LogIn
+public class Login
 {
     private static int cursorEmailPositionRestoreAccess;
     public static int cursorNumberPhonePositionRestoreAccess;
@@ -191,7 +191,7 @@ public class LogIn
         string numberPhone = numberPhoneMiniTextFrame;
         string email = emailMiniTextFrame;
         string password = passwordMiniTextFrame;
-        bool flag = database.loginUser(numberPhone, email, password);
+        bool flag = database.LoginUser(numberPhone, email, password);
         if (!flag)
         {
             flagEmail = false;
@@ -213,7 +213,7 @@ public class LogIn
             
             WorkWithJson.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame,
                 emailMiniTextFrame, passwordMiniTextFrame);
-            database.notificationsAdd(id, "Выполнен вход", "0");
+            database.NotificationsAdd(id, "Выполнен вход", 0);
             flags.changeFlag();
             line.clearLine();
             flagFrames.ChangeFlagsFrame();
@@ -300,14 +300,12 @@ public class LogIn
             numberPhoneMiniTextFrame = line.GetLine();
             cursorNumberPhonePosition = line.GetCursor();
             numberPhoneMiniTextsFrame.SetText(numberPhoneMiniTextFrame);
-            line.Update(_window);  
         }
         if (flagEmail)
         {
             emailMiniTextFrame = line.GetLine();
             cursorEmailPosition = line.GetCursor();
             emailMiniText.SetText(emailMiniTextFrame);
-            line.Update(_window);  
         }
         if (flagPassword)
         {
@@ -324,7 +322,6 @@ public class LogIn
                 passwordMiniText.SetText(passwordMiniTextFrame); 
                 passwordMiniText.SetPosition(171, 682);
             }
-            line.Update(_window);  
         }
     }
     public void workProgram(RenderWindow _window)
@@ -407,7 +404,7 @@ public class LogIn
         warningPasswordRestoreAcess = warnings.GetWarningFlag();
         if (!warningPasswordRestoreAcess  && !flagNumberCodeNumber && !flagNumberCodeEmail)
         {
-            database.updateUser(numberPhoneMiniTextFrame, emailMiniTextFrame, passwordTextMiniTextResoreAcessFrame);
+            database.UpdateUser(numberPhoneMiniTextFrame, emailMiniTextFrame, passwordTextMiniTextResoreAcessFrame);
             WorkWithJson.UpdatePasswordInJson(passwordTextMiniTextResoreAcessFrame);
         }
     }
@@ -537,14 +534,12 @@ public class LogIn
             numberPhoneMiniTextCodeFrame = line.GetLine();
             numberPhoneMiniTextRestoreAccess.SetText(numberPhoneMiniTextCodeFrame);
             cursorNumberPhonePositionRestoreAccess = line.GetCursor();
-            line.Update(_window);   
         }
         if (flagEmailRestoreAccess)
         {
             emailMiniTextCodeFrame = line.GetLine();
             emailMiniTextRestoreAccess.SetText(emailMiniTextCodeFrame);
             cursorEmailPositionRestoreAccess = line.GetCursor();
-            line.Update(_window); 
         }
 
         if (flagPasswordRestoreAccess)
@@ -562,7 +557,6 @@ public class LogIn
                 passwordMiniTextRestoreAccess.SetText(passwordTextMiniTextResoreAcessFrame); 
                 passwordMiniTextRestoreAccess.SetPosition(743,746);
             }
-            line.Update(_window); 
         }
         if (flagRepeatPasswordRestoreAccess)
         {
@@ -579,7 +573,6 @@ public class LogIn
                 repeatPasswordMiniTextRestoreAccess.SetText(repeatPasswordTextMiniTextResoreAcessFrame); 
                 repeatPasswordMiniTextRestoreAccess.SetPosition(1065, 746);
             }
-            line.Update(_window); 
         }
     }
     public void restoreAccessSructure()

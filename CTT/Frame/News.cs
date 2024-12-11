@@ -63,15 +63,15 @@ public class News
         Color baseColorText = new Color(68, 68, 69);
         string titleNews = "Транспортные новости";
         
-        string titleNewsUpper = database.GetLatestNewsTitle();
+        string titleNewsUpper = database.GetLatestNewsTitle("new");
         string descriptionNewsUpper = database.GetLatestNewsDescription();
         string dateNewsUpper = database.GetLatestNewsDate();
         
-        string titleNewsMiddle = database.GetAverageNewsTitle();
+        string titleNewsMiddle = database.GetLatestNewsTitle("avarage");
         string descriptionNewsMiddle = database.GetAverageNewsDescription();;
         string dateNewsMiddle = database.GetAverageNewsDate();;
         
-        string titleNewsLower = database.GetNewNewsTitle();
+        string titleNewsLower = database.GetLatestNewsTitle("latest");
         string descriptionNewsLower = database.GetNewNewsDescription();
         string dateNewsLower = database.GetNewNewsDate();
         

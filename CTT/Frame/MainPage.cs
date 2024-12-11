@@ -17,9 +17,7 @@ public class MainPage
     private string benefitsShared;
     private string benefitsPension;
     private string benefitsStudent;
-    private string priceShare;
-    private string priceStudent;
-    private string pricePension;
+  
     private Texts titleTicketUpper;
     private Texts titleTicketMiddle;
     private Texts titleTicketLower;
@@ -54,16 +52,12 @@ public class MainPage
     private Texts monthTravelTickets;
     private Texts expirationDateTravelTickets;
     private Button backgroundCards;
-    private Button card;
-    private Button fartherMiniIcon;
+  
     private Texts titleCard;
-    private Texts upBalance;
     private Texts date;
     private Texts title1Cards;
     private Texts title2Cards;
     private Texts title3Cards;
-    private Texts balance;
-    private Texts cardInformation;
 
     private static bool canClick;
     private static bool ticketUpperFlag = false;
@@ -80,16 +74,11 @@ public class MainPage
         plusTravelTicket.Draw(_window);
        
         backgroundCards.Draw(_window);
-        card.Draw(_window);
-        fartherMiniIcon.Draw(_window);
         titleCard.Draw(_window);
-        upBalance.Draw(_window);
         date.Draw(_window);
         title1Cards.Draw(_window);
         title2Cards.Draw(_window);
         title3Cards.Draw(_window);
-        balance.Draw(_window);
-        cardInformation.Draw(_window);
         if (ticketUpperFlag)
         {
             ticketUpper.Draw(_window);
@@ -137,7 +126,7 @@ public class MainPage
             monthTravelTickets.Draw(_window);
             expirationDateTravelTickets.Draw(_window);
         }
-        if (ticketUpperFlag && ticketMiddleFlag && ticketLowerFlag)
+        if (!ticketUpperFlag && !ticketMiddleFlag && !ticketLowerFlag)
         {
             titleNoTickets.Draw(_window);
         }
@@ -159,10 +148,6 @@ public class MainPage
         flagFrames = new FlagFrames();
         Texture backgroundCard =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundCards.png"));
-        Texture cardIcon =
-            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "cardsIcon.png"));
-        Texture fartherMini =
-            new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "fartherMini.png"));
         Texture backgroundTravelTicketMainPage =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundTravelTicketMainPage.png"));
         Texture backgroundTicketsTexture =
@@ -177,25 +162,20 @@ public class MainPage
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "plus.png"));
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         
-       
         backgroundRight = new Button(994, 170, backgroundRightTexture);
         backgroundNews = new Button(53, 842, backgroundNewsMainPage);
         backgroundTravelTicket = new Button(53, 490, backgroundTravelTicketMainPage);
         backgroundCards = new Button(53, 170, backgroundCard);
         
-        card = new Button(108, 255, cardIcon);
-        fartherMiniIcon = new Button(413, 396, fartherMini);
         
         ticketUpper = new Button(1055, 309, backgroundTicketsTexture);
         ticketMiddle = new Button(1055, 535, backgroundTicketsTexture);
         ticketLower = new Button(1055, 760, backgroundTicketsTexture);
         
         travelTicket = new Button(97, 590, backgroundTicketsTexture);
-        
         plusTicket = new Button(1785, 208, plus);
         plusTravelTicket = new Button(884, 524, plus);
         fartherNews = new Button(893, 905, fartherIcon);
-        
         
         benefitsShared = "Общий";
         benefitsPension = "Пенсионный";
@@ -203,12 +183,8 @@ public class MainPage
         Color warningTextColor = new Color(202, 128, 128);
         Color colorMessage = new Color(136, 136, 136);
         Color baseColorText = new Color(68, 68, 69);
-        priceShare = database.ticketCardPriceGet(benefitsShared);
-        priceStudent = database.ticketCardPriceGet(benefitsStudent);
-        pricePension = database.ticketCardPriceGet(benefitsPension);
-       
+        
         titleTicketPay = new Texts(1055, 221, font, 36, baseColorText, "Купить билет");
-
         titleTicketUpper = new Texts(1240, 336, font, 36, baseColorText, "");
         titleTicketMiddle = new Texts(1240, 562, font, 36, baseColorText, "");
         titleTicketLower = new Texts(1240, 787, font, 36, baseColorText, "");
@@ -245,17 +221,14 @@ public class MainPage
         
         expirationDateTravelTickets = new Texts(757, 688, font, 24, baseColorText, "");
         warningTravelTickets = new Texts(130, 768, font, 20, warningTextColor, "");
-        upBalance = new Texts(108, 396, font, 20, baseColorText, "Пополнить баланс");
         DateTime today = DateTime.Today;
         date = new Texts(326, 202, font, 20, baseColorText,  today.ToString("dd.MM.yyyy"));
         
-        title1Cards = new Texts(604, 248, font, 36, colorMessage, "Здесь будут");
-        title2Cards = new Texts(507, 290, font, 36, colorMessage, "появляться все ваши");
-        title3Cards = new Texts(582, 334, font, 36, colorMessage, "карты и счета");
-     
-        balance = new Texts(256, 283, font, 36, baseColorText, "");
-        cardInformation = new Texts(256, 329, font, 16, baseColorText, "");
-        updateTickets();
+        title1Cards = new Texts(108, 269, font, 36, colorMessage, "В будущем здесь будут ");
+        title2Cards = new Texts(108, 311, font, 36, colorMessage, "появляться все ваши");
+        title3Cards = new Texts(108, 355, font, 36, colorMessage, "карты и счета");
+        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
+        UpdateTickets(id);
     }
 
     public string expirationDateTickets(string month)
@@ -265,45 +238,27 @@ public class MainPage
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
         };
         int currentMonthIndex = Array.FindIndex(months, m => m.Equals(month, StringComparison.OrdinalIgnoreCase));
-
-        if (currentMonthIndex == -1)
-        {
-            return "Неизвестный месяц";
-        }
         int nextMonthIndex = (currentMonthIndex + 1) % 12;
         return $"до 01.{nextMonthIndex + 1:D2}";
     }
-
-    private void updateTickets()
+    public void UpdateTickets(int id)
     {
-        int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
-        
-        
-        string titleTavelTicket = database.travelTicketTitleGet(id);
+       
+        string titleTavelTicket = database.TravelTicketTitleGet(id);
         string priceTravelTicket = "";
         if (!string.IsNullOrEmpty(titleTavelTicket))
         {
             travelTickets = true;
-            priceTravelTicket = database.ticketCardPriceGet(titleTavelTicket);
+            priceTravelTicket = database.TicketCardPriceGet(titleTavelTicket);
         }
-
         string month = database.GetDateTravelTicket(id);
         monthTravelTickets.SetText(month);
-        
         titleTavelTickets.SetText(titleTavelTicket);
         if (titleTavelTickets.IfTexts("Пенсионный") || titleTavelTickets.IfTexts("Студенческий"))
-        {
-            warningTravelTickets.SetText("*необходим документ");
-        }
+        { warningTravelTickets.SetText("*необходим документ"); }
         else
-        {
-            warningTravelTickets.SetText("");
-        }
+        { warningTravelTickets.SetText(""); }
         priceTravelTickets.SetText(priceTravelTicket);
-        float balanceCard = database.GetUserBalance(id);
-        balance.SetText(balanceCard.ToString());
-        cardInformation.SetText("standart " + database.GetCardId(id));
-            
         timeTicketUpper.SetText(database.GetDateTicket(id, "time", "upper"));
         timeTicketMiddle.SetText(database.GetDateTicket(id, "time", "middle"));
         timeTicketLower.SetText(database.GetDateTicket(id, "time", "lower"));
@@ -328,29 +283,18 @@ public class MainPage
         titleTicketMiddle.SetText( nameTicketMiddle);
         titleTicketLower.SetText(nameTicketLower);
 
-        decriptionTicketUpper.SetText(database.ticketDecriptionGet(nameTicketUpper));
-        decriptionTicketMiddle.SetText(database.ticketDecriptionGet(nameTicketMiddle));
-        decriptionTicketLower.SetText(database.ticketDecriptionGet(nameTicketLower));
+        decriptionTicketUpper.SetText(database.TicketDecriptionGet(nameTicketUpper));
+        decriptionTicketMiddle.SetText(database.TicketDecriptionGet(nameTicketMiddle));
+        decriptionTicketLower.SetText(database.TicketDecriptionGet(nameTicketLower));
         
-        priceTicketUpper.SetText(database.ticketPriceGet(nameTicketUpper));
-        priceTicketMiddle.SetText(database.ticketPriceGet(nameTicketMiddle));
-        priceTicketLower.SetText(database.ticketPriceGet(nameTicketLower));
+        priceTicketUpper.SetText(database.TicketPriceGet(nameTicketUpper));
+        priceTicketMiddle.SetText(database.TicketPriceGet(nameTicketMiddle));
+        priceTicketLower.SetText(database.TicketPriceGet(nameTicketLower));
     }
-
-/*
-
-int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
-        titleTicketUpper.SetText(database.GetLatestTicketName(id));
-       if (database.GetLatestTicketName(id) != "")
-       {
-       }
-
-
-
-
-*/
+    
     private void ButtonInteraction(RenderWindow _window)
     {
+        clic();
         mousePosition = Mouse.GetPosition(_window);
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -372,12 +316,9 @@ int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson
                 MainForm.topPanel = true;
                 MainForm.frame8 = true;
             }
-
             clock.Restart();
             canClick = false;
         }
-
-        clic();
     }
     public void workProgram(RenderWindow _window)
     {
@@ -387,9 +328,6 @@ int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson
     public void clic()
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        { canClick = true; }
     }
-    
 }

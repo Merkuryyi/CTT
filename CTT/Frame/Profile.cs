@@ -241,7 +241,7 @@ public class Profile
         int id = database.GetUserId(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile());
         CountNotifications(id);
         dateNotificationsText.SetText(notificationsReadOrUnread());
-        informationNotificationsText.SetText(database.notificationGet(id));
+        informationNotificationsText.SetText(database.NotificationGet(id));
         cursorLogin = WorkWithJson.ReadNameFromFile().Length;
         cursorUserName = WorkWithJson.ReadLNameFromFile().Length;
     }
@@ -249,7 +249,7 @@ public class Profile
     {
         if (notificationWork)
         {
-            countNotifications = database.notificationsCount(id).ToString();
+            countNotifications = database.NotificationsCount(id).ToString();
             countNotificationsText.SetText(countNotifications);
         }
     }
@@ -271,9 +271,9 @@ public class Profile
     {
         if (int.Parse(countNotifications) > 0)
         {
-            return database.notificationDateGetUnread().ToString();
+            return database.NotificationDateGetUnread().ToString();
         }
-        return database.notificationDateGetRead().ToString();
+        return database.NotificationDateGetRead().ToString();
     }
     private void Warning()
     {
@@ -293,7 +293,7 @@ public class Profile
         { warningLNameText.SetText(""); }
         if (!warningLogin && !warningUserName)
         {
-            database.updateNameUser(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile(), loginMiniText, userNameMiniText);
+            database.UpdateNameUser(WorkWithJson.ReadPhoneNumberFromFile(), WorkWithJson.ReadEmailFromFile(), loginMiniText, userNameMiniText);
             WorkWithJson.UpdateLoginAndUserNameInJson(loginMiniText, userNameMiniText);
             TopPanel.userNameOnPanel.SetText(userNameMiniText);
         }  
@@ -387,7 +387,7 @@ public class Profile
                 securityFlag = false;
                 CountNotifications(id);
                 notificationText.SetText(notifications);
-                informationNotificationsText.SetText(database.notificationGet(id));
+                informationNotificationsText.SetText(database.NotificationGet(id));
                 dateNotificationsText.SetText(notificationsReadOrUnread());
                 updateNotifications();
             }
@@ -401,9 +401,9 @@ public class Profile
             }
             if (markNotificationsText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                database.notificationsUpdate(id.ToString());
+                database.NotificationsUpdate(id.ToString());
                 CountNotifications(id);
-                informationNotificationsText.SetText(database.notificationGet(id));
+                informationNotificationsText.SetText(database.NotificationGet(id));
                 dateNotificationsText.SetText(notificationsReadOrUnread());
                 updateNotifications();
             }
@@ -412,14 +412,14 @@ public class Profile
                 if (switchNotifications.IfTexture(switchPartOff))
                 {
                     switchNotifications.SetTexture(switchPart);
-                    switchNotificationsCircle.SetPosition(433, 410);
+                    switchNotificationsCircle.SetPosition(433, 400);
                     notificationWork = true;
                     updateNotifications();
                 }
                 else if (switchNotifications.IfTexture(switchPart))
                 {
                     switchNotifications.SetTexture(switchPartOff);
-                    switchNotificationsCircle.SetPosition(395, 410);
+                    switchNotificationsCircle.SetPosition(395, 400);
                     notificationWork = false;
                     elementNotifications.SetTexture(elementOfNotificationsOff);
                 }
@@ -432,14 +432,12 @@ public class Profile
             loginMiniText = line.GetLine();
             firstName.SetText(loginMiniText);
             cursorLogin = line.GetCursor();
-            line.Update(_window);
         }
         if (flagUserName)
         {
             userNameMiniText = line.GetLine();
             lastName.SetText(userNameMiniText);
             cursorUserName = line.GetCursor();
-            line.Update(_window);
         }
     }
     public void workProgram(RenderWindow _window)
