@@ -354,9 +354,8 @@ public class Profile
             {
                 if (!settingsFlag)
                 {
-                    flags.changeFlag();
+                    flags.ChangeFlag();
                     flagLogin = true;
-                    line.parametres(flagLogin);
                     line.LineParametr(loginMiniText, cursorLogin);
                 }
             }
@@ -364,9 +363,8 @@ public class Profile
             {
                 if (!settingsFlag)
                 {
-                    flags.changeFlag();
+                    flags.ChangeFlag();
                     flagUserName = true;
-                    line.parametres(flagUserName);
                     line.LineParametr(userNameMiniText, cursorUserName);
                 }
             }

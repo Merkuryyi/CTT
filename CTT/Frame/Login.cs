@@ -214,7 +214,7 @@ public class Login
             WorkWithJson.SaveToJson(fullName.FirstName, fullName.LastName, numberPhoneMiniTextFrame,
                 emailMiniTextFrame, passwordMiniTextFrame);
             database.NotificationsAdd(id, "Выполнен вход", 0);
-            flags.changeFlag();
+            flags.ChangeFlag();
             line.clearLine();
             flagFrames.ChangeFlagsFrame();
             MainForm.profile = true;
@@ -236,7 +236,7 @@ public class Login
         {
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             { 
-                flags.changeFlag();
+                flags.ChangeFlag();
                 line.clearLine();
                 flagFrames.ChangeFlagsFrame(); MainForm.frame1 = true;
             }
@@ -254,18 +254,16 @@ public class Login
             }
             if (buttonEmptyNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagNumberPhone = true;
-                line.parametres(flagNumberPhone);
                 line.LineParametr(numberPhoneMiniTextFrame ,cursorNumberPhonePosition);
             }
             else
             { flagNumberPhone = false; }
             if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagEmail = true;
-                line.parametres(flagEmail);
                 line.LineParametr(emailMiniTextFrame ,cursorEmailPosition);
        
             }
@@ -273,9 +271,8 @@ public class Login
             { flagEmail = false; }
             if (buttonEmptyPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagPassword = true;
-                line.parametres(flagPassword);
                 line.LineParametr(passwordMiniTextFrame ,cursorPasswordPosition);
             }
             else
@@ -461,7 +458,7 @@ public class Login
             {
                 buttonRequestСodeNumberPhoneSpriteRestoreAccess.SetTexture(requestСodeOffTexture);
                 flagNumberPhoneRequest = false;
-                numberCodeNumberPhone = random.randomCode();
+                numberCodeNumberPhone = random.RandomCode();
                 Console.WriteLine($"number phone {numberCodeNumberPhone}");
             }
 
@@ -469,37 +466,33 @@ public class Login
             {
                 buttonRequestСodeEmailSpriteRestoreAccess.SetTexture(requestСodeOffTexture);
                 flagEmailRequest = false;
-                numberCodeEmail = random.randomCode();
+                numberCodeEmail = random.RandomCode();
                 Console.WriteLine($"email {numberCodeEmail}");
             }
            
             if (buttonEmptyNumberPfoneSpriteRestoreAccess.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagNumberPhoneRestoreAccess = true;
-                line.parametres(flagNumberPhoneRestoreAccess);
                 line.LineParametr(numberPhoneMiniTextCodeFrame ,cursorNumberPhonePositionRestoreAccess);
             }
           
             if (buttonEmptyEmailSpriteRestoreAccess.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagEmailRestoreAccess = true;
-                line.parametres(flagNumberPhoneRestoreAccess);
                 line.LineParametr(emailMiniTextCodeFrame, cursorEmailPositionRestoreAccess);
             }
             if (buttonEmptyPasswordSpriteRestoreAccess.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagPasswordRestoreAccess = true;
-                line.parametres(flagPasswordRestoreAccess);
                 line.LineParametr(passwordTextMiniTextResoreAcessFrame, cursorPasswordPositionRestoreAccess);
             }
             if (buttonEmptyRepeatPasswordSpriteRestoreAccess.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagRepeatPasswordRestoreAccess = true;
-                line.parametres(flagRepeatPasswordRestoreAccess);
                 line.LineParametr(repeatPasswordTextMiniTextResoreAcessFrame, cursorRepeatPasswordPositionRestoreAccess);
             }
             if (buttonPasswordHideSpriteRestoreAcess.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 

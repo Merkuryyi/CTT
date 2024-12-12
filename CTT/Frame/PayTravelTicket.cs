@@ -5,77 +5,11 @@ using SFML.Window;
 using SFML.System;
 public class PayTravelTicket
 {
-    private static Clock clock;
-    private static float clickDelay;
-    private Database database;
-    
-    private Vector2i mousePosition;
-    private Button backgroundLeft;
-    private Button backgroundRight;
-    private Texts titleFrameText;
-    private Texts monthText;
-    private Texts titleTravelTicketText;
-    private Texts benefitsSharedText;
-    private Texts benefitsPensionText;
-    private Texts benefitsStudentText;
-    private Texts titleTravelTicketText2;
-    private Texts priceTravelTicketText;
-
-    private Texts warningText;
-    private Texts lineText;
-    private Texts lineText2;
-    private Texts lineText3;
-    private Texts paymentText;
-    private Texts amountText;
-    private Texts warningPaymentText;
-    private Button chooseBenefitsShared;
-    private Button chooseBenefitsStudent;
-    private Button chooseBenefitsPension;
-    private Button lines;
-    private Button travelTicket;
- 
-    private Button buttonPayment;
-    private Texts paymentTitleText;
-    private Texts titleFrameTextRight;
-    private Texture chooseBenefitsOnTexture;
-    private Texture chooseBenefitsOffTexture;
     private string benefitsShared;
     private string benefitsPension;
     private string benefitsStudent;
     private static bool canClick;
     private string amount;
-    public void Display(RenderWindow _window)
-    {
-        backgroundLeft.Draw(_window);
-        backgroundRight.Draw(_window);
-        titleFrameText.Draw(_window);
-        titleFrameTextRight.Draw(_window);
-        monthText.Draw(_window);
-       
-        benefitsSharedText.Draw(_window);
-        benefitsPensionText.Draw(_window);
-        benefitsStudentText.Draw(_window);
-        
-        
-        warningText.Draw(_window);
-        lineText.Draw(_window);
-        lineText2.Draw(_window);
-        lineText3.Draw(_window);
-        paymentText.Draw(_window);
-        amountText.Draw(_window);
-        warningPaymentText.Draw(_window);
-        chooseBenefitsShared.Draw(_window);
-        chooseBenefitsStudent.Draw(_window);
-        chooseBenefitsPension.Draw(_window);
-        lines.Draw(_window);
-        travelTicket.Draw(_window);
-      
-        buttonPayment.Draw(_window);
-        paymentTitleText.Draw(_window);
-        titleTravelTicketText.Draw(_window);
-        titleTravelTicketText2.Draw(_window);
-        priceTravelTicketText.Draw(_window);
-    }
     private string GetMonthName()
     {
         DateTime currentDate = DateTime.Now;
@@ -89,7 +23,6 @@ public class PayTravelTicket
         clock = new Clock();
         clickDelay = 0.3f;   
         database = new Database();
-      
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
         Texture backgroundLeftTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "backgroundLeftWithTop.png"));
@@ -135,29 +68,28 @@ public class PayTravelTicket
         Color baseColorText = new Color(68, 68, 69);
         Color warningTextColor = new Color(202, 128, 128);
         Color colorMessage = new Color(136, 136, 136);
-        
         titleFrameText = new Texts(114, 237, font, 36, baseColorText, titleFrame);
         monthText = new Texts(530, 237, font, 36, baseColorText, GetMonthName());
-        
         benefitsSharedText = new Texts(169, 313, font, 24, baseColorText, benefitsShared);
         benefitsPensionText = new Texts(585, 313, font, 24, baseColorText, benefitsPension);
         benefitsStudentText = new Texts(340, 313, font, 24, baseColorText, benefitsStudent);
-        
         titleTravelTicketText = new Texts(380, 455, font, 36, baseColorText, benefitsShared);
         titleTravelTicketText2 = new Texts(380, 496, font, 36, baseColorText, titleTicketCard2);
-        
         priceTravelTicketText = new Texts(160, 558, font, 32, baseColorText, priceTravelTicket);
         warningText = new Texts(134, 660, font, 20, warningTextColor, warning);
         titleFrameTextRight = new Texts(1037, 237, font, 36, baseColorText, titleFrameRight);
-        
         lineText = new Texts(1037, 309, font, 24, colorMessage, line);
         lineText2 = new Texts(1037, 345, font, 24, colorMessage, line2);
         lineText3 = new Texts(1037, 379, font, 24, colorMessage, line3);
         paymentText = new Texts(1345, 578, font, 36, baseColorText, payment);
         amountText = new Texts(1345, 625, font, 36, baseColorText, priceTravelTicket);
-        warningPaymentText = new Texts(1315, 677, font, 20, warningTextColor, warningPayment);
+        warningPaymentText = new Texts(1315, 677, font, 20, warningTextColor, "");
         paymentTitleText = new Texts(1345, 725, font, 36, baseColorText, paymentTitle);
     }
+    private static Clock clock;
+    private static float clickDelay;
+    private Database database;
+    private Vector2i mousePosition;
     private void ButtonInteraction(RenderWindow _window)
     {
         FlagFrames flagFrames = new FlagFrames();
@@ -240,6 +172,8 @@ public class PayTravelTicket
                                 { database.InsertHistoryTravelTicket(id, 2); }
                                 else if (titleTravelTicketText.IfTexts("Пенсионный"))
                                 { database.InsertHistoryTravelTicket(id, 3); }
+                                MainForm.mainPage.Structure();
+                                MainForm.mainPage.UpdateTickets();
                                 
                             }
                             catch (Exception ex)
@@ -259,9 +193,7 @@ public class PayTravelTicket
                     }
                 }
                 else
-                {
-                    Console.WriteLine("Request is already being processed.");
-                }
+                { Console.WriteLine("Request is already being processed."); }
                 flagFrames.ChangeFlagsFrame();
                 MainForm.topPanel = true;
                 MainForm.frame5 = true;
@@ -280,5 +212,60 @@ public class PayTravelTicket
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
         { canClick = true; }
+    }
+    private Button backgroundLeft;
+    private Button backgroundRight;
+    private Button chooseBenefitsShared;
+    private Button chooseBenefitsStudent;
+    private Button chooseBenefitsPension;
+    private Button lines;
+    private Button travelTicket;
+    private Button buttonPayment;
+    private Texts titleFrameText;
+    private Texts monthText;
+    private Texts titleTravelTicketText;
+    private Texts benefitsSharedText;
+    private Texts benefitsPensionText;
+    private Texts benefitsStudentText;
+    private Texts titleTravelTicketText2;
+    private Texts priceTravelTicketText;
+    private Texts warningText;
+    private Texts lineText;
+    private Texts lineText2;
+    private Texts lineText3;
+    private Texts paymentText;
+    private Texts amountText;
+    private Texts warningPaymentText;
+    private Texts paymentTitleText;
+    private Texts titleFrameTextRight;
+    private Texture chooseBenefitsOnTexture;
+    private Texture chooseBenefitsOffTexture;
+    public void Display(RenderWindow _window)
+    {
+        backgroundLeft.Draw(_window);
+        backgroundRight.Draw(_window);
+        titleFrameText.Draw(_window);
+        titleFrameTextRight.Draw(_window);
+        monthText.Draw(_window);
+        benefitsSharedText.Draw(_window);
+        benefitsPensionText.Draw(_window);
+        benefitsStudentText.Draw(_window);
+        warningText.Draw(_window);
+        lineText.Draw(_window);
+        lineText2.Draw(_window);
+        lineText3.Draw(_window);
+        paymentText.Draw(_window);
+        amountText.Draw(_window);
+        warningPaymentText.Draw(_window);
+        chooseBenefitsShared.Draw(_window);
+        chooseBenefitsStudent.Draw(_window);
+        chooseBenefitsPension.Draw(_window);
+        lines.Draw(_window);
+        travelTicket.Draw(_window);
+        buttonPayment.Draw(_window);
+        paymentTitleText.Draw(_window);
+        titleTravelTicketText.Draw(_window);
+        titleTravelTicketText2.Draw(_window);
+        priceTravelTicketText.Draw(_window);
     }
 }

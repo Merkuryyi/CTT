@@ -1,5 +1,4 @@
 ﻿namespace CTT;
-
 using Npgsql;
 using System;
 
@@ -33,25 +32,19 @@ public class Database
         catch (Exception ex)
         { Console.WriteLine($"Ошибка при регистрации пользователя: {ex.Message}"); }
     }
-    
     public bool LoginUser(string numberPhone, string email, string password)
     {
         try
         {
             using (var conn = GetSqlConnection())
             {
-                string query = @"
-                SELECT COUNT(*) 
-                FROM users 
-                WHERE NumberPhone = @numberPhone 
-                  AND Email = @email 
-                  AND Password = @password";
+                string query = @"SELECT COUNT(*) FROM users 
+                WHERE NumberPhone = @numberPhone AND Email = @email AND Password = @password";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("numberPhone", numberPhone);
                     command.Parameters.AddWithValue("email", email);
                     command.Parameters.AddWithValue("password", password);
-
                     int count = Convert.ToInt32(command.ExecuteScalar());
                     if (count == 1)
                     {
@@ -68,7 +61,6 @@ public class Database
             return false;
         }
     }
-
     public bool UniqueNumberPhone(string numberPhone)
     {
         try
@@ -89,7 +81,6 @@ public class Database
                         Console.WriteLine("Номер телефона уже существует.");
                         return true;
                     }
-
                     return false;
                 }
             }
@@ -107,11 +98,8 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-                string query = @"
-                    UPDATE users 
-                    SET password = @newPassword 
-                    WHERE NumberPhone = @numberPhone 
-                      AND Email = @email";
+                string query = @"UPDATE users SET password = @newPassword 
+                                WHERE NumberPhone = @numberPhone AND Email = @email";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("newPassword", newPassword);
@@ -124,7 +112,6 @@ public class Database
         catch (Exception ex)
         { Console.WriteLine($"Ошибка при обновлении пароля: {ex.Message}"); }
     }
-
     public void UpdateNameUser(string numberPhone, string email, string newLogin, string newUserName)
     {
         try
@@ -150,15 +137,13 @@ public class Database
         catch (Exception ex)
         { Console.WriteLine($"Ошибка при обновлении логина и имени пользователя: {ex.Message}"); }
     }
-
     public void NotificationsAdd(int id, string action, float actionMoney)
     {
         try
         {
             using (var conn = GetSqlConnection())
             {
-                string query = @"
-                    INSERT INTO Notifications (IdUsers, status, action, actionMoney, date)
+                string query = @"INSERT INTO Notifications (IdUsers, status, action, actionMoney, date)
                     VALUES (@IdUsers, 'unread', @action, @actionMoney, now())";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
@@ -177,32 +162,34 @@ public class Database
     {
         try
         {
+            string result = null;
             var conn = GetSqlConnection();
             using (conn)
             {
-                string query = @"
-                UPDATE Notifications 
-                SET Status = 'read' 
+                string query = @"UPDATE Notifications
+                SET Status = 'read'
                 WHERE IdNotifications = (
-                    SELECT IdNotifications 
-                    FROM Notifications 
-                    WHERE idusers = @idusers 
-                      AND Status = 'unread' 
-                    ORDER BY Date ASC 
-                    FETCH FIRST 1 ROW ONLY
-                )";
+                    SELECT IdNotifications
+                    FROM Notifications
+                    WHERE idusers = @idusers AND Status = 'unread'
+                    ORDER BY Date ASC
+                    LIMIT 1);	";
+
                 using (var command = new NpgsqlCommand(query, conn))
                 {
-                    command.Parameters.AddWithValue("idusers", id);
+                    command.Parameters.AddWithValue("login", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        { result = reader.GetString(0); }
+                    }
                 }
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при обновлении уведомления: {ex.Message}");
-        }
+        catch (Exception e)
+        { Console.WriteLine(e); }
     }
-
     public DateTime? NotificationDateGetRead()
     {
         DateTime? latestDate = null;
@@ -212,10 +199,7 @@ public class Database
             var conn = GetSqlConnection();
             using (conn)
             {
-                string query = @"
-                SELECT MAX(Date)
-                FROM Notifications where status = 'read'";
-
+                string query = @"SELECT MAX(Date) FROM Notifications where status = 'read'";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     using (var reader = command.ExecuteReader())
@@ -223,9 +207,7 @@ public class Database
                         if (reader.Read())
                         {
                             if (!reader.IsDBNull(0))
-                            {
-                                latestDate = reader.GetDateTime(0);
-                            }
+                            { latestDate = reader.GetDateTime(0); }
                         }
                     }
                 }
@@ -238,7 +220,6 @@ public class Database
         }
         return latestDate;
     }
-
     public DateTime? NotificationDateGetUnread()
     {
         DateTime? latestDate = null;
@@ -274,7 +255,6 @@ public class Database
 
         return latestDate;
     }
-
     public string NotificationGet(int userId)
     {
         string result = null;
@@ -283,19 +263,10 @@ public class Database
             var conn = GetSqlConnection();
             using (conn)
             {
-                string queryUnread = @"
-                    SELECT 
-                        CONCAT(
-                            Action, 
-                            CASE 
+                string queryUnread = @"SELECT CONCAT(Action, CASE 
                                 WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '')
-                                ELSE ''
-                            END
-                        ) AS ActionWithMoney
-                    FROM Notifications
-                    WHERE IdUsers = @IdUsers AND Status = 'unread'
-                    ORDER BY Date ASC
-                    LIMIT 1";
+                                ELSE '' END) AS ActionWithMoney
+                    FROM Notifications WHERE IdUsers = @IdUsers AND Status = 'unread' ORDER BY Date ASC LIMIT 1";
                 using (var commandUnread = new NpgsqlCommand(queryUnread, conn))
                 {
                     commandUnread.Parameters.AddWithValue("IdUsers", NpgsqlTypes.NpgsqlDbType.Integer, userId);
@@ -308,7 +279,6 @@ public class Database
                         }
                     }
                 }
-
                 if (result == null)
                 {
                     string queryRead = @"
@@ -347,7 +317,6 @@ public class Database
 
         return result;
     }
-
     public int GetUserId(string numberPhone, string email)
     {
         try
@@ -367,9 +336,7 @@ public class Database
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
-                        {
-                            return reader.GetInt32(0);
-                        }
+                        { return reader.GetInt32(0); }
                     }
                 }
             }
@@ -381,7 +348,6 @@ public class Database
         }
         return 0;
     }
-
     public int NotificationsCount(int id)
     {
         try
@@ -399,7 +365,6 @@ public class Database
             return 0;
         }
     }
-
     public (string FirstName, string LastName) GetUserFullName(string numberPhone, string email, string password)
     {
         try
@@ -417,18 +382,14 @@ public class Database
                     return (firstName, lastName);
                 }
             }
-
-            conn.Close();
         }
         catch (Exception ex)
         {
             Console.WriteLine("Ошибка при выполнении запроса: " + ex.Message);
             return (null, null);
         }
-
         return (null, null);
     }
-
     public string TicketPriceGet(string ticketName)
     {
         string ticketPrice = null;
@@ -442,9 +403,7 @@ public class Database
                     command.Parameters.AddWithValue("ticketName", ticketName);
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
-                    {
-                        ticketPrice = result.ToString();
-                    }
+                    { ticketPrice = result.ToString(); }
                 }
             }
         }
@@ -456,7 +415,6 @@ public class Database
 
         return ticketPrice;
     }
-
     public string TicketDecriptionGet(string ticketName)
     {
         string ticketDecription = null;
@@ -470,9 +428,7 @@ public class Database
                     command.Parameters.AddWithValue("ticketName", ticketName);
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
-                    {
-                        ticketDecription = result.ToString();
-                    }
+                    { ticketDecription = result.ToString(); }
                 }
             }
         }
@@ -483,7 +439,6 @@ public class Database
         }
         return ticketDecription;
     }
-
     public string TicketCardPriceGet(string ticketName)
     {
         string ticketPrice = null;
@@ -493,9 +448,7 @@ public class Database
             {
                 string query = $"SELECT travelticketsprice FROM tickettravel WHERE travelticketName = '{ticketName}'";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
-                {
-                    ticketPrice = command.ExecuteScalar().ToString();
-                }
+                { ticketPrice = command.ExecuteScalar().ToString(); }
             }
         }
         catch (Exception ex)
@@ -503,10 +456,8 @@ public class Database
             ticketPrice = null;
             Console.WriteLine("Ошибка при выполнении запроса: " + ex.Message);
         }
-
         return ticketPrice;
     }
-
     public string TravelTicketTitleGet(int id)
     {
         string ticketTitle = null;
@@ -520,19 +471,14 @@ public class Database
                 JOIN historytravelticket 
                 ON tickettravel.idtravelticket = historytravelticket.idtravelticket
                 WHERE historytravelticket.id_users = @id
-                ORDER BY historytravelticket.date DESC
-                LIMIT 1;
-            ";
-
+                ORDER BY historytravelticket.date DESC LIMIT 1;";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("id", id);
 
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
-                    {
-                        ticketTitle = result.ToString();
-                    }
+                    { ticketTitle = result.ToString(); }
                 }
             }
         }
@@ -541,71 +487,9 @@ public class Database
             ticketTitle = null;
             Console.WriteLine("Ошибка при выполнении запроса: " + ex.Message);
         }
-
         return ticketTitle;
     }
-
-    public string GetLatestNewsDate()
-    {
-        string latestNewsTitle = null;
-        try
-        {
-            using (var conn = GetSqlConnection())
-            {
-                string query = @"SELECT newsdata FROM news
-                WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;
-                ";
-                using (var command = new NpgsqlCommand(query, conn))
-                {
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при получении даты: {ex.Message}");
-            latestNewsTitle = null;
-        }
-
-        return latestNewsTitle;
-    }
-
-    public string GetLatestNewsDescription()
-    {
-        string latestNewsTitle = null;
-        try
-        {
-            using (var conn = GetSqlConnection())
-            {
-                string query = @"SELECT newsshortdescription FROM news
-                WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;
-                ";
-
-                using (var command = new NpgsqlCommand(query, conn))
-                {
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при получении описания: {ex.Message}");
-            latestNewsTitle = null;
-        }
-        return latestNewsTitle;
-    }
-
-    public string GetLatestNewsTitle(string time)
+    public string GetNewsTitle(string time)
     {
         string latestNewsTitle = null;
         string query = "";
@@ -614,15 +498,11 @@ public class Database
             using (var conn = GetSqlConnection())
             {
                 if (time == "new")
-                {
-                    query = "SELECT newstitle FROM news WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;";
-                }
+                { query = "SELECT newstitle FROM news WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;"; }
                 else if (time == "avarage")
                 {
                     query = @"SELECT newstitle FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
+                    WHERE newsdata = (SELECT newsdata FROM news
                         ORDER BY newsdata DESC
                         LIMIT 1 OFFSET 1 )LIMIT 1;";
                 }
@@ -641,9 +521,7 @@ public class Database
                 {
                     object result = command.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
+                    { latestNewsTitle = result.ToString(); }
                 }
             }
         }
@@ -654,31 +532,89 @@ public class Database
         }
         return latestNewsTitle;
     }
-    
-    public string GetAverageNewsDescription()
+    public string GetNewsDescription(string date)
     {
         string latestNewsTitle = null;
+        string query = "";
         try
         {
             using (var conn = GetSqlConnection())
             {
-                string query = @"SELECT newsshortdescription FROM news
+               
+                if (date == "latest")
+                {
+                    query = @"SELECT newsshortdescription
+                    FROM news
                     WHERE newsdata = (
                         SELECT newsdata
                         FROM news
                         ORDER BY newsdata DESC
+                        LIMIT 1 OFFSET 2
+                        )LIMIT 1;";
+                }
+                else if (date == "average")
+                {
+                    query = @"SELECT newsshortdescription FROM news WHERE newsdata = (
+                        SELECT newsdata FROM news
+                        ORDER BY newsdata DESC
                         LIMIT 1 OFFSET 1
                     )LIMIT 1;
                 ";
-
+                }
+                else if (date == "new")
+                {
+                    query = @"SELECT newsshortdescription FROM news
+                WHERE newsdata = (SELECT MAX(newsdata) FROM news) limit 1;
+                ";
+                }
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     object result = command.ExecuteScalar();
-
                     if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
+                    { latestNewsTitle = result.ToString(); }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при получении описания: {ex.Message}");
+            latestNewsTitle = null;
+        }
+        return latestNewsTitle;
+    }
+    public string GetNewsDate(string date)
+    {
+        string latestNewsTitle = null;
+        string query = "";
+        try
+        {
+            using (var conn = GetSqlConnection())
+            {
+                if (date == "latest")
+                {
+                    query = @"SELECT newsdata FROM news
+                    WHERE newsdata = (SELECT newsdata FROM news
+                        ORDER BY newsdata DESC LIMIT 1 OFFSET 2
+                    )LIMIT 1;
+                ";
+                }
+                else if (date == "average")
+                {
+                    query = @"SELECT newsdata FROM news
+                    WHERE newsdata = (SELECT newsdata FROM news
+                        ORDER BY newsdata DESC LIMIT 1 OFFSET 1
+                    )LIMIT 1;
+                ";
+                }
+                else if (date == "new")
+                {
+                    query = "SELECT newsdata FROM news WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;";
+                }
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    { latestNewsTitle = result.ToString(); }
                 }
             }
         }
@@ -687,122 +623,8 @@ public class Database
             latestNewsTitle = null;
             Console.WriteLine($"Ошибка : {ex.Message}");
         }
-
         return latestNewsTitle;
     }
-
-    public string GetAverageNewsDate()
-    {
-        string latestNewsTitle = null;
-        try
-        {
-            using (var conn = GetSqlConnection())
-            {
-                string query = @"SELECT newsdata FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 1
-                    )LIMIT 1;
-                ";
-
-                using (var command = new NpgsqlCommand(query, conn))
-                {
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            latestNewsTitle = null;
-            Console.WriteLine($"Ошибка : {ex.Message}");
-        }
-
-        return latestNewsTitle;
-    }
-    
-
-    public string GetNewNewsDescription()
-    {
-        string latestNewsTitle = null;
-        try
-        {
-            using (var conn = GetSqlConnection())
-            {
-                string query = @"
-                    SELECT newsshortdescription
-                    FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 2
-                    )LIMIT 1;
-                ";
-
-                using (var command = new NpgsqlCommand(query, conn))
-                {
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            latestNewsTitle = null;
-            Console.WriteLine($"Ошибка при добавлении уведомления: {ex.Message}");
-        }
-
-        return latestNewsTitle;
-    }
-
-    public string GetNewNewsDate()
-    {
-        string latestNewsTitle = null;
-        try
-        {
-            using (var conn = GetSqlConnection())
-            {
-                string query = @"SELECT newsdata
-                    FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 2
-                    )LIMIT 1;
-                ";
-
-                using (var command = new NpgsqlCommand(query, conn))
-                {
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && result != DBNull.Value)
-                    {
-                        latestNewsTitle = result.ToString();
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            latestNewsTitle = null;
-            Console.WriteLine($"Ошибка при добавлении уведомления: {ex.Message}");
-        }
-
-        return latestNewsTitle;
-    }
-    
     public string GetTicketName(int userId, string period)
     {
         using (var conn = GetSqlConnection())
@@ -819,7 +641,6 @@ public class Database
                     LIMIT 1;
                     ";
                 }
-
                 if (period == "middle")
                 {
                     query = @"SELECT ticketname FROM tickets
@@ -829,7 +650,6 @@ public class Database
                     OFFSET 1 LIMIT 1;
                     ";
                 }
-
                 if (period == "lower")
                 {
                     query = @"SELECT ticketname FROM tickets
@@ -839,7 +659,6 @@ public class Database
                     OFFSET 2 LIMIT 1;
                     ";
                 }
-
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("userId", userId);
@@ -847,9 +666,7 @@ public class Database
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
-                        {
-                            return reader["ticketname"].ToString();
-                        }
+                        { return reader["ticketname"].ToString(); }
                     }
                 }
             }
@@ -858,10 +675,8 @@ public class Database
                 Console.WriteLine("Ошибка при получении данных: " + ex.Message);
             }
         }
-
         return null;
     }
-
     public string GetDateTicket(int userId, string format, string period)
     {
         using (var conn = GetSqlConnection())
@@ -880,7 +695,6 @@ public class Database
                     LIMIT 1;
                 ";
                 }
-
                 if (period == "middle")
                 {
                     query = @"
@@ -889,10 +703,8 @@ public class Database
                     JOIN historytickets ON tickets.idticket = historytickets.idticket
                     WHERE historytickets.id_users = @userId
                     ORDER BY historytickets.date DESC
-                    OFFSET 1 LIMIT 1;
-                ";
+                    OFFSET 1 LIMIT 1;";
                 }
-
                 if (period == "lower")
                 {
                     query = @"
@@ -901,10 +713,8 @@ public class Database
                     JOIN historytickets ON tickets.idticket = historytickets.idticket
                     WHERE historytickets.id_users = @userId
                     ORDER BY historytickets.date DESC
-                    OFFSET 2 LIMIT 1;
-                ";
+                    OFFSET 2 LIMIT 1;";
                 }
-
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("userId", userId);
@@ -917,7 +727,6 @@ public class Database
                                 DateTime date = Convert.ToDateTime(reader["date"]);
                                 return date.ToString("HH:mm");
                             }
-
                             if (format == "date")
                             {
                                 DateTime date = Convert.ToDateTime(reader["date"]);
@@ -928,14 +737,10 @@ public class Database
                 }
             }
             catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
-            }
+            { Console.WriteLine("Ошибка при получении данных: " + ex.Message); }
         }
-
         return null;
     }
-
     public string GetDateTravelTicket(int userId)
     {
         using (var conn = GetSqlConnection())
@@ -949,8 +754,7 @@ public class Database
                     JOIN historytravelticket ON tickettravel.idtravelticket = historytravelticket.idtravelticket
                     WHERE historytravelticket.id_users = '1'
                     ORDER BY historytravelticket.date DESC
-                    LIMIT 1;
-                ";
+                    LIMIT 1;";
 
                 using (var command = new NpgsqlCommand(query, conn))
                 {
@@ -969,10 +773,8 @@ public class Database
             catch (Exception ex)
             { Console.WriteLine("Ошибка при получении данных: " + ex.Message); }
         }
-
         return null;
     }
-
     public void InsertHistoryTravelTicket(int idUsers, int idTravelTicket)
     {
         try
@@ -992,9 +794,7 @@ public class Database
             }
         }
         catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при добавлении записи в историю: {ex.Message}");
-        }
+        { Console.WriteLine($"Ошибка при добавлении записи в историю: {ex.Message}"); }
     }
     public void InsertHistoryTickets(int idUsers, int idTicket)
     {

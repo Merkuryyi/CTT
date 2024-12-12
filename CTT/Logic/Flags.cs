@@ -2,7 +2,7 @@
 
 public class Flags
 {
-    public void changeFlag()
+    public void ChangeFlag()
     {
         Registration.flagUserName = false;
         Registration.flagLogin = false;
@@ -21,6 +21,5 @@ public class Flags
         Login.flagRepeatPasswordRestoreAccess = false;
         Profile.flagLogin = false;
         Profile.flagUserName = false;
-
     }
 }

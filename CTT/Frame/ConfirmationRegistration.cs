@@ -179,7 +179,7 @@ public class ConfirmationRegistration
                 messageText.SetColor(colorMessage);
                 messageText2.SetColor(colorMessage);
                 messageText3.SetColor(colorMessage);
-                numberCodeNumberPhone = random.randomCode();
+                numberCodeNumberPhone = random.RandomCode();
                 Console.WriteLine($"number phone {numberCodeNumberPhone}");
             }
 
@@ -194,7 +194,7 @@ public class ConfirmationRegistration
                 messageText.SetColor(colorMessage);
                 messageText2.SetColor(colorMessage);
                 messageText3.SetColor(colorMessage);
-                numberCodeEmail = random.randomCode();
+                numberCodeEmail = random.RandomCode();
                 Console.WriteLine($"email {numberCodeEmail}");
             }
            
@@ -205,18 +205,16 @@ public class ConfirmationRegistration
             }
             if (buttonEmptyNumberPfoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagNumberPhone = true;
-                line.parametres(flagNumberPhone);
                 line.LineParametr(numberPhoneMiniTextFrame , cursorNumberPhonePosition);
             }
             else
             { flagNumberPhone = false; }
             if (buttonEmptyEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagEmail = true;
-                line.parametres(flagEmail);
                 line.LineParametr(emailMiniTextFrame, cursorEmailPosition);
             }
             else

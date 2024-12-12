@@ -2,7 +2,7 @@
 
 public class RandomClass
 {
-    public int randomCode()
+    public int RandomCode()
     {
         Random random = new Random();
         int randomNumber = random.Next(1000, 10000);

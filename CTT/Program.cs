@@ -44,36 +44,38 @@ public class MainForm
     }
     public static void Ivents(RenderWindow _window)
     { _window.DispatchEvents(); }
-    public static void Main(string[] args)
+    public static MainPage mainPage;
+    public static PayTravelTicket payTravelTicket;
+    public static void Main()
     {
-        RenderWindow _window = Form();
+        RenderWindow window = Form();
         bool fastLogin = !IsFileFilledWithZeros();
         InputLine inputLine = new InputLine();
-        _window.KeyPressed += inputLine.OnKeyPressedName;
         TopPanel topPaneles = new TopPanel();
-        topPaneles.Structure();
-        InitialPage frames1 = new InitialPage();
-        frames1.Structure();
-        Registration frames2 = new Registration();
-        frames2.Structure();
-        ConfirmationRegistration frames3 = new ConfirmationRegistration();
-        frames3.Structure();
-        Login frames4 = new Login();
-        frames4.Structure();
-        frames4.restoreAccessSructure();
-        MainPage mainPage = new MainPage();
-        mainPage.Structure();
-        PayTicket frames6 = new PayTicket();
-        frames6.Structure();
-        PayTravelTicket frames7 = new PayTravelTicket();
-        frames7.Structure();
-        Catalog frames9 = new Catalog();
-        frames9.Structure();
-        News frames8 = new News();
-        frames8.Structure();
-        
+        InitialPage initialPage = new InitialPage();
+        Registration registration = new Registration();
+        ConfirmationRegistration confirmationRegistration = new ConfirmationRegistration();
+        Login login = new Login();
+        PayTicket payTicket = new PayTicket();
+        Catalog catalog = new Catalog();
+        News news = new News();
         Profile profiles = new Profile();
+        mainPage = new MainPage();
+        payTravelTicket = new PayTravelTicket();
+        topPaneles.Structure();
+        initialPage.Structure();
+        registration.Structure();  
+        confirmationRegistration.Structure();
+        login.Structure();
+        login.restoreAccessSructure();
+        mainPage.Structure();
+        mainPage.UpdateTickets();
+        payTicket.Structure();
+        payTravelTicket.Structure();
+        catalog.Structure();
+        news.Structure();
         profiles.Structure();
+        window.KeyPressed += inputLine.OnKeyPressedName;
         if (fastLogin)
         { frame5 = true; }
         else if (!fastLogin)
@@ -88,33 +90,33 @@ public class MainForm
         { topPanel = true; }
         if (frame5)
         { topPanel = true; }
-        while (_window.IsOpen)
+        while (window.IsOpen)
         {    
-            _window.Clear(new Color(230, 230, 230));
-            Ivents(_window);
+            window.Clear(new Color(230, 230, 230));
+            Ivents(window);
             if (frame1)
-            { frames1.workProgram(_window); }
+            { initialPage.workProgram(window); }
             if (frame2)
-            { frames2.workProgram(_window); }
+            { registration.workProgram(window); }
             if (frame3)
-            { frames3.workProgram(_window); }
+            { confirmationRegistration.workProgram(window); }
             if (frame4)
-            { frames4.workProgram(_window); }
+            { login.workProgram(window); }
             if (frame5)
-            { mainPage.workProgram(_window); }
+            { mainPage.workProgram(window); }
             if (frame6)
-            { frames6.workProgram(_window); }
+            { payTicket.workProgram(window); }
             if (frame7)
-            { frames7.workProgram(_window); }
+            { payTravelTicket.workProgram(window); }
             if (frame8)
-            { frames8.workProgram(_window); }
+            { news.workProgram(window); }
             if (frame9)
-            { frames9.workProgram(_window); }
+            { catalog.workProgram(window); }
             if (profile)
-            { profiles.workProgram(_window); }
+            { profiles.workProgram(window); }
             if (topPanel)
-            { topPaneles.workProgram(_window); }
-            _window.Display();
+            { topPaneles.workProgram(window); }
+            window.Display();
         }
     }
 }

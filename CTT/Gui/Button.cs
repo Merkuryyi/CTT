@@ -13,24 +13,16 @@ public class Button : BaseElements
         spriteElement.Position = new Vector2f(x, y); 
     }
     public override void Draw(RenderWindow _window)
-    {
-        _window.Draw(spriteElement);
-    }
+    { _window.Draw(spriteElement); }
     public FloatRect GetGlobalBounds()
-    {
-        return spriteElement.GetGlobalBounds();
-    }
+    { return spriteElement.GetGlobalBounds(); }
     public bool IfTexture(Texture checkTexture)
-    {
-        return TextureElement == checkTexture;
-    }
+    { return TextureElement == checkTexture; }
     public void SetTexture(Texture newTextureElement)
     {
         TextureElement = newTextureElement; 
         spriteElement.Texture = newTextureElement;
     }
     public void SetPosition(int x, int y)
-    {
-        spriteElement.Position = new Vector2f(x, y); 
-    }
+    { spriteElement.Position = new Vector2f(x, y); }
 }

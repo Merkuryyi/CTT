@@ -244,35 +244,31 @@ public class Registration
             }
             if (buttonLoginSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagLogin = true;
-                line.parametres(flagLogin);
                 line.LineParametr(loginMiniTextFrame, cursorNamePosition);
             }
             else
             { flagLogin = false; }
             if (buttonUserNameSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagUserName = true;
-                line.parametres(flagUserName);
                 line.LineParametr(userNameMiniTextFrame,cursorLnamePosition);
             }
             else
             { flagUserName = false; }
             if (buttonPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagPassword = true;
-                line.parametres(flagPassword);
                 line.LineParametr(passwordMiniTextFrame, cursorPasswordPosition);
             }
             else
             { flagPassword = false; }
             if (buttonRepeatPasswordSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
-                line.parametres(flagRepeatPassword);
+                flags.ChangeFlag();
                 line.LineParametr(repeatPasswordMiniTextFrame, cursorRepeatPasswordPosition);
                 flagRepeatPassword = true;
             }
@@ -280,18 +276,16 @@ public class Registration
             { flagRepeatPassword = false; }
             if (buttonNumberPhoneSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagNumberPhone = true;
-                line.parametres(flagNumberPhone);
                 line.LineParametr(numberPhoneMiniTextFrame, cursorNumberPhonePosition);
             }
             else
             { flagNumberPhone = false; }
             if (buttonEmailSprite.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) )
             {
-                flags.changeFlag();
+                flags.ChangeFlag();
                 flagEmail = true;
-                line.parametres(flagEmail);
                 line.LineParametr(emailMiniTextFrame,cursorEmailPosition);
             }
             else

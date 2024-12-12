@@ -6,7 +6,6 @@ public class TopPanel
 {
     private static Clock clock;
     private static float clickDelay;
-
     private FlagFrames flagFrames;
     private Vector2i mousePosition;
     private Button backgroundProfile;
@@ -32,14 +31,12 @@ public class TopPanel
         backgroundProfile.Draw(_window);
         photoProfile.Draw(_window);
         userNameOnPanel.Draw(_window);
-        
         backgroundLogo.Draw(_window);
         logoProgram.Draw(_window);
         nameProgramOnPanel.Draw(_window);
         backgroundSearch.Draw(_window);
         backgroundMini.Draw(_window);
         backgroundMiniPart.Draw(_window);
-        
         searchProgram.Draw(_window);
         searchOnPanel.Draw(_window);
         refundOnPanel.Draw(_window);
@@ -81,20 +78,17 @@ public class TopPanel
         logoProgram = new Button(280, 63, logo);
         backgroundSearch = new Button(543, 53, backgroundSearchArea);
         farther = new Button(1790, 87, fartherIcon);
-        
         backgroundMini = new Button(543, 111, backgroundMiniArea);
         backgroundMiniPart = new Button(741, 111, backgroundMiniAreaPart);
         searchProgram = new Button(917, 67, serchIcon);
         backgroundCatalogOnPanel = new Button(994, 53, backgroundCatalog);
-        
         backgroundCatalogOnPanel = new Button(994, 53, backgroundCatalog);
         Color baseColorText = new Color(68, 68, 69);
-
         string userName = WorkWithJson.ReadLNameFromFile();
         string nameProgram = "CTT";
         string search = "Поиск";
-        string refund = "Возврат средств";
-        string details = "Подробности";
+        string refund = "Купить проездной";
+        string details = "Купить билет";
         string catalog = "Каталог билетов и проездных";
         userNameOnPanel = new Texts(126, 87, font, 24, baseColorText, userName);
         nameProgramOnPanel = new Texts(413, 71, font, 48, baseColorText, nameProgram);
@@ -125,7 +119,6 @@ public class TopPanel
                     profile = false;
                 }
             }
-
             if (backgroundCatalogOnPanel.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
                 || catalogOnPanel.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y) 
                 || farther.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -141,12 +134,13 @@ public class TopPanel
                 MainForm.topPanel = true;
                 MainForm.frame5 = true;
             }
+            if (searchOnPanel.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
+            {
+                
+            }
             clock.Restart();
             canClick = false;
         }
-        
-       
-
         clic();
     }
     public void workProgram(RenderWindow _window)
@@ -157,8 +151,6 @@ public class TopPanel
     public void clic()
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        { canClick = true; }
     }
 }
