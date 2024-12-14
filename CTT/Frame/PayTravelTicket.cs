@@ -36,10 +36,8 @@ public class PayTravelTicket
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "line.png"));
         Texture travelTicketTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "travelTicket.png"));
-        
         Texture buttonPaymentTexture =
             new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonPayment.png"));
-        
         backgroundLeft = new Button(53, 170, backgroundLeftTexture);
         backgroundRight = new Button(994, 170, backgroundRightTexture);
         chooseBenefitsShared = new Button(114, 310, chooseBenefitsOnTexture);
@@ -48,7 +46,6 @@ public class PayTravelTicket
         lines = new Button(114, 376, lineTexture);
         travelTicket = new Button(114, 396, travelTicketTexture);
         buttonPayment = new Button(1310, 717, buttonPaymentTexture);
-        
         benefitsShared = "Общий";
         benefitsPension = "Пенсионный";
         benefitsStudent = "Студенческий";
@@ -174,16 +171,11 @@ public class PayTravelTicket
                                 { database.InsertHistoryTravelTicket(id, 3); }
                                 MainForm.mainPage.Structure();
                                 MainForm.mainPage.UpdateTickets();
-                                
                             }
                             catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.Message);
-                            }
+                            { Console.WriteLine("Error: " + ex.Message); }
                             finally
-                            {
-                                _isProcessing = false;
-                            }
+                            { _isProcessing = false; }
                         });
                     }
                     else

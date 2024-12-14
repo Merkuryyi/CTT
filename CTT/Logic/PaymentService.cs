@@ -10,9 +10,7 @@ public class PaymentService
     private readonly HttpClient _httpClient;
     public PaymentService()
     {
-        _apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiTXpJM01qUT0iLCJ0eXBlIjoicHJvam" +
-                  "VjdCIsInYiOiIxMzI4YzFkNmZjMTJlNzBkYTk2NTZjZjMzZTQyN2FhODFkYjk3M2NmNmZhODUzNDIzZWE3N2" +
-                  "MyMjYzZWYxYWNiIiwiZXhwIjo4ODEzMzc1NTA3Nn0.sxgoxgYiOihPZuv3Q5-xSEJ2FfbyLH-r0hcQA6dBrfU";
+        _apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiTXpJM01qUT0iLCJ0eXBlIjoicHJvamVjdCIsInYiOiIxMzI4YzFkNmZjMTJlNzBkYTk2NTZjZjMzZTQyN2FhODFkYjk3M2NmNmZhODUzNDIzZWE3N2MyMjYzZWYxYWNiIiwiZXhwIjo4ODEzMzc1NTA3Nn0.sxgoxgYiOihPZuv3Q5-xSEJ2FfbyLH-r0hcQA6dBrfU";
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {_apiKey}");
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -24,6 +22,7 @@ public class PaymentService
         var invoiceData = new
         {
             shop_id = shopId,
+            amount = amount,
             currency = "USD"
         };
         string jsonData = JsonConvert.SerializeObject(invoiceData);
@@ -36,9 +35,13 @@ public class PaymentService
             string payUrl = responseObject?.pay_url;
             if (!string.IsNullOrEmpty(payUrl))
             { return payUrl; }
-            throw new Exception("Pay URL is missing in the response.");
+            else
+            { throw new Exception("Pay URL is missing in the response."); }
         }
-        string errorResponse = await response.Content.ReadAsStringAsync();
-        throw new Exception($"Error creating invoice: {response.StatusCode}. Details: {errorResponse}");
+        else
+        {
+            string errorResponse = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Error creating invoice: {response.StatusCode}. Details: {errorResponse}");
+        }
     }
 }

@@ -79,7 +79,10 @@ public class MainForm
         if (fastLogin)
         { frame5 = true; }
         else if (!fastLogin)
-        { topPanel = false; }
+        {
+            topPanel = false;
+            frame1 = true;
+        }
         if (frame9)
         { topPanel = true; }
         if (frame8)
@@ -91,7 +94,7 @@ public class MainForm
         if (frame5)
         { topPanel = true; }
         while (window.IsOpen)
-        {    
+        { 
             window.Clear(new Color(230, 230, 230));
             Ivents(window);
             if (frame1)

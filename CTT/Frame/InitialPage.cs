@@ -4,16 +4,16 @@ using SFML.System;
 namespace CTT.Frame;
 public class InitialPage
 {
-    private static Button buttonLogin;
-    private static Button backgroundFrame;
-    private static Texts titleText; 
-    private static Texts buttonText;
-    private static bool canClick;
-    private static Clock clock;
-    private static Vector2i mousePosition;
-    private static float clickDelay;
-    private static InputLine line;
-    private static FlagFrames flagFrames;
+    private Button buttonLogin;
+    private Button backgroundFrame;
+    private Texts titleText; 
+    private Texts buttonText;
+    private bool canClick;
+    private Clock clock;
+    private Vector2i mousePosition;
+    private float clickDelay;
+    private InputLine line;
+    private FlagFrames flagFrames;
     public void Structure()
     {
         clock = new Clock();
@@ -38,13 +38,6 @@ public class InitialPage
         buttonLogin.Draw(_window); 
         titleText.Draw(_window); 
         buttonText.Draw(_window); 
-    }
-    public void clic()
-    {
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
     }
     public void ButtonInteraction(RenderWindow _window)
     {
@@ -74,5 +67,10 @@ public class InitialPage
     {
         Display(_window);
         ButtonInteraction(_window);
+    }
+    public void clic()
+    {
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        { canClick = true; }
     }
 }

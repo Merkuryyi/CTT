@@ -286,5 +286,4 @@ public class MainPage
     private Button travelTicket;
     private Button plusTicket;
     private Button backgroundCards;
-
 }

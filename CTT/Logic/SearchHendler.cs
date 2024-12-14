@@ -4,20 +4,20 @@ using System.Collections.Generic;
 
 class SearchHandler
 {
-    private static FlagFrames flagFrames;
+    private static FlagFrames flagFrames = new FlagFrames();
     private readonly Dictionary<string, Action> _searchActions = new Dictionary<string, Action>
     {
-        { "билет", MethodA },
-        { "проездной", MethodB },
-        { "новости", MethodC },
-        { "каталог", MethodD }
+        { "ticket", Tickets },
+        { "travelticket", TravelTickets },
+        { "news", News },
+        { "catalog", Catalog }
     };
-
     public void Search(string search)
     {
+        string searchLower = search.ToLower();
         foreach (var keyword in _searchActions.Keys)
         {
-            if (search.Contains(keyword))
+            if (searchLower.Contains(keyword, StringComparison.OrdinalIgnoreCase))
             {
                 _searchActions[keyword](); 
                 return;
@@ -25,27 +25,30 @@ class SearchHandler
         }
         Console.WriteLine("Ключевое слово не найдено.");
     }
-
-    private static void MethodA()
+    private static void Tickets()
     {
-        Console.WriteLine("Вызван метод A (билет).");
+        flagFrames.ChangeFlagsFrame();
+        MainForm.topPanel = true;
+        MainForm.frame6 = true;
     }
-
-    private  static void MethodB()
+    private static void TravelTickets()
     {
-        Console.WriteLine("Вызван метод B (проездной).");
+        flagFrames.ChangeFlagsFrame();
+        MainForm.topPanel = true;
+        MainForm.frame7 = true;
     }
-
-    private static void MethodC()
+    private static void News()
     {
         flagFrames.ChangeFlagsFrame();
         MainForm.topPanel = true;
         MainForm.frame8 = true;
-        Console.WriteLine("Вызван метод C (новости).");
     }
-
-    private static void MethodD()
+    private static void Catalog()
     {
-        Console.WriteLine("Вызван метод D (каталог).");
+        flagFrames.ChangeFlagsFrame();
+        MainForm.topPanel = true;
+        MainForm.frame9 = true;
     }
 }
+
+

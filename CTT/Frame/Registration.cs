@@ -4,81 +4,6 @@ using SFML.System;
 namespace CTT.Frame;
 public class Registration
 {
-    private static int cursorLnamePosition;
-    private static int cursorNamePosition;
-    private static int cursorPasswordPosition;
-    private static int cursorRepeatPasswordPosition;
-    private static int cursorNumberPhonePosition;
-    private static int cursorEmailPosition;
-    
-    public static bool flagLogin;
-    public static bool flagUserName;
-    public static bool flagPassword;
-    public static bool flagRepeatPassword;
-    public static bool flagNumberPhone;
-    public static bool flagEmail;
-    private static bool warningFlagLogin;
-    private static bool warningFlagUserName;
-    private static bool warningFlagPassword;
-    private static bool warningFlagRepeatPassword;
-    private static bool warningFlagNumberPhone;
-    private static bool warningFlagEmail;
-    private static bool isVisiblePassword;
-    private static bool isVisibleRepeatPassword;
-    private static bool canClick;
-    
-    private static Button buttonLoginSprite;
-    private static Button buttonUserNameSprite;
-    private static Button buttonNumberPhoneSprite;
-    private static Button buttonEmailSprite;
-    private static Button buttonPasswordSprite;
-    private static Button buttonRepeatPasswordSprite;
-    private static Button backgroundFrame;
-    private static Button buttonPasswordHideSprite;
-    private static Button buttonRepeatPasswordHideSprite;
-    
-    private static Button buttonFurtherSprite;
-    private static Texts backFrameText;
-    private static Texts titleText;
-    private static Texts loginText;
-    private static Texts numberPhoneText;
-    private static Texts passwordText;
-    private static Texts repeatPasswordText;
-    private static Texts userNameText;
-    private static Texts emailText;
-    private static Texts furtherText;
-    private static Texts loginMiniText;
-    private static Texts userNameMiniText;
-    private static Texts passwordMiniText;
-    private static Texts repeatPasswordMiniText;
-    private static Texts numberPhoneMiniText;
-    private static Texts emailMiniText;
-    private static Texts warningLoginText;
-    private static Texts warningUserNameText;
-    private static Texts warningNumberPfoneText;
-    private static Texts warningEmailText;
-    private static Texts warningPasswordText;
-    private static Texts warningRepeatPasswordText;
-    
-    public static string loginMiniTextFrame;
-    public static string userNameMiniTextFrame;
-    public static string passwordMiniTextFrame;
-    private static string repeatPasswordMiniTextFrame;
-    public static string numberPhoneMiniTextFrame;
-    public static string emailMiniTextFrame;
-    private static Color baseColorText;
-    private static Color warningTextColor; 
-    private static Color colorMessage;
-    private static Texture hideOffTexture;
-    private static Texture hideOnTexture;
-    
-    private static Vector2i mousePosition;
-    private static Clock clock;
-    private static float clickDelay;
-    private static Flags flags;
-    private static InputLine line;
-    private static Warnings warnings;
-    private static FlagFrames flagFrames;
     public void Structure()
     {
         clock = new Clock();
@@ -93,13 +18,11 @@ public class Registration
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "button.png"));
         hideOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOff.png"));
         hideOnTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "hideOn.png"));
-        
         uint sizeTextMax = 64;
         uint sizeTextTitleFrame = 48;
         uint sizeTextMiniTitle = 36;
         uint sizeTextInput = 32;
         uint sizeWarningText = 20;
-        
         backgroundFrame = new Button(53, 53, background);
         buttonLoginSprite = new Button(151, 336, emptyButtonTexture);
         buttonNumberPhoneSprite = new Button(151, 505, emptyButtonTexture);
@@ -113,7 +36,6 @@ public class Registration
         baseColorText = new Color(68, 68, 69);
         warningTextColor = new Color(202, 128, 128);
         colorMessage = new Color(136, 136, 136);
-        
         string titleTextFrame = "Регистрация";
         string loginTextFrame = "Логин";
         string numberPhoneTextFrame = "Номер телефона";
@@ -123,14 +45,12 @@ public class Registration
         string repeatPasswordTextFrame = "Повторите пароль";
         string backText = "<назад"; 
         string furtherTextFrame2 = "Далее";
-        
         loginMiniTextFrame = "";
         userNameMiniTextFrame = "";
         passwordMiniTextFrame = "";
         repeatPasswordMiniTextFrame = "";
         numberPhoneMiniTextFrame = "";
         emailMiniTextFrame = "";
-        
         titleText = new Texts(138,125, font, sizeTextTitleFrame, baseColorText, titleTextFrame );
         loginText = new Texts(151, 277, 
             font, sizeTextInput, baseColorText, loginTextFrame );
@@ -373,19 +293,14 @@ public class Registration
     {
         warningLoginText.SetText(warnings.WarningLineName(loginMiniTextFrame));
         warningFlagLogin = warnings.GetWarningFlag();
-     
         warningUserNameText.SetText(warnings.WarningLineName(userNameMiniTextFrame));
         warningFlagUserName = warnings.GetWarningFlag();
-        
         warningNumberPfoneText.SetText(warnings.WarningLineNumberPhone(numberPhoneMiniTextFrame));
         warningFlagNumberPhone = warnings.GetWarningFlag();
-        
         warningPasswordText.SetText(warnings.WarningLinePassword(passwordMiniTextFrame));
         warningFlagPassword = warnings.GetWarningFlag();
-        
         warningRepeatPasswordText.SetText(warnings.WarningLineRepeatPassword(repeatPasswordMiniTextFrame, passwordMiniTextFrame));
         warningFlagRepeatPassword = warnings.GetWarningFlag();
-        
         warningEmailText.SetText(warnings.WarningLineEmail(emailMiniTextFrame));
         warningFlagEmail = warnings.GetWarningFlag();
     }
@@ -393,5 +308,75 @@ public class Registration
     {
         Display(_window);
         ButtonInteraction(_window);
-    }    
+    }
+    private int cursorLnamePosition;
+    private int cursorNamePosition;
+    private int cursorPasswordPosition;
+    private int cursorRepeatPasswordPosition;
+    private int cursorNumberPhonePosition;
+    private int cursorEmailPosition;
+    public static bool flagLogin;
+    public static bool flagUserName;
+    public static bool flagPassword;
+    public static bool flagRepeatPassword;
+    public static bool flagNumberPhone;
+    public static bool flagEmail;
+    private bool warningFlagLogin;
+    private bool warningFlagUserName;
+    private bool warningFlagPassword;
+    private bool warningFlagRepeatPassword;
+    private bool warningFlagNumberPhone;
+    private bool warningFlagEmail;
+    private bool isVisiblePassword;
+    private bool isVisibleRepeatPassword;
+    private bool canClick;
+    private Button buttonLoginSprite;
+    private Button buttonUserNameSprite;
+    private Button buttonNumberPhoneSprite;
+    private Button buttonEmailSprite;
+    private Button buttonPasswordSprite;
+    private Button buttonRepeatPasswordSprite;
+    private Button backgroundFrame;
+    private Button buttonPasswordHideSprite;
+    private Button buttonRepeatPasswordHideSprite;
+    private Button buttonFurtherSprite;
+    private Texts backFrameText;
+    private Texts titleText;
+    private Texts loginText;
+    private Texts numberPhoneText;
+    private Texts passwordText;
+    private Texts repeatPasswordText;
+    private Texts userNameText;
+    private Texts emailText;
+    private Texts furtherText;
+    private Texts loginMiniText;
+    private Texts userNameMiniText;
+    private Texts passwordMiniText;
+    private Texts repeatPasswordMiniText;
+    private Texts numberPhoneMiniText;
+    private Texts emailMiniText;
+    private Texts warningLoginText;
+    private Texts warningUserNameText;
+    private Texts warningNumberPfoneText;
+    private Texts warningEmailText;
+    private Texts warningPasswordText;
+    private Texts warningRepeatPasswordText;
+    public static string loginMiniTextFrame;
+    public static string userNameMiniTextFrame;
+    public static string passwordMiniTextFrame;
+    private static string repeatPasswordMiniTextFrame;
+    public static string numberPhoneMiniTextFrame;
+    public static string emailMiniTextFrame;
+    private Color baseColorText;
+    private Color warningTextColor; 
+    private Color colorMessage;
+    private Texture hideOffTexture;
+    private Texture hideOnTexture;
+    private Vector2i mousePosition;
+    private Clock clock;
+    private float clickDelay;
+    private Flags flags;
+    private InputLine line;
+    private Warnings warnings;
+    private FlagFrames flagFrames;
 }

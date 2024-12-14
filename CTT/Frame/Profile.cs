@@ -5,87 +5,6 @@ using SFML.System;
 using System.Text.RegularExpressions;
 public class Profile
 {
-    private static string email;
-    private static string numberPhone;
-    private static bool warningUserName;
-    private static bool warningLogin;
-    private static Button profileExit;
-    private static Texts passwordInformationTitleText;
-    private static Texts emailInformationTitleText;
-    private static Texts numberPhoneInformationTitleText;
-    private static Texts passwordInformationText;
-    private static Texts emailInformationText;
-    private static Texts numberPhoneInformationText;
-    private static Button passwordInformation;
-    private static Button emailInformation;
-    private static Button numberPhoneInformation;
-    private static Texture circleOfNotifications;
-    private static Button elementNotifications;
-    private static Button switchNotificationsCircle;
-    private static Button switchNotifications;
-    private static Texts markNotificationsText;
-    private static Texts dateNotificationsText;
-    private static Texts informationNotificationsText;
-    private static Texts warningLNameText;
-    private static Texts warningNameText;
-    private static Button emptyLNameButton;
-    private static Button emptyNameButton;
-    private static Button checkMark;
-    private static Texts countNotificationsText;
-    private static string countNotifications;
-    private static Texts securityText;
-    private static Texts notificationText;
-    private static Texts lastName;
- 
-    private static Texts firstName;
-    private static Color nullColorText;
-    private static Button fartherIconNotification;
-    private static Button fartherIconSecure;
-    private static Color baseColorText;
-    private static Color warningTextColor;
-    private static Button circleNotifications;
-    private static Button settings;
-    private static Button photoAreaButton;
-    private static Texture checkMarkIcon;
-    private static Texture  settingsIcon;
-    private static Button backgroundFrameMax;
-    private static Button backgroundFrame;
-    private static InputLine line;
-
-    private static Texture background;
-    private static Texture backgroundMax;
-    private static Texture fartherIcon;
-    private static Texture emptyButton;
-    private static Texture miniCircle;
-    private static Texture elementOfNotifications;
-    private static Texture elementOfNotificationsOff;
-    private static Texture switchPart;
-    private static Texture switchPartOff;
-
-    private static string security;
-    private static string notifications;
-    private static string userNameMiniText;
-    private static string loginMiniText;
-    
-    public static bool flagLogin;
-    public static bool flagUserName;
-    private static bool canClick;
-    private static bool securityFlag;
-    private static bool notificationsFlag;
-    private static bool mainProfileFlag = true;
-    private static bool profileFlag = false;
-    private static bool settingsFlag = true;
-    private static bool notificationWork = true;
-
-    private static int cursorLogin;
-    private static int cursorUserName;
-    private static Clock clock;
-    private static float clickDelay;
-    private Warnings warnings;
-    private Database database;
-    private FlagFrames flagFrames;
-    private Flags flags;
-    private Vector2i mousePosition;
     public void Display(RenderWindow _window)
     {
         if (mainProfileFlag)
@@ -111,7 +30,6 @@ public class Profile
             switchNotificationsCircle.Draw(_window);
             elementNotifications.Draw(_window);
         }
-
         if (securityFlag)
         {
             backgroundFrameMax.Draw(_window);  
@@ -187,7 +105,6 @@ public class Profile
         settings = new Button(590, 210, settingsIcon);
         checkMark = new Button(595, 230, checkMarkIcon);
         circleNotifications = new Button(383, 390, circleOfNotifications);
-        
         fartherIconNotification = new Button(600, 390, fartherIcon);
         fartherIconSecure = new Button(600, 488, fartherIcon);
         emptyNameButton = new Button(255, 210, emptyButton);
@@ -200,17 +117,14 @@ public class Profile
         elementNotifications = new Button(95, 473, elementOfNotificationsOff);
         profileExit = new Button(600, 295, profileOutExit);
         elementNotifications = new Button(95, 473, elementOfNotifications);
-        
         numberPhoneInformation = new Button(350, 461, profileInformation);
         emailInformation = new Button(350, 526, profileInformation);
         passwordInformation = new Button(350, 591, profileInformation);
-        
         loginMiniText = WorkWithJson.ReadNameFromFile();
         userNameMiniText = WorkWithJson.ReadLNameFromFile();
         notifications = "Уведомления";
         security = "Безопасность";
         Font font = new Font("C:\\Windows\\Fonts\\Arial.ttf");
-        
         firstName = new Texts(283, 217, font, 40, baseColorText, loginMiniText);
         lastName = new Texts(283, 295, font, 40, baseColorText, userNameMiniText);
         notificationText = new Texts(95, 383, font, 40, baseColorText, notifications);
@@ -218,7 +132,6 @@ public class Profile
         warningNameText = new Texts(563, 234, font, 20, warningTextColor, "");
         warningLNameText = new Texts(563, 315, font, 20, warningTextColor, "");
         countNotificationsText = new Texts(397, 397, font, 20, baseColorText, "");
-        
         string markNotifications = "Отметить как прочитанное";
         informationNotificationsText = new Texts(266, 473, font, 32, baseColorText, "");
         dateNotificationsText = new Texts(266, 540, font, 24, baseColorText, "");
@@ -226,15 +139,12 @@ public class Profile
         string password = WorkWithJson.ReadPasswordFromFile();
         email = MaskEmail();
         numberPhone = MaskPhoneNumber();
-        
         numberPhoneInformationText = new Texts(359, 462, font, 24, baseColorText, numberPhone);
         emailInformationText = new Texts(359, 526, font, 24, baseColorText, email);
         passwordInformationText = new Texts(359, 593, font, 24, baseColorText, password);
-        
         string passwordText = "Пароль";
         string emailText = "Почта";
         string numberPhoneText = "Номер телефона";
-        
         numberPhoneInformationTitleText = new Texts(95, 462, font, 24, baseColorText, numberPhoneText);
         emailInformationTitleText = new Texts(95, 526, font, 24, baseColorText, emailText);
         passwordInformationTitleText = new Texts(95, 593, font, 24, baseColorText, passwordText);
@@ -258,21 +168,15 @@ public class Profile
         if (notificationWork)
         {
             if (int.Parse(countNotifications) == 0)
-            {
-                elementNotifications.SetTexture(elementOfNotificationsOff);
-            }
+            { elementNotifications.SetTexture(elementOfNotificationsOff); }
             if (int.Parse(countNotifications) > 0)
-            {
-                elementNotifications.SetTexture(elementOfNotifications);
-            }
+            { elementNotifications.SetTexture(elementOfNotifications); }
         }
     }
     private string notificationsReadOrUnread()
     {
         if (int.Parse(countNotifications) > 0)
-        {
-            return database.NotificationDateGetUnread().ToString();
-        }
+        { return database.NotificationDateGetUnread().ToString(); }
         return database.NotificationDateGetRead().ToString();
     }
     private void Warning()
@@ -284,7 +188,6 @@ public class Profile
         { warningNameText.SetText("*"); }
         else
         { warningNameText.SetText(""); }
-        
         warningUserName = warnings.GetWarningFlag();
         warnings.WarningLineName(userNameMiniText);
         if (warningUserName)
@@ -298,7 +201,7 @@ public class Profile
             TopPanel.userNameOnPanel.SetText(userNameMiniText);
         }  
     }
-    public static string MaskEmail()
+    public string MaskEmail()
     {
         string email = WorkWithJson.ReadEmailFromFile();
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
@@ -315,7 +218,7 @@ public class Profile
         }
         return null;
     }
-    public static string MaskPhoneNumber()
+    public string MaskPhoneNumber()
     {
         string phoneNumber = WorkWithJson.ReadPhoneNumberFromFile();
         string pattern = @"^8\d{10}$";
@@ -339,7 +242,6 @@ public class Profile
                 WorkWithJson.cleanLoginData();
                 MainForm.frame1 = true;
             }
-            
             if (checkMark.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             { Warning(); }
             if (settings.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -446,8 +348,83 @@ public class Profile
     public void clic()
     {
         if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
+        { canClick = true; }
     }
+    private string email;
+    private string numberPhone;
+    private bool warningUserName;
+    private bool warningLogin;
+    private Button profileExit;
+    private Texts passwordInformationTitleText;
+    private Texts emailInformationTitleText;
+    private Texts numberPhoneInformationTitleText;
+    private Texts passwordInformationText;
+    private Texts emailInformationText;
+    private Texts numberPhoneInformationText;
+    private Button passwordInformation;
+    private Button emailInformation;
+    private Button numberPhoneInformation;
+    private Texture circleOfNotifications;
+    private Button elementNotifications;
+    private Button switchNotificationsCircle;
+    private Button switchNotifications;
+    private Texts markNotificationsText;
+    private Texts dateNotificationsText;
+    private Texts informationNotificationsText;
+    private Texts warningLNameText;
+    private Texts warningNameText;
+    private Button emptyLNameButton;
+    private Button emptyNameButton;
+    private Button checkMark;
+    private Texts countNotificationsText;
+    private string countNotifications;
+    private Texts securityText;
+    private Texts notificationText;
+    private Texts lastName;
+ 
+    private Texts firstName;
+    private Color nullColorText;
+    private Button fartherIconNotification;
+    private Button fartherIconSecure;
+    private Color baseColorText;
+    private Color warningTextColor;
+    private Button circleNotifications;
+    private Button settings;
+    private Button photoAreaButton;
+    private Texture checkMarkIcon;
+    private Texture  settingsIcon;
+    private Button backgroundFrameMax;
+    private Button backgroundFrame;
+    private InputLine line;
+    private Texture background;
+    private Texture backgroundMax;
+    private Texture fartherIcon;
+    private Texture emptyButton;
+    private Texture miniCircle;
+    private Texture elementOfNotifications;
+    private Texture elementOfNotificationsOff;
+    private Texture switchPart;
+    private Texture switchPartOff;
+    private string security;
+    private string notifications;
+    private string userNameMiniText;
+    private string loginMiniText;
+    public static bool flagLogin;
+    public static bool flagUserName;
+    private bool canClick;
+    private bool securityFlag;
+    private bool notificationsFlag;
+    private bool mainProfileFlag = true;
+    private bool profileFlag = false;
+    private bool settingsFlag = true;
+    private bool notificationWork = true;
+    private int cursorLogin;
+    private int cursorUserName;
+    private Clock clock;
+    private float clickDelay;
+    private Warnings warnings;
+    private Database database;
+    private FlagFrames flagFrames;
+    private Flags flags;
+    private Vector2i mousePosition;
 }

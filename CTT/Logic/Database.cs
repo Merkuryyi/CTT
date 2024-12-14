@@ -61,6 +61,36 @@ public class Database
             return false;
         }
     }
+    public string GetInformation(string numberPhone, string email, string information)
+    {
+        try
+        {
+            using (var conn = GetSqlConnection())
+            {
+                string query = "";
+                if (information == "login")
+                {
+                    query = @"select login from users where numberphone = @numberPhone and email = @email;";
+                }
+                else if (information == "userName")
+                {
+                    query = @"select username from users where numberphone = @numberPhone and email = @email;";
+                }
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("numberPhone", numberPhone);
+                    command.Parameters.AddWithValue("email", email);
+                    string informationGet = command.ExecuteScalar().ToString();
+                    return informationGet;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при запросе: {ex.Message}");
+            return "";
+        }
+    }
     public bool UniqueNumberPhone(string numberPhone)
     {
         try
@@ -166,19 +196,13 @@ public class Database
             var conn = GetSqlConnection();
             using (conn)
             {
-                string query = @"UPDATE Notifications
-                SET Status = 'read'
-                WHERE IdNotifications = (
-                    SELECT IdNotifications
-                    FROM Notifications
-                    WHERE idusers = @idusers AND Status = 'unread'
-                    ORDER BY Date ASC
-                    LIMIT 1);	";
+                string query = @"UPDATE Notifications SET Status = 'read'
+                WHERE IdNotifications = (SELECT IdNotifications FROM Notifications
+                    WHERE idusers = @idusers AND Status = 'unread' ORDER BY Date ASC LIMIT 1);";
 
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("login", id);
-
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -229,9 +253,7 @@ public class Database
 
             using (conn)
             {
-                string query = @"
-               SELECT min(Date) FROM Notifications where status = 'unread'";
-
+                string query = @"SELECT min(Date) FROM Notifications where status = 'unread'";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     using (var reader = command.ExecuteReader())
@@ -239,9 +261,7 @@ public class Database
                         if (reader.Read())
                         {
                             if (!reader.IsDBNull(0))
-                            {
-                                latestDate = reader.GetDateTime(0);
-                            }
+                            { latestDate = reader.GetDateTime(0); }
                         }
                     }
                 }
@@ -252,7 +272,6 @@ public class Database
             Console.WriteLine($"Ошибка {ex.Message}");
             return null;
         }
-
         return latestDate;
     }
     public string NotificationGet(int userId)
@@ -270,30 +289,19 @@ public class Database
                 using (var commandUnread = new NpgsqlCommand(queryUnread, conn))
                 {
                     commandUnread.Parameters.AddWithValue("IdUsers", NpgsqlTypes.NpgsqlDbType.Integer, userId);
-
                     using (var readerUnread = commandUnread.ExecuteReader())
                     {
                         if (readerUnread.Read())
-                        {
-                            result = readerUnread.GetString(0);
-                        }
+                        { result = readerUnread.GetString(0); }
                     }
                 }
                 if (result == null)
                 {
-                    string queryRead = @"
-                        SELECT 
-                            CONCAT(
-                                Action, 
-                                CASE 
-                                    WHEN Action IN ('Списание', 'Пополнение') THEN ': ' || COALESCE(ActionMoney::TEXT, '')
-                                    ELSE ''
-                                END
-                            ) AS ActionWithMoney
-                        FROM Notifications
-                        WHERE IdUsers = @IdUsers AND Status = 'read'
-                        ORDER BY Date DESC
-                        LIMIT 1";
+                    string queryRead = @"SELECT CONCAT(Action, CASE 
+                                    WHEN Action IN ('Списание', 'Пополнение') THEN ': ' 
+                                    || COALESCE(ActionMoney::TEXT, '')
+                                    ELSE '' END ) AS ActionWithMoney FROM Notifications WHERE IdUsers = @IdUsers AND Status = 'read'
+                        ORDER BY Date DESC LIMIT 1";
                     using (var commandRead = new NpgsqlCommand(queryRead, conn))
                     {
                         commandRead.Parameters.AddWithValue("IdUsers", NpgsqlTypes.NpgsqlDbType.Integer, userId);
@@ -301,9 +309,7 @@ public class Database
                         using (var readerRead = commandRead.ExecuteReader())
                         {
                             if (readerRead.Read())
-                            {
-                                result = readerRead.GetString(0);
-                            }
+                            { result = readerRead.GetString(0); }
                         }
                     }
                 }
@@ -314,7 +320,6 @@ public class Database
             Console.WriteLine($"Ошибка {ex.Message}");
             return null;
         }
-
         return result;
     }
     public int GetUserId(string numberPhone, string email)
@@ -323,21 +328,14 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-                string query = @"
-                SELECT Id_Users
-                FROM Users
+                string query = @"SELECT Id_Users FROM Users
                 WHERE Email = @email AND NumberPhone = @numberPhone";
-
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("email", NpgsqlTypes.NpgsqlDbType.Text, email);
                     command.Parameters.AddWithValue("numberPhone", NpgsqlTypes.NpgsqlDbType.Text, numberPhone);
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        { return reader.GetInt32(0); }
-                    }
+                    int id = int.Parse(command.ExecuteScalar().ToString());
+                    return id;
                 }
             }
         }
@@ -346,7 +344,6 @@ public class Database
             Console.WriteLine($"Ошибка {ex.Message}");
             return 0;
         }
-        return 0;
     }
     public int NotificationsCount(int id)
     {
@@ -356,7 +353,6 @@ public class Database
             NpgsqlCommand command = new NpgsqlCommand(
                 $"select count(*) from notifications where Status = 'unread' and idusers = '{id}' ", conn);
             int count = Convert.ToInt32(command.ExecuteScalar());
-            conn.Close();
             return count;
         }
         catch (Exception ex)
@@ -412,7 +408,6 @@ public class Database
             ticketPrice = null;
             Console.WriteLine("Ошибка при выполнении запроса: " + ex.Message);
         }
-
         return ticketPrice;
     }
     public string TicketDecriptionGet(string ticketName)
@@ -466,9 +461,7 @@ public class Database
             using (var conn = GetSqlConnection())
             {
                 string query = @"
-                SELECT travelticketname 
-                FROM tickettravel
-                JOIN historytravelticket 
+                SELECT travelticketname FROM tickettravel JOIN historytravelticket 
                 ON tickettravel.idtravelticket = historytravelticket.idtravelticket
                 WHERE historytravelticket.id_users = @id
                 ORDER BY historytravelticket.date DESC LIMIT 1;";
@@ -501,21 +494,13 @@ public class Database
                 { query = "SELECT newstitle FROM news WHERE newsdata = (SELECT MAX(newsdata) FROM news)limit 1;"; }
                 else if (time == "avarage")
                 {
-                    query = @"SELECT newstitle FROM news
-                    WHERE newsdata = (SELECT newsdata FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 1 )LIMIT 1;";
+                    query = @"SELECT newstitle FROM news WHERE newsdata = (SELECT newsdata FROM news
+                        ORDER BY newsdata DESC LIMIT 1 OFFSET 1 )LIMIT 1;";
                 }
                 else if (time == "latest")
                 {
-                    query = @"
-                    SELECT newstitle
-                    FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 2)LIMIT 1;";
+                    query = @"SELECT newstitle FROM news WHERE newsdata = (
+                        SELECT newsdata FROM news ORDER BY newsdata DESC LIMIT 1 OFFSET 2)LIMIT 1;";
                 }
                 using (var command = new NpgsqlCommand(query, conn))
                 {
@@ -540,32 +525,22 @@ public class Database
         {
             using (var conn = GetSqlConnection())
             {
-               
                 if (date == "latest")
                 {
-                    query = @"SELECT newsshortdescription
-                    FROM news
-                    WHERE newsdata = (
-                        SELECT newsdata
-                        FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 2
-                        )LIMIT 1;";
+                    query = @"SELECT newsshortdescription FROM news
+                    WHERE newsdata = (SELECT newsdata FROM news ORDER BY newsdata DESC
+                        LIMIT 1 OFFSET 2)LIMIT 1;";
                 }
                 else if (date == "average")
                 {
                     query = @"SELECT newsshortdescription FROM news WHERE newsdata = (
                         SELECT newsdata FROM news
-                        ORDER BY newsdata DESC
-                        LIMIT 1 OFFSET 1
-                    )LIMIT 1;
-                ";
+                        ORDER BY newsdata DESC  LIMIT 1 OFFSET 1)LIMIT 1;";
                 }
                 else if (date == "new")
                 {
                     query = @"SELECT newsshortdescription FROM news
-                WHERE newsdata = (SELECT MAX(newsdata) FROM news) limit 1;
-                ";
+                WHERE newsdata = (SELECT MAX(newsdata) FROM news) limit 1; ";
                 }
                 using (var command = new NpgsqlCommand(query, conn))
                 {
@@ -671,9 +646,7 @@ public class Database
                 }
             }
             catch (Exception ex)
-            {
-                Console.WriteLine("Ошибка при получении данных: " + ex.Message);
-            }
+            { Console.WriteLine("Ошибка при получении данных: " + ex.Message); }
         }
         return null;
     }
@@ -687,33 +660,24 @@ public class Database
                 if (period == "upper")
                 {
                     query = @"
-                    SELECT ticketname, ticketdescription, date
-                    FROM tickets
-                    JOIN historytickets ON tickets.idticket = historytickets.idticket
+                    SELECT ticketname, ticketdescription, date FROM tickets 
+                     JOIN historytickets ON tickets.idticket = historytickets.idticket
                     WHERE historytickets.id_users = @userId
-                    ORDER BY historytickets.date DESC
-                    LIMIT 1;
+                    ORDER BY historytickets.date DESC LIMIT 1;
                 ";
                 }
                 if (period == "middle")
                 {
-                    query = @"
-                    SELECT ticketname, ticketdescription, date
-                    FROM tickets
+                    query = @"SELECT ticketname, ticketdescription, date FROM tickets
                     JOIN historytickets ON tickets.idticket = historytickets.idticket
-                    WHERE historytickets.id_users = @userId
-                    ORDER BY historytickets.date DESC
-                    OFFSET 1 LIMIT 1;";
+                    WHERE historytickets.id_users = @userId ORDER BY historytickets.date DESC OFFSET 1 LIMIT 1;";
                 }
                 if (period == "lower")
                 {
-                    query = @"
-                    SELECT ticketname, ticketdescription, date
-                    FROM tickets
+                    query = @"SELECT ticketname, ticketdescription, date FROM tickets
                     JOIN historytickets ON tickets.idticket = historytickets.idticket
                     WHERE historytickets.id_users = @userId
-                    ORDER BY historytickets.date DESC
-                    OFFSET 2 LIMIT 1;";
+                    ORDER BY historytickets.date DESC OFFSET 2 LIMIT 1;";
                 }
                 using (var command = new NpgsqlCommand(query, conn))
                 {
@@ -748,14 +712,9 @@ public class Database
             string query = "";
             try
             {
-                query = @"
-                    SELECT date
-                    FROM tickettravel
-                    JOIN historytravelticket ON tickettravel.idtravelticket = historytravelticket.idtravelticket
-                    WHERE historytravelticket.id_users = '1'
-                    ORDER BY historytravelticket.date DESC
-                    LIMIT 1;";
-
+                query = @" SELECT date
+                    FROM tickettravel JOIN historytravelticket ON tickettravel.idtravelticket = historytravelticket.idtravelticket
+                    WHERE historytravelticket.id_users = '1' ORDER BY historytravelticket.date DESC LIMIT 1;";
                 using (var command = new NpgsqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("userId", userId);

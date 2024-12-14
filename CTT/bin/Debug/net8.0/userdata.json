@@ -1,8 +1,1 @@
-{
-  "Id": 0,
-  "Name": "yourys",
-  "Lname": "TestYue",
-  "Email": "qwerty@gmail.com",
-  "Password": "123qwe!@#",
-  "PhoneNumber": "89526869277"
-}
+{"Id":1,"Name":"yourys","Lname":"TestYue","Email":"qwerty@gmail.com","Password":"123qwe","PhoneNumber":"89526869277"}

@@ -5,58 +5,6 @@ namespace CTT.Frame;
 
 public class ConfirmationRegistration
 {
-    private static bool flagEmailCodeNext = true;
-    private static bool flagNumberPhoneCodeNext = true;
-    private static int cursorNumberPhonePosition;
-    private static int cursorEmailPosition;
-    private static int numberCodeEmail;
-    private static int numberCodeNumberPhone;
-
-    private static Button backgroundFrame;
-    private static Button buttonEmptyNumberPfoneSprite;
-    private static Button buttonEmptyEmailSprite;
-    private static Button buttonRequestСodeNumberPhoneSprite;
-    private static Button buttonRequestСodeEmailSprite;
-    private static Button buttonRegistrationSprite;
-    
-    private static Texts titleRequestСodeNumberPhoneTextMini;
-    private static Texts requestСodeNumberPhoneText;
-    private static Texts titleRequestСodeEmailTextMini;
-    private static Texts requestСodeEmailText;
-    private static Texts RegistrationText;
-    private static Texts warningNumberPhoneText;
-    private static Texts warningEmailText;
-    private static Texts messageText;
-    private static Texts numberPhoneMiniText;
-    private static Texts emailMiniText;
-    private static Texts backFrameText;
-    private static Texts messageText2;
-    private static Texts messageText3;
-    private static Texts titleText;
-    
-    private static Texture requestСodeOffTexture;
-    private static Texture requestСodeTexture;
-    private static Texture buttonTextureOff;
-
-    private static Color colorMessage;
-    public static bool flagNumberPhone;
-    public static bool flagEmail;
-    private static bool flagNumberPhoneRequest = true;
-    private static bool flagEmailRequest = true;
-    private static bool nextWindow;
-    private static bool canClick;
-    private static string numberPhoneMiniTextFrame;
-    private static string emailMiniTextFrame;
-    
-    private static float clickDelay;
-    private static Clock clock;
-    private static RandomClass random;
-    private static Flags flags;
-    private static InputLine line;
-    private static Database database;
-    private static Warnings warningText;
-    private static FlagFrames flagFrames;
-    private static Vector2i mousePosition;
     public void Structure()
     {
         clock = new Clock();
@@ -74,12 +22,10 @@ public class ConfirmationRegistration
         Texture buttonTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistration.png"));
         buttonTextureOff =  new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonRegistrationOff.png"));
         requestСodeOffTexture = new Texture(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Frames", "buttonOff.png"));
-        
         Color baseColorText = new Color(68, 68, 69);
         Color nullColorText = new Color(255,255, 255);
         Color colorText = new Color(0, 0, 0);
         Color warningTextColor = new Color(202, 128, 128);
-        
         colorMessage = new Color(136, 136, 136);
         backgroundFrame = new Button(53, 53, background);
         buttonEmptyNumberPfoneSprite = new Button(151, 334, emptyButtonTexture);
@@ -87,27 +33,22 @@ public class ConfirmationRegistration
         buttonRequestСodeNumberPhoneSprite = new Button(473, 334, requestСodeTexture);
         buttonRequestСodeEmailSprite = new Button(473, 533, requestСodeTexture);
         buttonRegistrationSprite = new Button(151, 838, buttonTexture);
-        
         string registrationText = "Регистрация";
         string requestNumberPhoneText = "Запросить код на номер телефона";
         string requestText =  "Запросить код";
         string requestEmailText =  "Запросить код на почту";
         string registrationTitleText = "Зарегистрироваться";
-        
         string boxText1 = "Проверьте sms-сообщения и почту. Если код не";
         string boxText2 = "пришел, проверьте спам или запросите код еще";
         string boxText3 = "раз.";    
         string backText = "<назад"; 
-      
         numberPhoneMiniTextFrame = "";
         emailMiniTextFrame = "";
-
         uint sizeTextMax = 64;
         uint sizeTextTitleFrame = 48;
         uint sizeTextMiniTitle = 36;
         uint sizeTextInput = 32;
         uint sizeWarningText = 20;
-
         titleText = new Texts(138, 125 , font, sizeTextTitleFrame, baseColorText, registrationText);
         titleRequestСodeNumberPhoneTextMini = new Texts(151, 277 , font, 32, baseColorText, requestNumberPhoneText);
         requestСodeNumberPhoneText = new Texts(517, 354 , font, 20, colorText, requestText);
@@ -123,20 +64,12 @@ public class ConfirmationRegistration
         messageText3 = new Texts(151, 745, font, 24, nullColorText, boxText3);
         backFrameText = new Texts(151, 914, font, 24, colorMessage, backText);
     }
-    public void clic()
-    {
-        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
-        {
-            canClick = true;
-        }
-    }
     public void Warning()
     {
         warningEmailText.SetText(warningText.WarningLineCode(emailMiniTextFrame, numberCodeEmail.ToString()));
         flagEmailCodeNext = warningText.GetWarningFlag();
         warningNumberPhoneText.SetText(warningText.WarningLineCode(numberPhoneMiniTextFrame, numberCodeNumberPhone.ToString()));
         flagNumberPhoneCodeNext = warningText.GetWarningFlag();
-        
         if (!flagEmailCodeNext && !flagNumberPhoneCodeNext )
         {
             string name = Registration.loginMiniTextFrame;
@@ -156,7 +89,6 @@ public class ConfirmationRegistration
     public void ButtonInteraction(RenderWindow _window)
     {
         mousePosition = Mouse.GetPosition(_window);
-       
         clic();
         if (_window.IsOpen && Mouse.IsButtonPressed(Mouse.Button.Left) && canClick)
         {
@@ -197,7 +129,6 @@ public class ConfirmationRegistration
                 numberCodeEmail = random.RandomCode();
                 Console.WriteLine($"email {numberCodeEmail}");
             }
-           
             if (backFrameText.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
             {
                 flagFrames.ChangeFlagsFrame();
@@ -265,4 +196,56 @@ public class ConfirmationRegistration
         Display(_window);
         ButtonInteraction(_window);
     }
+    public void clic()
+    {
+        if (!canClick && clock.ElapsedTime.AsSeconds() >= clickDelay)
+        { canClick = true; }
+    }
+    private static bool flagEmailCodeNext = true;
+    private static bool flagNumberPhoneCodeNext = true;
+    private static int cursorNumberPhonePosition;
+    private static int cursorEmailPosition;
+    private static int numberCodeEmail;
+    private static int numberCodeNumberPhone;
+    private static Button backgroundFrame;
+    private static Button buttonEmptyNumberPfoneSprite;
+    private static Button buttonEmptyEmailSprite;
+    private static Button buttonRequestСodeNumberPhoneSprite;
+    private static Button buttonRequestСodeEmailSprite;
+    private static Button buttonRegistrationSprite;
+    private static Texts titleRequestСodeNumberPhoneTextMini;
+    private static Texts requestСodeNumberPhoneText;
+    private static Texts titleRequestСodeEmailTextMini;
+    private static Texts requestСodeEmailText;
+    private static Texts RegistrationText;
+    private static Texts warningNumberPhoneText;
+    private static Texts warningEmailText;
+    private static Texts messageText;
+    private static Texts numberPhoneMiniText;
+    private static Texts emailMiniText;
+    private static Texts backFrameText;
+    private static Texts messageText2;
+    private static Texts messageText3;
+    private static Texts titleText;
+    private static Texture requestСodeOffTexture;
+    private static Texture requestСodeTexture;
+    private static Texture buttonTextureOff;
+    private static Color colorMessage;
+    public static bool flagNumberPhone;
+    public static bool flagEmail;
+    private static bool flagNumberPhoneRequest = true;
+    private static bool flagEmailRequest = true;
+    private static bool nextWindow;
+    private static bool canClick;
+    private static string numberPhoneMiniTextFrame;
+    private static string emailMiniTextFrame;
+    private static float clickDelay;
+    private static Clock clock;
+    private static RandomClass random;
+    private static Flags flags;
+    private static InputLine line;
+    private static Database database;
+    private static Warnings warningText;
+    private static FlagFrames flagFrames;
+    private static Vector2i mousePosition;
 }

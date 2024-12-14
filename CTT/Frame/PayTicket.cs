@@ -99,7 +99,7 @@ public class PayTicket
         pricePension = database.TicketPriceGet(benefitsPension);
         warningDocument = "*необходим документ";
         string titleFrame = "Купить разовый билет";
-        string titleFrameRight = "Оплата разового билета";
+        string titleFrameRight = "Оплата разовых билетов";
         string line = "Для оплаты проезда нажмите “оплатить”, а после  предъявите ";
         string line2 = "необходимые документы кондуктору транспортного средства.";
         string line3 = "Хорошей поездки!";
@@ -300,16 +300,13 @@ public class PayTicket
                     Warning();
                     SetAmountPlus();
                 }
-                else
+                else if (chooseBenefitsShared.IfTexture(chooseBenefitsOnTexture) || chooseBenefitsShared.IfTexture(chooseBenefitsOnTexture))
                 {
-                    if (chooseBenefitsShared.IfTexture(chooseBenefitsOnTexture) || chooseBenefitsShared.IfTexture(chooseBenefitsOnTexture))
-                    {
-                        chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture);
-                        DeletePrice(priceStudent);
-                        Warning();
-                        deleteWarning();
-                        SetAmountPlus();
-                    }
+                    chooseBenefitsStudent.SetTexture(chooseBenefitsOffTexture);
+                    DeletePrice(priceStudent);
+                    Warning();
+                    deleteWarning();
+                    SetAmountPlus();
                 }
             }
             if (chooseBenefitsPension.GetGlobalBounds().Contains(mousePosition.X, mousePosition.Y))
@@ -354,7 +351,6 @@ public class PayTicket
                                 string numberPhone = WorkWithJson.ReadPhoneNumberFromFile();
                                 string email = WorkWithJson.ReadEmailFromFile();
                                 int id = database.GetUserId(numberPhone, email);
-                             
                                 if (!titleTicketUpper.IfTexts(""))
                                 {
                                     HistoryTickets(titleTicketUpper, countsUpper, id);
